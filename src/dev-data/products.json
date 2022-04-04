@@ -1,0 +1,194 @@
+[
+{
+    "title": "H&M Shirts",
+    "status": "active",
+    "price": 300,
+    "category": "shirts",
+    "description": "Perfect white shorts for summer",
+    "sizes": [
+      {
+        "size": "s",
+        "amount": 8
+      },
+      {
+        "size": "xs",
+        "amount": 3
+      },
+      {
+        "size": "l",
+        "amount": 10
+      }
+    ],
+    "material": "cotton",
+    "photos": ["h&m-shirt-1", "h&m-shirt-2"],
+    "mainPhoto": "h&m-shirt-1"
+  },
+{
+    "title": "Adidas Shirts",
+    "status": "active",
+    "price": 900,
+    "category": "shirts",
+    "description": "Perfect sport shirts",
+    "sizes": [
+      {
+        "size": "s",
+        "amount": 4
+      },
+      {
+        "size": "xs",
+        "amount": 2
+      },
+      {
+        "size": "l",
+        "amount": 12
+      },
+      {
+        "size": "m",
+        "amount": 6
+      }
+    ],
+    "material": "rubber",
+    "photos": ["adidas-shirt-1", "adidas-shirt-2", "adidas-shirt-3"],
+    "mainPhoto": "adidas-shirt-1"
+  },
+{
+  "title": "Nike Shirts",
+  "status": "active",
+  "price": 1050,
+  "category": "shirts",
+  "description": "Perfect sport and light shirts",
+  "sizes": [
+    {
+      "size": "s",
+      "amount": 5
+    },
+    {
+      "size": "xs",
+      "amount": 3
+    },
+    {
+      "size": "l",
+      "amount": 7
+    },
+    {
+      "size": "m",
+      "amount": 6
+    }
+  ],
+  "material": "cotton",
+  "photos": ["nike-shirt-1", "nike-shirt-2", "nike-shirt-3"],
+  "mainPhoto": "nike-shirt-1"
+},
+{
+  "title": "Puma Shirts",
+  "status": "nosizes",
+  "price": 700,
+  "category": "shirts",
+  "description": "Perfect sport and light shirts",
+  "sizes": [
+    {
+      "size": "s",
+      "amount": 5
+    },
+    {
+      "size": "xs",
+      "amount": 3
+    },
+    {
+      "size": "l",
+      "amount": 7
+    },
+    {
+      "size": "m",
+      "amount": 6
+    }
+  ],
+  "material": "cotton",
+  "photos": ["puma-shirt-1", "puma-shirt-2", "puma-shirt-3"],
+  "mainPhoto": "puma-shirt-1"
+},
+{
+  "title": "Puma Hoodie",
+  "status": "active",
+  "price": 890,
+  "category": "hoodies",
+  "description": "Perfect sport and light hoodie",
+  "sizes": [
+    {
+      "size": "s",
+      "amount": 3
+    },
+    {
+      "size": "xs",
+      "amount": 1
+    },
+    {
+      "size": "l",
+      "amount": 4
+    },
+    {
+      "size": "m",
+      "amount": 2
+    }
+  ],
+  "material": "cotton",
+  "photos": ["puma-hoodie-1", "puma-hoodie-2", "puma-hoodie-3"],
+  "mainPhoto": "puma-hoodie-1"
+},
+{
+  "title": "Nike Hoodie",
+  "status": "active",
+  "price": 2300,
+  "category": "hoodies",
+  "description": "Perfect sport and light hoodie",
+  "sizes": [
+    {
+      "size": "s",
+      "amount": 4
+    },
+    {
+      "size": "xs",
+      "amount": 3
+    },
+    {
+      "size": "l",
+      "amount": 5
+    },
+    {
+      "size": "m",
+      "amount": 6
+    }
+  ],
+  "material": "cotton",
+  "photos": ["nike-hoodie-1", "nike-hoodie-2", "nike-hoodie-3"],
+  "mainPhoto": "nike-hoodie-1"
+},
+{
+  "title": "Adidas Hoodie",
+  "status": "active",
+  "price": 1700,
+  "category": "hoodies",
+  "description": "Perfect sport and light hoodie",
+  "sizes": [
+    {
+      "size": "s",
+      "amount": 12
+    },
+    {
+      "size": "xs",
+      "amount": 4
+    },
+    {
+      "size": "l",
+      "amount": 5
+    },
+    {
+      "size": "m",
+      "amount": 8
+    }
+  ],
+  "material": "rubber",
+  "photos": ["adidas-hoodie-1", "adidas-hoodie-2", "adidas-hoodie-3"],
+  "mainPhoto": "adidas-hoodie-1"
+}
+]
