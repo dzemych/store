@@ -1,6 +1,7 @@
 const {ObjectId, Schema, model} = require('mongoose')
 const validator = require('validator')
 const bcryptjs = require('bcryptjs')
+const crypto = require('crypto')
 
 
 const userSchema = new Schema({
@@ -21,7 +22,7 @@ const userSchema = new Schema({
       required: true,
       minlength: 8,
       maxlength: 25,
-      select: false
+      select: false,
    },
    passwordConfirm: {
       type: String,
@@ -35,7 +36,12 @@ const userSchema = new Schema({
          message: 'Password and passwordConfirm are not the same'
       }
    },
-   passwordChanged: Date,
+   passwordChanged: {
+      type: Date,
+      select: false
+   },
+   resetToken: String,
+   resetExpires: Date,
    createdAt: {
       type: Date,
       default: Date.now
@@ -52,26 +58,35 @@ const userSchema = new Schema({
    }
 })
 
-// Hash password
+//// Modify pwd and pwdChanged
 userSchema.pre('save', async function(next) {
-   // If pwd didn't modified or newly created
-   if (!this.isModified('password')) return next()
-
-   this.password = await bcryptjs.hash(this.password, 12)
-
-   if (!this.isNew) {
+   if (this.isModified('password') || this.isNew) {
       this.passwordChanged = Date.now() - 1000
-   }
+      this.password = await bcryptjs.hash(this.password, 12)
 
-   this.passwordConfirm = undefined
+      this.passwordConfirm = undefined
+   }
    next()
 })
 
-// Sort deleted accounts
+//// Sort deleted accounts
 userSchema.pre(/^find/, async function(next) {
    this.find({active: { $ne: false } })
 
    next()
 })
+
+userSchema.methods.createResetToken = function() {
+   const resetToken = crypto.randomBytes(32).toString('hex');
+
+   this.resetToken = crypto
+      .createHash('sha224')
+      .update(resetToken)
+      .digest('hex')
+
+   this.resetExpires = Date.now() + 60 * 60 * 1000
+
+   return resetToken
+}
 
 module.exports = model('User', userSchema)

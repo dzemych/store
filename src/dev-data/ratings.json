@@ -1,0 +1,20 @@
+[
+  {
+    "product": "624c1392869fb8680600c0d5",
+    "user": "624b42024588aa96b54da764",
+    "rating": 4,
+    "text": "Pretty good quality"
+  },
+  {
+    "product": "624c1392869fb8680600c0d5",
+    "user": "624b42024588aa96b54da765",
+    "rating": 5,
+    "text": "Awesome stuff"
+  },
+  {
+    "product": "624c1392869fb8680600c0d6",
+    "user": "624b42024588aa96b54da765",
+    "rating": 2,
+    "text": "Bad quality"
+  }
+]

@@ -3,15 +3,12 @@ const AppError = require('../utils/AppError')
 const APIfeatures = require('../utils/APIfeatures')
 
 
-exports.getOne = (collection) =>
+exports.getOne = (collection, keyInDb = '_id', keyInParams = 'id') =>
    catchAsync(async (req, res, next) => {
-      let filterObj = {}
+      // 1) Get data from collection
+      const data = await collection.findOne({[keyInDb]: req.params[keyInParams]})
 
-      if (req.params.id) filterObj._id = req.params.id
-      if (req.params.slug) filterObj.slug = req.params.slug
-
-      const data = await collection.findOne(filterObj)
-
+      // 2) If no data return error
       if (!data) return next(new AppError('No such data found', 404))
 
       res.json({
@@ -23,12 +20,13 @@ exports.getOne = (collection) =>
 
 exports.getAll = (collection, filterObj = {}) =>
    catchAsync(async (req, res, next) => {
-
+      // 1) Create custom filter obj
       const filter = {
          ...req.query,
          ...filterObj
       }
 
+      // 2) Create queryObj and query it throw filter obj
       const features = new APIfeatures(collection, filter)
       features
          .filter()
@@ -36,11 +34,12 @@ exports.getAll = (collection, filterObj = {}) =>
          .select()
          .paginate()
 
+      // 3) Get queried data
       const data = await features.query
 
       res.json({
          status: 'success',
-         message: `${collection.name} successfully received`,
+         message: `Data successfully received`,
          results: data.length,
          data
       })
@@ -48,7 +47,9 @@ exports.getAll = (collection, filterObj = {}) =>
 
 exports.createOne = (collection) =>
    catchAsync(async (req, res, next) => {
-      const data = new collection({...req.body})
+      console.log(req.userId)
+      // 1) Create new instance of db collection
+      const data = new collection({...req.body, user: req.userId})
       await data.save()
 
       res.status(201).json({
@@ -58,17 +59,14 @@ exports.createOne = (collection) =>
       })
    })
 
-exports.updateOne = (collection) =>
+exports.updateOne = (collection, keyInDb = '_id', keyInParams = 'id') =>
    catchAsync(async (req, res, next) => {
-      let filterObj = {}
+      const data = await collection.findOneAndUpdate(
+         {[keyInDb]: req.params[keyInParams]},
+         {...req.body},
+         {runValidators: true})
 
-      if (req.params.id) filterObj._id = req.params.id
-      if (req.params.slug) filterObj.slug = req.params.slug
-
-      const data = await collection.findOneAndUpdate(filterObj, {...req.body}, {
-         runValidators: true
-      })
-
+      // If no data with that key return error
       if (!data) return next(new AppError('No such data found', 404))
 
       res.json({

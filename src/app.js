@@ -2,6 +2,7 @@ const express = require('express')
 const productRouter = require('./routes/product.router')
 const userRouter = require('./routes/user.router')
 const authRouter = require('./routes/auth.router')
+const ratingRouter = require('./routes/rating.router')
 const AppError = require('./utils/AppError')
 const errorController = require('./controllers/error.controller')
 
@@ -17,6 +18,7 @@ app.use(express.json())
 app.use('/api/items', productRouter)
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/rating', ratingRouter)
 
 app.use('*', (req, res, next) => {
    next(new AppError('This route is not yet defined', 404))

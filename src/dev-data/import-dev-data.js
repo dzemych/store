@@ -36,12 +36,25 @@ const purchases = JSON.parse(fs.readFileSync(
    'utf-8'
 ))
 
+const questions = JSON.parse(fs.readFileSync(
+   path.join(__dirname, '../dev-data/questions.json'),
+   'utf-8'
+))
+
+const ratings = JSON.parse(fs.readFileSync(
+   path.join(__dirname, '../dev-data/ratings.json'),
+   'utf-8'
+))
+
 
 const importData = async () => {
    try {
       // await Product.create(products)
-      await User.create(users)
+      // await User.create(users)
       // await Purchase.create(purchases)
+      // await Question.create(questions)
+      // await Rating.create(ratings)
+
 
       console.log('Data successfully loaded')
    } catch (e) {
@@ -53,8 +66,10 @@ const importData = async () => {
 const deleteData = async () => {
    try {
       // await Product.deleteMany()
-      await User.deleteMany()
+      // await User.deleteMany()
       // await Purchase.deleteMany()
+      // await Question.deleteMany()
+      // await Rating.deleteMany()
 
       console.log('Data successfully loaded')
    } catch (e) {

@@ -53,7 +53,6 @@ const productSchema = new Schema({
       required: true,
       validate: {
          validator: function(value) {
-            console.log(value.length)
             return value.length > 0
          },
          message: "Product must have at least one available size"
@@ -91,6 +90,12 @@ const productSchema = new Schema({
       default: []
    },
    avgRating: {
+      type: Number,
+      default: 0,
+      min: [0, 'Rating cannot be lower than 0'],
+      max: [6, 'Rating cannot be higher than 6']
+   },
+   numRating: {
       type: Number,
       default: 0
    },

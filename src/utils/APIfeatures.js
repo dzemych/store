@@ -36,7 +36,6 @@ class APIfeatures {
       let selectBy = '-__v'
 
       if (this.queryObj.fields) selectBy = this.queryObj.fields.split(',').join(' ')
-      console.log(this.queryObj)
       this.query = this.query.select(selectBy)
       return this
    }
