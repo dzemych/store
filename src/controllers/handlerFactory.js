@@ -6,7 +6,7 @@ const APIfeatures = require('../utils/APIfeatures')
 exports.getOne = (collection, keyInDb = '_id', keyInParams = 'id') =>
    catchAsync(async (req, res, next) => {
       // 1) Get data from collection
-      const data = await collection.findOne({[keyInDb]: req.params[keyInParams]})
+      const data = await collection.findOne({[keyInDb]: req.params[keyInParams]}).select('-__v')
 
       // 2) If no data return error
       if (!data) return next(new AppError('No such data found', 404))
@@ -47,7 +47,6 @@ exports.getAll = (collection, filterObj = {}) =>
 
 exports.createOne = (collection) =>
    catchAsync(async (req, res, next) => {
-      console.log(req.userId)
       // 1) Create new instance of db collection
       const data = new collection({...req.body, user: req.userId})
       await data.save()
@@ -59,10 +58,10 @@ exports.createOne = (collection) =>
       })
    })
 
-exports.updateOne = (collection, keyInDb = '_id', keyInParams = 'id') =>
+exports.updateOne = (collection, keyInDb = '_id', keyInParams = 'id', filter) =>
    catchAsync(async (req, res, next) => {
       const data = await collection.findOneAndUpdate(
-         {[keyInDb]: req.params[keyInParams]},
+         {[keyInDb]: req.params[keyInParams], ...filter},
          {...req.body},
          {runValidators: true})
 
@@ -74,4 +73,24 @@ exports.updateOne = (collection, keyInDb = '_id', keyInParams = 'id') =>
          message: 'Data successfully updated',
          data: {...data._doc, ...req.body}
       })
+   })
+
+exports.deleteOneFeature = (collection, beforeRemove, relId) =>
+   catchAsync(async (req, res, next) => {
+      // 1) Check if there is such data
+      const data = await collection.findOne({
+         _id: req.params.id,
+         user: req.userId
+      })
+
+      if (!data)
+         return next(new AppError('No data found with that id which would belong to you', 404))
+
+      // 2) Delete document
+      await data.remove()
+
+      // 3) Update relative collection
+      await collection[beforeRemove](data._id, data[relId], 'remove')
+
+      res.status(204).send()
    })

@@ -1,6 +1,6 @@
 const {Router} = require('express')
-const ratingController = require('../controllers/rating.controller')
 const authController = require('../controllers/auth.controller')
+const questionController = require('../controllers/question.controller')
 const checkUpdate = require('../middleware/updateCheck.middleware')
 
 
@@ -8,32 +8,33 @@ const router = Router()
 
 router
    .route('/')
-   .get(ratingController.getAllRatings)
+   .get(questionController.getAllQuestions)
    .post(
       authController.protectAndSetUserId,
       authController.restrictTo(['admin', 'user']),
-      ratingController.createRating
+      questionController.createOneQuestion
    )
 
 router.get(
-   '/myRatings',
+   '/myQuestions',
    authController.protectAndSetUserId,
    authController.restrictTo(['admin', 'user']),
-   ratingController.getMyRatings
+   questionController.getMyQuestions
 )
 
 router
    .route('/:id')
+   .get(questionController.getOneQuestion)
    .patch(
       authController.protectAndSetUserId,
-      authController.restrictTo(['admin']),
       checkUpdate,
-      ratingController.updateRating
+      questionController.updateOneQuestion
    )
    .delete(
       authController.protectAndSetUserId,
       authController.restrictTo(['admin']),
-      ratingController.deleteRating
+      questionController.deleteOneQuestion
    )
+
 
 module.exports = router

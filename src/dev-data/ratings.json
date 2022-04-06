@@ -1,19 +1,19 @@
 [
   {
     "product": "624c1392869fb8680600c0d5",
-    "user": "624b42024588aa96b54da764",
+    "user": "624c14679e7f60e5d380863b",
     "rating": 4,
     "text": "Pretty good quality"
   },
   {
     "product": "624c1392869fb8680600c0d5",
-    "user": "624b42024588aa96b54da765",
+    "user": "624c14679e7f60e5d380863c",
     "rating": 5,
     "text": "Awesome stuff"
   },
   {
     "product": "624c1392869fb8680600c0d6",
-    "user": "624b42024588aa96b54da765",
+    "user": "624c14679e7f60e5d380863b",
     "rating": 2,
     "text": "Bad quality"
   }

@@ -1,7 +1,4 @@
-const catchAsync = require('../utils/catchAsync')
-const AppError = require('../utils/AppError')
 const Product = require('../modelsDB/product.model')
-const APIfeatures = require('../utils/APIfeatures')
 const handlerFactory = require('../controllers/handlerFactory')
 
 

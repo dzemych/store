@@ -50,7 +50,7 @@ const ratings = JSON.parse(fs.readFileSync(
 const importData = async () => {
    try {
       // await Product.create(products)
-      // await User.create(users)
+      await User.create(users)
       // await Purchase.create(purchases)
       // await Question.create(questions)
       // await Rating.create(ratings)
@@ -66,7 +66,7 @@ const importData = async () => {
 const deleteData = async () => {
    try {
       // await Product.deleteMany()
-      // await User.deleteMany()
+      await User.deleteMany()
       // await Purchase.deleteMany()
       // await Question.deleteMany()
       // await Rating.deleteMany()

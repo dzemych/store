@@ -51,10 +51,20 @@ const userSchema = new Schema({
       ref: 'Purchase',
       default: []
    },
+   questions: {
+      type: [ObjectId],
+      ref: 'Question',
+      default: []
+   },
    active: {
       type: Boolean,
       default: true,
       select: false
+   },
+   role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user'
    }
 })
 
@@ -76,6 +86,7 @@ userSchema.pre(/^find/, async function(next) {
    next()
 })
 
+//// Method for creating reset token
 userSchema.methods.createResetToken = function() {
    const resetToken = crypto.randomBytes(32).toString('hex');
 

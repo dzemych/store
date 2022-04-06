@@ -31,32 +31,75 @@ const productSchema = new Schema({
       required: true,
    },
    description: String,
-   sizes: {
-      type: [{
-         _id: {
-            type: String,
-            default: undefined
-         },
-         size: {
-            type: String,
-            required: true,
-            enum: {
-               values: ['xs', 's', 'm', 'l', 'xl', 'xxl'],
-               message: `Current size cannot be`
-            },
-         },
-         amount: {
+   // sizes: {
+   //    type: [{
+   //       _id: {
+   //          type: String,
+   //          default: undefined
+   //       },
+   //       size: {
+   //          type: String,
+   //          required: true,
+   //          enum: {
+   //             values: ['xs', 's', 'm', 'l', 'xl', 'xxl'],
+   //             message: `Current size cannot be`
+   //          },
+   //       },
+   //       amount: {
+   //          type: Number,
+   //          required: true
+   //       }
+   //    }],
+   //    required: true,
+   //    validate: {
+   //       validator: function(value) {
+   //          return value.length > 0
+   //       },
+   //       message: "Product must have at least one available size"
+   //    }
+   // },
+   numSizes: {
+      type: {
+         _id: {type: String, default: undefined},
+         xs: {
             type: Number,
-            required: true
-         }
-      }],
-      required: true,
+            default: 0
+         },
+         s: {
+            type: Number,
+            default: 0
+         },
+         m: {
+            type: Number,
+            default: 0
+         },
+         l: {
+            type: Number,
+            default: 0
+         },
+         xl: {
+            type: Number,
+            default: 0
+         },
+         xxl: {
+            type: Number,
+            default: 0
+         },
+      },
       validate: {
          validator: function(value) {
-            return value.length > 0
+            const sizes = {...value}._doc
+
+            const sum = Object.keys(sizes).reduce((acc, key) => {
+               acc = acc + value[key]
+               return acc
+            }, 0)
+
+            return sum
          },
-         message: "Product must have at least one available size"
-      }
+         message: 'Enter at least one size'
+      },
+      required: true
    },
    material: {
       type: String,
@@ -83,6 +126,10 @@ const productSchema = new Schema({
       type: [ObjectId],
       ref: "Comment",
       default: []
+   },
+   numQuestions: {
+      type: Number,
+      default: 0
    },
    ratings: {
       type: [ObjectId],

@@ -50,31 +50,6 @@ exports.loginUser = catchAsync(async (req, res, next) => {
    })
 })
 
-exports.protectAndSetUserId = catchAsync(async (req, res, next) => {
-   const secret = process.env.JWT_SECRET
-
-   // 1) Check if client send a token
-   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer'))
-      return next(new AppError('Please login', 401))
-
-   const token = req.headers.authorization.split(' ')[1]
-
-   // 2) Check if token is correct
-   const jwtData = await util.promisify(jwt.verify)(token, secret)
-   const {id, iat} = jwtData
-
-   // 3) Check existence of user
-   const user = await User.findById(id).select('+passwordChanged')
-   if (!user) return next(new AppError('No user with such id', 404))
-
-   // 4) Check dates
-   if (user.passwordChanged > iat * 1000)
-      return next(new AppError('Password has been changed, login again', 401))
-
-   req.userId = id
-   next()
-})
-
 exports.forgotPassword = catchAsync(async (req, res, next) => {
    // 1) Check if client sent email
    if (!req.body.email) return next(new AppError('Provide email address in request body'))
@@ -83,14 +58,17 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
    const user = await User.findOne({email: req.body.email})
    if (!user) return next(new AppError("No user with such email", 404))
 
+
    // 3) Create reset token and save it
    const token = user.createResetToken()
    await user.save({validateBeforeSave: false})
 
    // 4) Try to send it to email via nodemailer
    try {
+      // Create link
       const resetUrl = `${req.protocol}://${req.get('host')}/api/auth/resetPassword/${token}`
 
+      // Send email
       const newEmail = new Mail(user, resetUrl)
       await newEmail.send(
          'Reset token',
@@ -102,6 +80,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
          message: 'Link to reset password was send on email'
       })
    } catch (e) {
+      // If error drop token and exp fields in db
       user.resetToken = undefined;
       user.resetExpires = undefined;
 
@@ -119,20 +98,21 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
    // 2) Generate hashed token
    const token = req.params.token
-
    const hashedToken = crypto
       .createHash('sha224')
       .update(token)
       .digest('hex')
 
-   // 3) Find user with that token and exp date
+
    const user = await User.findOne({
       resetToken: hashedToken,
       resetExpires: { $gte: Date.now() }
    })
 
+   // 3) If no user with that token and exp date return error
    if (!user) return next(new AppError('Token is invalid or has expired'))
 
+   // 4) Update user
    user.password = password
    user.passwordConfirm = passwordConfirm
 
@@ -173,4 +153,39 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
       message: "User successfully created",
       user
    })
+})
+
+exports.protectAndSetUserId = catchAsync(async (req, res, next) => {
+   const secret = process.env.JWT_SECRET
+
+   // 1) Check if client send a token
+   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer'))
+      return next(new AppError('Please login', 401))
+
+   const token = req.headers.authorization.split(' ')[1]
+
+   // 2) Check if token is correct
+   const jwtData = await util.promisify(jwt.verify)(token, secret)
+   const {id, iat} = jwtData
+
+   // 3) Check existence of user
+   const user = await User.findById(id).select('+passwordChanged +role')
+   if (!user) return next(new AppError('No user with such id', 404))
+
+   // 4) Check dates
+   if (user.passwordChanged > iat * 1000)
+      return next(new AppError('Password has been changed, login again', 401))
+
+   req.userId = id
+   req.userRole = user.role
+
+   next()
+})
+
+exports.restrictTo = (roles) => catchAsync(async (req, res, next) => {
+   // Check if user has access to that
+   if (!roles.includes(req.userRole))
+      return next(new AppError('You have no permission do this action', 403))
+
+   next()
 })
