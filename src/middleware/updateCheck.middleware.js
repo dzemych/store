@@ -12,5 +12,8 @@ module.exports = catchAsync(async (req, res, next) => {
          401
       ))
 
+   if (req.body.email)
+      return next(new AppError('To change email use /api/user/updateEmail/me', 401))
+
    next()
 })

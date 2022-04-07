@@ -37,21 +37,38 @@ const purchaseSchema = new Schema({
       type: Date,
       default: Date.now
    },
-   totalPrice: Number,
-   totalAmount: Number,
+   totalPrice: {
+      type: Number,
+      min: 0
+   },
+   totalAmount: {
+      type: Number,
+      min: 0
+   },
    status: {
       type: String,
       required: true,
-      enum: ['success', 'canceled', 'heading', 'delivered', 'payment', 'processing'],
+      enum:
+         [
+            'success',
+            'canceled',
+            'heading',
+            'delivered',
+            'payment',
+            'processing',
+            'return',
+            'warranty'
+         ],
       default: 'processing'
    },
    discount: {
       type: Number,
-      default: 0
+      default: 0,
+      min: 0
    }
 })
 
-// Add purchases to user method
+// Add purchases to user | method
 purchaseSchema.statics.updateUser = async function(id, userId, type) {
    const user = await User.findById(userId)
 
@@ -68,103 +85,54 @@ purchaseSchema.statics.updateUser = async function(id, userId, type) {
    await user.save({validateBeforeSave: false})
 }
 
-// Get total price and amount of products and check product availability
+// 1) Get total price and amount of products and check product availability
 purchaseSchema.pre('save', async function(next) {
-   const user = await User.exists({user: this.user})
-
-   // 1) Embed price field and await it
-   const products = await Promise.all(this.products.map(async el => {
-      const product = await Product.findById(el.id).select('price numSizes').lean()
-
-      // If no product return undefined
-      if (!product) return undefined
-
-      // Check if it is enough amount
-      if (product.numSizes[el.size] < el.amount)
-         return next(new AppError('This sizes amount is not available'))
-
-      return {price: product.price, amount: el.amount}
-   }))
-
-   // 2) Check if such product and user exists
-   if (products.includes(undefined) || !user)
-      return next(new AppError('User or product id is deprecated or invalid'))
-
-   // 3) Calc totals
-   const totals = products.reduce((acc, el) => {
-      acc.price = acc.price + el.price * el.amount
-      acc.amount = acc.amount + el.amount
-
-      return acc
-   }, {price: 0, amount: 0})
-
-   // 4) Save it all
-   this.totalPrice = totals.price
-   this.totalAmount = totals.amount
-
-   next()
-})
-
-// Update user collection (minus sizes)
-purchaseSchema.pre('save', async function(next) {
-   // Do it only on new creation
    if (this.isNew) {
-      // 1) Get purchases products ids
-      const productsIds = this.products.reduce((acc, el) => {
-         const is = acc.find(val => val.toString() === el.id.toString())
-         if (is) {} else {
-            acc.push(el.id.toString())
-         }
+      const user = await User.exists({user: this.user})
+
+      // 1) Embed price field and await it
+      const products = await Promise.all(this.products.map(async el => {
+         const product = await Product.findById(el.id).select('price numSizes').lean()
+
+         // If no product return undefined
+         if (!product) return undefined
+
+         // Check if it is enough amount
+         if (product.numSizes[el.size] < el.amount)
+            return next(new AppError('This sizes amount is not available'))
+
+         return {price: product.price, amount: el.amount}
+      }))
+
+      // 2) Check if such product and user exists
+      if (products.includes(undefined) || !user)
+         return next(new AppError('User or product id is deprecated or invalid'))
+
+      // 3) Calc totals
+      const totals = products.reduce((acc, el) => {
+         acc.price = acc.price + el.price * el.amount
+         acc.amount = acc.amount + el.amount
+
          return acc
-      }, [])
+      }, {price: 0, amount: 0})
 
-      // Get products
-      const products = await Product.find({_id: {$in: productsIds}}).lean()
-
-      // 2) Update Products
-      const updateProduct = async () => {
-         for (const i in productsIds) {
-            // 1) Get id values and amount values
-            const productId = productsIds[i]
-            const productObjValues = this.products.filter(val => val.id.toString() === productId.toString())
-
-            // 2) If same products
-            let curSizes = productObjValues.length > 1 ?
-               products.find(val => val._id.toString() === productObjValues[i].id.toString()).numSizes
-               : products.find(val => val._id.toString() === productObjValues[0].id.toString()).numSizes
-
-            // Create new sizes
-            let newSizes = {...curSizes}
-
-            const reCalcAndSave = async () => {
-               for (const n in productObjValues) {
-                  const currentObj = productObjValues[n]
-
-                  // Update sizes
-                  const newVal = newSizes[currentObj.size] - currentObj.amount
-                  newSizes =  {
-                     ...newSizes,
-                     [currentObj.size]: newVal
-                  }
-
-                  // 3) Update current product
-                  await Product.findByIdAndUpdate(
-                     productId, {numSizes: newSizes}
-                  )
-               }
-            }
-
-            await reCalcAndSave()
-         }
-      }
-
-      await updateProduct()
+      // 4) Save it all
+      this.totalPrice = totals.price
+      this.totalAmount = totals.amount
    }
 
    next()
 })
 
-// Add purchases to user
+// 2) Update product sizes on create
+purchaseSchema.pre('save', async function(next) {
+   if (this.isNew) {
+      await Product.updateSizes(this.products, 'minus')
+   }
+   next()
+})
+
+// 3) Add purchases to user
 purchaseSchema.pre('save', async function(next) {
    // Do it only on new creation
    if (this.isNew) {
@@ -174,11 +142,22 @@ purchaseSchema.pre('save', async function(next) {
    next()
 })
 
-// 3) On status = success update product
-purchaseSchema.post(/update/i, async function(doc) {
-   console.log(doc)
-   if (this._update['$set'].status === 'success') {
+// 4) Update products sold or numSizes on update status
+purchaseSchema.post('save', async function(doc) {
+   // If success update sold property on product
+   if (doc.status === 'success') {
+      await Product.updateSold(doc.products, 'plus')
+   }
 
+   // If cancel or return update sizes property
+   if (doc.status === 'canceled' || doc.status === 'return') {
+      await Product.updateSizes(doc.products, 'plus')
+   }
+
+   // If return under warranty update sizes and sold
+   if (doc.status === 'warranty') {
+      await Product.updateSizes(doc.products, 'plus')
+      await Product.updateSold(doc.products, 'minus')
    }
 })
 

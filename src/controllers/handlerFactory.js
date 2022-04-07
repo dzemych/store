@@ -74,21 +74,12 @@ exports.updateOne = (collection, keyInDb = '_id', keyInParams = 'id', filter) =>
       Object.keys(req.body).forEach(key => {
          const type = typeof req.body[key]
 
-         switch (type) {
-            case 'object': {
-               const oldValue = {...data[key]}._doc
-               data[key] = {...oldValue, ...req.body[key]}
-            }
-         }
-         if (type === ) {
-
-         }
-         if (type === 'array') {
+         if (type === 'object') {
             const oldValue = {...data[key]}._doc
-            data[key] = [...oldValue, ...req.body[key]]
-         }
-         if (type === 'string' || type === 'number')
+            data[key] = {...oldValue, ...req.body[key]}
+         } else {
             data[key] = req.body[key]
+         }
       })
 
       await data.save()
@@ -96,7 +87,7 @@ exports.updateOne = (collection, keyInDb = '_id', keyInParams = 'id', filter) =>
       res.json({
          status: 'success',
          message: 'Data successfully updated',
-         data: {...data._doc, ...req.body}
+         data
       })
    })
 

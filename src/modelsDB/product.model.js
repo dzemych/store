@@ -24,6 +24,7 @@ const productSchema = new Schema({
    price: {
       type: Number,
       required: true,
+      min: 0,
       max: 20000
    },
    category: {
@@ -65,17 +66,6 @@ const productSchema = new Schema({
             min: 0
          },
       },
-      // validate: {
-      //    validator: function(value) {
-      //       const sizes = {...value}._doc
-      //
-      //       return Object.keys(sizes).reduce((acc, key) => {
-      //          acc = acc + value[key]
-      //          return acc
-      //       }, 0)
-      //    },
-      //    message: 'Enter at least one size'
-      // },
       required: true
    },
    material: {
@@ -106,7 +96,8 @@ const productSchema = new Schema({
    },
    numQuestions: {
       type: Number,
-      default: 0
+      default: 0,
+      min: 0
    },
    ratings: {
       type: [ObjectId],
@@ -121,27 +112,86 @@ const productSchema = new Schema({
    },
    numRating: {
       type: Number,
-      default: 0
+      default: 0,
+      min: 0
    },
    discount: {
       type: Number,
-      default: 0
+      default: 0,
+      min: 0,
+      max: 100
    },
    sold: {
       type: Number,
-      default: 0
+      default: 0,
+      min: 0
    }
 })
 
+// Update numSizes property | method
+productSchema.statics.updateSizes = async function(purchasesArr, action) {
+   const loopPurchasesArr = async () => {
+      for (i in purchasesArr) {
+         const {id, amount, size} = purchasesArr[i]
+
+         const product = await this
+            .findById(id)
+            .select('numSizes')
+
+         // Update sizes without vanishing it all
+         const oldSizes = {...product.numSizes}._doc
+
+         product.numSizes = {
+            ...oldSizes,
+            [size]: action === 'minus' ?
+               oldSizes[size] - [amount] * 1 : oldSizes[size] + [amount] * 1
+         }
+
+         await product.save()
+      }
+   }
+
+   await loopPurchasesArr()
+}
+
+// Update sold property | method
+productSchema.statics.updateSold = async function(purchasesArr, action) {
+   // console.log(purchasesArr)
+   const loopPurchasesArr = async () => {
+      for (i in purchasesArr) {
+         const {id, amount} = purchasesArr[i]
+
+         const product = await this
+            .findById(id)
+            .select('sold')
+
+         // Update sold property
+         product.sold = action === 'minus' ?
+            product.sold - amount : product.sold + amount
+
+         await product.save()
+      }
+   }
+
+   await loopPurchasesArr()
+}
+
 // Check if there still are available sizes
 productSchema.pre('save', async function(next) {
-   const sum = Object.keys(this.numSizes._doc).reduce((acc, el) => {
-      acc += this.numSizes[el]
-      return acc
-   }, 0)
 
-   if (sum < 1) {
-      this.status = 'nosizes'
+   // If sizes was updated
+   if (this.numSizes) {
+      const sum = Object.keys({...this.numSizes}._doc).reduce((acc, el) => {
+         acc += this.numSizes[el]
+         return acc
+      }, 0)
+
+      if (sum < 1) {
+         this.status = 'nosizes'
+      } else {
+         this.status = 'active'
+      }
+
    }
 
    next()
