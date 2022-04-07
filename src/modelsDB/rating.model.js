@@ -75,18 +75,13 @@ ratingSchema.statics.calcAvg = async function(id, productId, type) {
    await product.save()
 }
 
-// ratingSchema.pre(/^find/, async function(next) {
-//    this.populate({
-//       path: 'user',
-//       select: 'name photo'
-//    })
-//
-//    next()
-// })
-
 // Update relative collections
-ratingSchema.post('save', async function() {
-   await this.constructor.calcAvg(this._id, this.product, 'save')
+ratingSchema.pre('save', async function(next) {
+   if (this.isNew) {
+      await this.constructor.calcAvg(this._id, this.product, 'save')
+   }
+
+   next()
 })
 
 // Check if such product and user exists

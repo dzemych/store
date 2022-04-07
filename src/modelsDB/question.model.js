@@ -74,13 +74,17 @@ questionSchema.statics.updateColls = async function (id, userId, productId, type
 // })
 
 // Update relative collections
-questionSchema.post('save', async function() {
-   await this.constructor.updateColls(
-      this._id,
-      this.user,
-      this.product,
-      'save'
+questionSchema.pre('save', async function(next) {
+   if (this.isNew) {
+      await this.constructor.updateColls(
+         this._id,
+         this.user,
+         this.product,
+         'save'
       )
+   }
+
+   next()
 })
 
 // Check if such product and user exists
