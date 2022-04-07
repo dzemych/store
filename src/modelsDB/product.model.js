@@ -31,74 +31,51 @@ const productSchema = new Schema({
       required: true,
    },
    description: String,
-   // sizes: {
-   //    type: [{
-   //       _id: {
-   //          type: String,
-   //          default: undefined
-   //       },
-   //       size: {
-   //          type: String,
-   //          required: true,
-   //          enum: {
-   //             values: ['xs', 's', 'm', 'l', 'xl', 'xxl'],
-   //             message: `Current size cannot be`
-   //          },
-   //       },
-   //       amount: {
-   //          type: Number,
-   //          required: true
-   //       }
-   //    }],
-   //    required: true,
-   //    validate: {
-   //       validator: function(value) {
-   //          return value.length > 0
-   //       },
-   //       message: "Product must have at least one available size"
-   //    }
-   // },
    numSizes: {
       type: {
          _id: {type: String, default: undefined},
          xs: {
             type: Number,
-            default: 0
+            default: 0,
+            min: 0
          },
          s: {
             type: Number,
-            default: 0
+            default: 0,
+            min: 0
          },
          m: {
             type: Number,
-            default: 0
+            default: 0,
+            min: 0
          },
          l: {
             type: Number,
-            default: 0
+            default: 0,
+            min: 0
          },
          xl: {
             type: Number,
-            default: 0
+            default: 0,
+            min: 0
          },
          xxl: {
             type: Number,
-            default: 0
+            default: 0,
+            min: 0
          },
       },
-      validate: {
-         validator: function(value) {
-            const sizes = {...value}._doc
-
-            const sum = Object.keys(sizes).reduce((acc, key) => {
-               acc = acc + value[key]
-               return acc
-            }, 0)
-
-            return sum
-         },
-         message: 'Enter at least one size'
-      },
+      // validate: {
+      //    validator: function(value) {
+      //       const sizes = {...value}._doc
+      //
+      //       return Object.keys(sizes).reduce((acc, key) => {
+      //          acc = acc + value[key]
+      //          return acc
+      //       }, 0)
+      //    },
+      //    message: 'Enter at least one size'
+      // },
       required: true
    },
    material: {
@@ -154,6 +131,20 @@ const productSchema = new Schema({
       type: Number,
       default: 0
    }
+})
+
+// Check if there still are available sizes
+productSchema.pre('save', async function(next) {
+   const sum = Object.keys(this.numSizes._doc).reduce((acc, el) => {
+      acc += this.numSizes[el]
+      return acc
+   }, 0)
+
+   if (sum < 1) {
+      this.status = 'nosizes'
+   }
+
+   next()
 })
 
 

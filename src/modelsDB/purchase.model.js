@@ -51,7 +51,7 @@ const purchaseSchema = new Schema({
    }
 })
 
-// Update user collection method
+// Add purchases to user method
 purchaseSchema.statics.updateUser = async function(id, userId, type) {
    const user = await User.findById(userId)
 
@@ -68,7 +68,7 @@ purchaseSchema.statics.updateUser = async function(id, userId, type) {
    await user.save({validateBeforeSave: false})
 }
 
-// 1) Get total price and amount of products and check product availability
+// Get total price and amount of products and check product availability
 purchaseSchema.pre('save', async function(next) {
    const user = await User.exists({user: this.user})
 
@@ -105,72 +105,80 @@ purchaseSchema.pre('save', async function(next) {
    next()
 })
 
-// 1) Update user collection (minus sizes)
+// Update user collection (minus sizes)
 purchaseSchema.pre('save', async function(next) {
-   // 1) Get purchases products ids
-   const productsIds = this.products.reduce((acc, el) => {
-      const is = acc.find(val => val.toString() === el.id.toString())
-      if (is) {} else {
-         acc.push(el.id.toString())
-      }
-      return acc
-   }, [])
+   // Do it only on new creation
+   if (this.isNew) {
+      // 1) Get purchases products ids
+      const productsIds = this.products.reduce((acc, el) => {
+         const is = acc.find(val => val.toString() === el.id.toString())
+         if (is) {} else {
+            acc.push(el.id.toString())
+         }
+         return acc
+      }, [])
 
       // Get products
-   const products = await Product.find({_id: {$in: productsIds}}).lean()
+      const products = await Product.find({_id: {$in: productsIds}}).lean()
 
-   // 2) Update Products
-   const updateProduct = async () => {
-      for (const i in productsIds) {
-         // 1) Get id values and amount values
-         const productId = productsIds[i]
-         const productObjValues = this.products.filter(val => val.id.toString() === productId.toString())
+      // 2) Update Products
+      const updateProduct = async () => {
+         for (const i in productsIds) {
+            // 1) Get id values and amount values
+            const productId = productsIds[i]
+            const productObjValues = this.products.filter(val => val.id.toString() === productId.toString())
 
-         // 2) If same products
-         let curSizes = productObjValues.length > 1 ?
-            products.find(val => val._id.toString() === productObjValues[i].id.toString()).numSizes
-            : products.find(val => val._id.toString() === productObjValues[0].id.toString()).numSizes
+            // 2) If same products
+            let curSizes = productObjValues.length > 1 ?
+               products.find(val => val._id.toString() === productObjValues[i].id.toString()).numSizes
+               : products.find(val => val._id.toString() === productObjValues[0].id.toString()).numSizes
 
             // Create new sizes
-         let newSizes = {...curSizes}
+            let newSizes = {...curSizes}
 
-         const reCalcAndSave = async () => {
-            for (const n in productObjValues) {
-               const currentObj = productObjValues[n]
+            const reCalcAndSave = async () => {
+               for (const n in productObjValues) {
+                  const currentObj = productObjValues[n]
 
-               // Update sizes
-               const newVal = newSizes[currentObj.size] - currentObj.amount
-               newSizes =  {
-                  ...newSizes,
-                  [currentObj.size]: newVal
+                  // Update sizes
+                  const newVal = newSizes[currentObj.size] - currentObj.amount
+                  newSizes =  {
+                     ...newSizes,
+                     [currentObj.size]: newVal
+                  }
+
+                  // 3) Update current product
+                  await Product.findByIdAndUpdate(
+                     productId, {numSizes: newSizes}
+                  )
                }
-
-               // 3) Update current product
-               const response = await Product.findByIdAndUpdate(
-                  productId, {numSizes: newSizes}
-               )
             }
+
+            await reCalcAndSave()
          }
-
-         await reCalcAndSave()
       }
-   }
 
-   await updateProduct()
+      await updateProduct()
+   }
 
    next()
 })
 
-// 2) Update relative collections
-purchaseSchema.post('save', async function() {
-   await this.constructor.updateUser(this._id, this.user, 'save')
+// Add purchases to user
+purchaseSchema.pre('save', async function(next) {
+   // Do it only on new creation
+   if (this.isNew) {
+      await this.constructor.updateUser(this._id, this.user, 'save')
+   }
+
+   next()
 })
 
 // 3) On status = success update product
 purchaseSchema.post(/update/i, async function(doc) {
    console.log(doc)
-   if (this._update['$set'].status === 'canceled') {
-      console.log('hiiiiii')
+   if (this._update['$set'].status === 'success') {
+
    }
 })
 
