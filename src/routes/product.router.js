@@ -13,8 +13,26 @@ router
    .post(
       authController.protectAndSetUserId,
       authController.restrictTo(['admin']),
-      productController.createOneProduct
+      productController.createOneProduct,
    )
+
+// router.get(
+//    '/:slug/getPhoto/:fileName',
+//    productController.getOnePhoto
+// )
+
+router.post(
+   '/updatePhoto',
+
+)
+
+router.post(
+   '/uploadPhotos/:slug',
+   authController.protectAndSetUserId,
+   authController.restrictTo('admin'),
+   productController.parsePhotos,
+   productController.uploadProductPhotos
+)
 
 router
    .route('/:slug')
