@@ -105,7 +105,7 @@ purchaseSchema.pre('save', async function(next) {
    next()
 })
 
-// 1) Update user collection (minus sizes)
+// 1) nUpdate user collection (minus sizes)
 purchaseSchema.pre('save', async function(next) {
    // 1) Get purchases products ids
    const productsIds = this.products.reduce((acc, el) => {
