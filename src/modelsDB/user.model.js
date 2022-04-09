@@ -68,6 +68,20 @@ const userSchema = new Schema({
    }
 })
 
+//// Method for creating reset token
+userSchema.methods.createResetToken = function() {
+   const resetToken = crypto.randomBytes(32).toString('hex');
+
+   this.resetToken = crypto
+      .createHash('sha224')
+      .update(resetToken)
+      .digest('hex')
+
+   this.resetExpires = Date.now() + 60 * 60 * 1000
+
+   return resetToken
+}
+
 //// Modify pwd and pwdChanged
 userSchema.pre('save', async function(next) {
    if (this.isModified('password') || this.isNew) {
@@ -86,18 +100,5 @@ userSchema.pre(/^find/, async function(next) {
    next()
 })
 
-//// Method for creating reset token
-userSchema.methods.createResetToken = function() {
-   const resetToken = crypto.randomBytes(32).toString('hex');
-
-   this.resetToken = crypto
-      .createHash('sha224')
-      .update(resetToken)
-      .digest('hex')
-
-   this.resetExpires = Date.now() + 60 * 60 * 1000
-
-   return resetToken
-}
 
 module.exports = model('User', userSchema)

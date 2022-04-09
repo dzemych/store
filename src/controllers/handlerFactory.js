@@ -6,7 +6,10 @@ const APIfeatures = require('../utils/APIfeatures')
 exports.getOne = (collection, keyInDb = '_id', keyInParams = 'id') =>
    catchAsync(async (req, res, next) => {
       // 1) Get data from collection
-      const data = await collection.findOne({[keyInDb]: req.params[keyInParams]}).select('-__v')
+      const data = await collection
+         .findOne({[keyInDb]: req.params[keyInParams]})
+         .select('-__v')
+         .lean()
 
       // 2) If no data return error
       if (!data) return next(new AppError('No such data found', 404))
@@ -35,7 +38,7 @@ exports.getAll = (collection, filterObj = {}) =>
          .paginate()
 
       // 3) Get queried data
-      const data = await features.query
+      const data = await features.query.lean()
 
       res.json({
          status: 'success',
@@ -60,18 +63,31 @@ exports.createOne = (collection) =>
 
 exports.updateOne = (collection, keyInDb = '_id', keyInParams = 'id', filter) =>
    catchAsync(async (req, res, next) => {
-      const data = await collection.findOneAndUpdate(
-         {[keyInDb]: req.params[keyInParams], ...filter},
-         {...req.body},
-         {runValidators: true})
+      // Find required data
+      const data = await collection
+         .findOne({[keyInDb]: req.params[keyInParams], ...filter})
 
       // If no data with that key return error
       if (!data) return next(new AppError('No such data found', 404))
 
+      // Update and save received data
+      Object.keys(req.body).forEach(key => {
+         const type = typeof req.body[key]
+
+         if (type === 'object') {
+            const oldValue = {...data[key]}._doc
+            data[key] = {...oldValue, ...req.body[key]}
+         } else {
+            data[key] = req.body[key]
+         }
+      })
+
+      await data.save()
+
       res.json({
          status: 'success',
          message: 'Data successfully updated',
-         data: {...data._doc, ...req.body}
+         data
       })
    })
 

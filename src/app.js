@@ -17,7 +17,7 @@ const app = express()
 app.use(express.json())
 
 // ROUTES
-app.use('/api/items', productRouter)
+app.use('/api/product', productRouter)
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/rating', ratingRouter)

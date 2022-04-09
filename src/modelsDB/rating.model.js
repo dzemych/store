@@ -2,6 +2,7 @@ const {ObjectId, Schema, model} = require('mongoose')
 const Product = require('../modelsDB/product.model')
 const User = require('../modelsDB/user.model')
 const AppError = require('../utils/AppError')
+const existenceCheck = require('./existenceCheck')
 
 
 const ratingSchema = new Schema({
@@ -75,29 +76,22 @@ ratingSchema.statics.calcAvg = async function(id, productId, type) {
    await product.save()
 }
 
-// ratingSchema.pre(/^find/, async function(next) {
-//    this.populate({
-//       path: 'user',
-//       select: 'name photo'
-//    })
-//
-//    next()
-// })
-
-// Update relative collections
-ratingSchema.post('save', async function() {
-   await this.constructor.calcAvg(this._id, this.product, 'save')
-})
-
 // Check if such product and user exists
 ratingSchema.pre('save', async function(next) {
-   const user = await User.exists({ _id: this.user })
-   const product = await Product.exists({ _id: this.product })
-
-   if (!user || !product)
-      return next(new AppError('User are product ids are deprecated or invalid'))
+   await existenceCheck(User, this.user, next)
+   await existenceCheck(Product, this.product, next)
 
    next()
 })
+
+// Update relative collections
+ratingSchema.post('save', async function(doc) {
+   await this.constructor.calcAvg(doc._id, doc.product, 'save')
+})
+
+ratingSchema.post('remove', async function(doc) {
+   await this.constructor.calcAvg(doc._id, doc.product, 'remove')
+})
+
 
 module.exports = model('Rating', ratingSchema)

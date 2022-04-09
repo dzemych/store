@@ -135,7 +135,6 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
    if (!password || !passwordConfirm || !oldPassword)
       return next(new AppError('Please provide password and passwordConfirm and oldPassword', 400))
 
-   //Find user
    const user = await User.findById(req.userId).select('+password')
 
    // 2) Check if password is correct
@@ -150,7 +149,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
    res.json({
       status: 'success',
-      message: "User successfully created",
+      message: "User password updated",
       user
    })
 })

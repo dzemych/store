@@ -31,6 +31,20 @@ router.patch(
    userController.updateOneUser
 )
 
+router.patch(
+   '/updateEmail/me',
+   authController.protectAndSetUserId,
+   setMyId,
+   userController.updateEmail
+)
+
+router.patch(
+   '/updateEmail/:id',
+   authController.protectAndSetUserId,
+   authController.restrictTo(['admin']),
+   userController.updateEmail
+)
+
 router
    .route('/:id')
    .get(
@@ -44,5 +58,6 @@ router
       checkUpdate,
       userController.updateOneUser
    )
+
 
 module.exports = router
