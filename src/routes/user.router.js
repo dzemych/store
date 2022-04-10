@@ -7,25 +7,16 @@ const setMyId = require('../middleware/setMyId.middleware')
 
 const router = Router()
 
-router
-   .route('/')
-   .get(
-      authController.protectAndSetUserId,
-      authController.restrictTo(['admin']),
-      userController.getAllUsers
-   )
-   .post(userController.createUser)
+router.use(authController.protectAndSetUserId,)
 
 router.get(
    '/me',
-   authController.protectAndSetUserId,
    setMyId,
    userController.getOneUser
 )
 
 router.patch(
    '/updateMe',
-   authController.protectAndSetUserId,
    checkUpdate,
    setMyId,
    userController.updateOneUser
@@ -33,28 +24,29 @@ router.patch(
 
 router.patch(
    '/updateEmail/me',
-   authController.protectAndSetUserId,
    setMyId,
    userController.updateEmail
 )
 
+router.use(authController.restrictTo(['admin']),)
+
+router
+   .get(
+      '/',
+      userController.getAllUsers
+   )
+
 router.patch(
    '/updateEmail/:id',
-   authController.protectAndSetUserId,
-   authController.restrictTo(['admin']),
    userController.updateEmail
 )
 
 router
    .route('/:id')
    .get(
-      authController.protectAndSetUserId,
-      authController.restrictTo(['admin']),
       userController.getOneUser
    )
    .patch(
-      authController.protectAndSetUserId,
-      authController.restrictTo(['admin']),
       checkUpdate,
       userController.updateOneUser
    )

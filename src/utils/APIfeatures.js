@@ -32,11 +32,17 @@ class APIfeatures {
       return this
    }
 
-   select() {
-      let selectBy = '-__v'
+   select(selectOpt) {
+      let select = '-__v'
 
-      if (this.queryObj.fields) selectBy = this.queryObj.fields.split(',').join(' ')
-      this.query = this.query.select(selectBy)
+      if (this.queryObj.fields) {
+         select = this.queryObj.fields.split(',').join(' ')
+      }
+      else if (selectOpt) {
+         select = selectOpt
+      }
+
+      this.query = this.query.select(select)
       return this
    }
 

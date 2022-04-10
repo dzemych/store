@@ -17,32 +17,6 @@ router
       productController.createOneProduct
    )
 
-// router.get(
-//    '/:slug/getPhoto/:fileName',
-//    productController.getOnePhoto
-// )
-
-router.patch(
-   '/:slug/updatePhotosOrder',
-   checkUpdate,
-   authController.protectAndSetUserId,
-   authController.restrictTo('admin'),
-   productController.parsePhotos,
-   productController.updatePhoto
-)
-
-// .router.patch(
-//    '/:slug/addNewPhoto'
-// )
-
-router.post(
-   '/:slug/uploadPhotos',
-   authController.protectAndSetUserId,
-   authController.restrictTo('admin'),
-   productController.parsePhotos,
-   productController.uploadProductPhotos
-)
-
 router
    .route('/:slug')
    .get(productController.getOneProduct)

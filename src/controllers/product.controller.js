@@ -6,6 +6,7 @@ const AppError = require('../utils/AppError')
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
+const fsPromises = require('fs/promises')
 
 
 const multerStorage = multer.diskStorage({
@@ -16,89 +17,94 @@ const multerStorage = multer.diskStorage({
 
       // 2) If newly created product creat new directory
       if (!fs.existsSync(dir)){
-         fs.mkdirSync(dir);
+         await fsPromises.mkdir(dir);
       }
 
-      return cb(null, dir)
+      cb(null, dir)
    },
    filename: (req, file, cb) => {
       const ext = file.mimetype.split('/')[1]
-      const name = `product-${req.params.slug}-${Date.now()}.${ext}`
+      // const name = `product-${req.params.slug}-${Date.now()}.${ext}`
+      const name = file.originalname
 
       cb(null, name)
    }
 })
 
 const multerFilter = async (req, file, cb) => {
-   console.log(req)
    //! Check if req has slug
    if (!req.params.slug)
-      return cb(new AppError('Provide product slug', 409))
+      cb(new AppError('Provide product slug', 409), false)
 
-   //! Check if there is such product
    const product = await Product.findOne({slug: req.params.slug}).lean()
 
-   if (!product) return cb(new AppError('No product with such id'))
+   //! Check if there is such product
+   if (!product)
+      cb(new AppError('No product with such id', 404), false)
+
+   cb(null, true)
 }
 
 const upload = multer({
-   storage: multerStorage
+   storage: multerStorage,
+   fileFilter: multerFilter
 })
 
 const getPhotoPath = (slug, fileName) => {
    return path.resolve('public/img/product', slug, fileName)
 }
 
-// exports.getAllProducts = handlerFactory.getAll(Product)
-// exports.getOneProduct = handlerFactory.getOne(Product, 'slug', 'slug')
 exports.getTopProducts = handlerFactory.getAll(Product, {sort: '-sold,price'})
 exports.createOneProduct = handlerFactory.createOne(Product)
-exports.updateOneProduct = handlerFactory.updateOne(Product, 'slug', 'slug')
 
-exports.validateProduct = catchAsync(async (req, res, next) => {
-   req.product = new Product(req.body)
-   next()
-})
+exports.updateOneProduct = catchAsync(async (req, res, next) => {
+   // 1) Find required product
+   const product = await Product.findOne({slug: req.params.slug})
 
-exports.uploadProductPhotos = catchAsync(async (req, res, next) => {
-   if (!req.files)
-      return next(new AppError('Please provide at least two photos', 409))
+   //! If no product with that key return error
+   if (!product) return next(new AppError('No such data found', 404))
 
-   // 1) Get file names
-   const photos = req.files.map(photo => photo.filename)
+   // 2) Clear deleted photos and update it
+   if (req.body.photos) {
+      const deletePhotos = async () => {
+         for (i in product.photos) {
+            const fileName = product.photos[i]
 
-   // 2) Update product
-   const product = await Product.findOneAndUpdate(
-      {slug: req.params.slug},
-      {photos, mainPhoto: photos[0]},
-      {new: true}
-   )
+            //! If body to update does not include current photo - delete it
+            if (!req.body.photos.includes(fileName)) {
+               const fullPath = getPhotoPath(req.params.slug, fileName)
+               const isPhoto = await fsPromises.unlink(fullPath)
+            }
+         }
+      }
+
+      await deletePhotos()
+
+      product.photos = req.body.photos
+      product.mainPhoto = req.body.photos[0]
+   }
+
+   // 3) Update product for not vanishing old fields
+   Object.keys(req.body).forEach(key => {
+      const data = req.body[key]
+
+      if (data instanceof Object && !(data instanceof Array)) {
+         const oldValue = {...product[key]}._doc
+         product[key] = {...oldValue, ...data[key]}
+      }
+      else {
+         product[key] = data
+      }
+   })
+   console.log(product)
+   await product.save()
 
    res.json({
-      status: "success",
-      message: `Photos was successfully added to the product: ${req.params.slug}`,
+      status: 'success',
+      message: 'Data successfully updated',
       product
    })
 })
-
-// exports.getOnePhoto = catchAsync(async (req, res, next) => {
-//    const file = readFile(path.resolve(
-//       'public/img/product',
-//       req.params.slug,
-//       req.params.fileName
-//    ))
-//    console.log(req.body)
-//
-//    const filePaths = req.body.photos.map(photo => {
-//       return path.resolve(
-//          'public/img/product',
-//          req.params.slug,
-//          photo
-//       )
-//    })
-//    // res.redirect(filePaths[0])
-//    res.status(200).json(filePaths)
-// })
 
 exports.getAllProducts = catchAsync(async (req, res, next) => {
    // 1) Create queryObj and query it throw filter obj
@@ -107,7 +113,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
    features
       .filter()
       .sort()
-      .select()
+      .select('-photos -questions -numQuestions -ratings')
       .paginate()
 
    // 2) Get queried data
@@ -116,7 +122,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
    const resObj = data.map(product => {
       return {
          ...product,
-         mainPhoto: getPhotoPath(req.params.slug, product.mainPhoto)
+         mainPhoto: getPhotoPath(product.slug, product.mainPhoto)
       }
    })
 
@@ -132,7 +138,7 @@ exports.getOneProduct = catchAsync(async (req, res, next) => {
    const product = await Product.findOne({slug: req.params.slug}).lean()
 
    if (!product)
-      return next(new AppError('No product with such slug'))
+      return next(new AppError('No product with such slug', 404))
 
    const photoPaths = product.photos.map(photo =>
       getPhotoPath(req.params.slug, photo)
@@ -148,9 +154,4 @@ exports.getOneProduct = catchAsync(async (req, res, next) => {
    })
 })
 
-exports.updatePhoto = catchAsync(async (req, res, next) => {
-   // 1) Check if product exists
-   // 2)
-})
-
-exports.parsePhotos = upload.array('photos', 12)
+exports.uploadPhotos = upload.array('photos', 12)

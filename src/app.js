@@ -1,34 +1,37 @@
 const express = require('express')
-const productRouter = require('./routes/product.router')
-const userRouter = require('./routes/user.router')
-const authRouter = require('./routes/auth.router')
-const ratingRouter = require('./routes/rating.router')
-const purchaseRouter = require('./routes/purchase.router')
-const questionRouter = require('./routes/question.router')
-const AppError = require('./utils/AppError')
 const errorController = require('./controllers/error.controller')
-
-
+const Router = require('./router')
 const app = express()
+const rateLimiter = require('express-rate-limit')
+const helmet = require('helmet')
+const mongoSanitize = require('express-mongo-sanitize')
+const xssClean = require('xss-clean')
+const cors = require('cors')
 
-// HEADER middlewares
 
-// BODY middlewares
+// 1) SECURITY middlewares
+// * Clean url from malicious code
+app.use(helmet())
+app.use(mongoSanitize())
+app.use(xssClean())
+
+// * Limit requests
+app.use(rateLimiter({
+   max: 1000,
+   windowMs: 60 * 1000,
+   message: 'To many requests from this IP'
+}))
+
+// * Cors
+app.use(cors())
+
+// 2) PARSING middlewares
 app.use(express.json())
 
-// ROUTES
-app.use('/api/product', productRouter)
-app.use('/api/user', userRouter)
-app.use('/api/auth', authRouter)
-app.use('/api/rating', ratingRouter)
-app.use('/api/purchase', purchaseRouter)
-app.use('/api/question', questionRouter)
+// 3) ROUTES
+app.use('/', Router)
 
-app.use('*', (req, res, next) => {
-   next(new AppError('This route is not yet defined', 404))
-})
-
-// Error handler
+//| Error handler
 app.use(errorController)
 
 module.exports = app

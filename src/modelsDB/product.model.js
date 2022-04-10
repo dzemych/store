@@ -72,19 +72,8 @@ const productSchema = new Schema({
       type: String,
       required: true
    },
-   photos: {
-      type: [String],
-      validate: {
-         validator: function(value) {
-            return value.length >= 2
-         },
-         message: "Product must have at least one available size"
-      }
-   },
-   mainPhoto: {
-      type: String,
-      required: true,
-   },
+   photos: [String],
+   mainPhoto: String,
    createdAt: {
       type: Date,
       default: Date.now
