@@ -15,5 +15,8 @@ module.exports = catchAsync(async (req, res, next) => {
    if (req.body.email)
       return next(new AppError('To change email use /api/user/updateEmail/me', 401))
 
+   if (req.body.photos || req.body.mainPhoto)
+      return next(new AppError('To update photo please use proper router', 403))
+
    next()
 })

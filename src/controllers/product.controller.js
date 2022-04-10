@@ -6,17 +6,10 @@ const AppError = require('../utils/AppError')
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
-const util = require('util')
 
-
-const readFile = util.promisify(fs.readFile)
 
 const multerStorage = multer.diskStorage({
    destination: async (req, file, cb) => {
-      //! Check if req has slug
-      if (!req.params.slug)
-         return cb(new AppError('Provide product slug', 409))
-
       // 1) Create directory
       const dir = path.resolve
       ('public/img/', 'product', req.params.slug)
@@ -36,6 +29,18 @@ const multerStorage = multer.diskStorage({
    }
 })
 
+const multerFilter = async (req, file, cb) => {
+   console.log(req)
+   //! Check if req has slug
+   if (!req.params.slug)
+      return cb(new AppError('Provide product slug', 409))
+
+   //! Check if there is such product
+   const product = await Product.findOne({slug: req.params.slug}).lean()
+
+   if (!product) return cb(new AppError('No product with such id'))
+}
+
 const upload = multer({
    storage: multerStorage
 })
@@ -44,9 +49,9 @@ const getPhotoPath = (slug, fileName) => {
    return path.resolve('public/img/product', slug, fileName)
 }
 
-exports.getTopProducts = handlerFactory.getAll(Product, {sort: '-sold,price'})
 // exports.getAllProducts = handlerFactory.getAll(Product)
 // exports.getOneProduct = handlerFactory.getOne(Product, 'slug', 'slug')
+exports.getTopProducts = handlerFactory.getAll(Product, {sort: '-sold,price'})
 exports.createOneProduct = handlerFactory.createOne(Product)
 exports.updateOneProduct = handlerFactory.updateOne(Product, 'slug', 'slug')
 
@@ -143,4 +148,9 @@ exports.getOneProduct = catchAsync(async (req, res, next) => {
    })
 })
 
-exports.parsePhotos = upload.array('photos')
+exports.updatePhoto = catchAsync(async (req, res, next) => {
+   // 1) Check if product exists
+   // 2)
+})
+
+exports.parsePhotos = upload.array('photos', 12)

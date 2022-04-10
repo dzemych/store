@@ -1,6 +1,7 @@
 const {Router} = require('express')
 const productController = require('../controllers/product.controller')
 const authController = require('../controllers/auth.controller')
+const checkUpdate = require('../middleware/updateCheck.middleware')
 
 
 const router = Router()
@@ -13,7 +14,7 @@ router
    .post(
       authController.protectAndSetUserId,
       authController.restrictTo(['admin']),
-      productController.createOneProduct,
+      productController.createOneProduct
    )
 
 // router.get(
@@ -21,13 +22,21 @@ router
 //    productController.getOnePhoto
 // )
 
-router.post(
-   '/updatePhoto',
-
+router.patch(
+   '/:slug/updatePhotosOrder',
+   checkUpdate,
+   authController.protectAndSetUserId,
+   authController.restrictTo('admin'),
+   productController.parsePhotos,
+   productController.updatePhoto
 )
 
+// .router.patch(
+//    '/:slug/addNewPhoto'
+// )
+
 router.post(
-   '/uploadPhotos/:slug',
+   '/:slug/uploadPhotos',
    authController.protectAndSetUserId,
    authController.restrictTo('admin'),
    productController.parsePhotos,
@@ -38,6 +47,7 @@ router
    .route('/:slug')
    .get(productController.getOneProduct)
    .patch(
+      checkUpdate,
       authController.protectAndSetUserId,
       authController.restrictTo(['admin']),
       productController.updateOneProduct
