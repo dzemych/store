@@ -12,11 +12,13 @@ function App() {
 
    return (
       <div className={classes.container}>
-         <Header/>
-            <BrowserRouter>
-               {routes}
-            </BrowserRouter>
-         <Footer/>
+         <BrowserRouter>
+            <Header/>
+
+            {routes}
+
+            <Footer/>
+         </BrowserRouter>
       </div>
    );
 }

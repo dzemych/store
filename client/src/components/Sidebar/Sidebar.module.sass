@@ -1,0 +1,182 @@
+@import "src/colors.sass"
+
+@mixin slight_text
+  font-size: 4vw
+  color: #2f2d2d
+  opacity: .85
+  margin-right: 8vw
+
+.container
+  width: 75%
+  height: 100%
+  background: rgb(255, 255, 255)
+  opacity: 1
+  z-index: 1000
+  transform: translateX(-100%)
+  overflow-y: scroll
+
+.entering
+  animation: move 405ms ease-out
+
+.entered
+  transform: translateX(0%)
+
+.exiting
+  animation: move 500ms ease-in alternate-reverse
+
+.exited
+  transform: translateX(0%)
+
+@keyframes move
+  0%
+    transform: translateX(-100%)
+  100%
+    transform: translateX(0%)
+
+
+.topBar
+  @include blue_back
+  position: relative
+  height: 15vw
+  width: 100%
+  padding: 3vw 4.5vw
+  display: flex
+  flex-direction: row
+  align-items: center
+  & svg
+    @include yellow_color
+    font-size: 7vw
+    position: absolute
+    top: 50%
+    transform: translateY(-50%)
+    right: 0
+    margin: 0 3.5vw
+
+.userBar
+  height: 20vw
+  padding: 3vw 5vw
+  //background: #67bacf
+  @include lightBlue_back
+  display: flex
+  flex-direction: row
+  align-items: center
+
+.userPhoto
+  height: 100%
+  margin-right: 4vw
+  & img
+    height: 100%
+
+.userInfo
+  height: 70%
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
+.userEmail
+  font-size: 3.5vw
+  color: #2f2d2d
+  opacity: .9
+
+.smallLogo
+  height: 100%
+  margin-right: 4vw
+  & img
+    height: 100%
+
+.tdLogo
+  height: 85%
+  & img
+    height: 100%
+
+.list
+  list-style: none
+  padding: 5vw 8vw 0 8vw
+  margin-bottom: 6vw
+
+.item
+  margin-bottom: 5vw
+  display: flex
+  flex-direction: row
+  align-items: center
+  & span
+    font-size: 4vw
+  &:last-child
+    margin: 0
+
+.item_icon
+  width: 7%
+  margin-right: 8vw
+  display: flex
+  justify-content: center
+  align-items: center
+  & svg
+    font-size: 7vw
+    @include yellow_color
+
+.hr
+  margin: 0 2vw
+  background: rgba(104, 150, 150, 0.3)
+  height: 1px
+  border: 0
+
+.lang_container
+  padding: 6vw 4vw
+  display: flex
+  flex-direction: row
+  align-items: center
+  & span
+    @include slight_text
+  & input
+    display: none
+    &:checked + label
+      border: 1px solid #67bacf
+      background: rgba(103,186,207, 0.2)
+  & label
+    margin-right: 2vw
+    font-size: 4vw
+    cursor: pointer
+    padding: 2vw 3vw
+    border: 1px solid rgba(122, 122, 122, 0.3)
+    border-radius: 6px
+
+.infoBar
+  padding: 4vw 3.5vw
+
+.info_title
+  @include slight_text
+  font-size: 4.2vw
+
+.info_list
+  margin-top: 4.5vw
+  padding-left: 1vw
+  list-style: none
+  font-size: 3.8vw
+
+.info_item:not(:last-child)
+  margin-bottom: 3.5vw
+
+.socialBar
+  padding: 4vw 3.5vw
+
+.social_title
+  @include slight_text
+
+.social_list
+  margin-left: .7vw
+  list-style: none
+  margin-top: 2vw
+  display: flex
+  flex-direction: row
+
+.social_item
+  margin-right: 2vw
+  width: 9.5vw
+  & img
+    width: 100%
+
+.logOut
+  margin: 3.5vw 4.5vw
+  padding: 2vw
+  font-family: Satisfy, sans-serif
+  font-size: 6vw
