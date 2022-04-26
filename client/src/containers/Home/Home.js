@@ -2,6 +2,7 @@ import React from 'react'
 import classes from './Home.module.sass'
 import {NavLink} from "react-router-dom";
 import {ReactComponent as FashionAndStyle} from '../../img/fashionAndStyle.svg'
+import laptop from '../../img/laptop.png'
 
 
 const Home = (props) => {
@@ -23,6 +24,23 @@ const Home = (props) => {
                 <button className={classes.btnCatalog}>
                   Catalog
                 </button>
+             </section>
+
+             <span className={classes.manuscript}>
+                Clean and Elegant Design
+             </span>
+
+             <section className={classes.notation}>
+                <h2 className={classes.note_title}>
+                   About us
+                </h2>
+                <span className={classes.note_text}>
+                   Read about our dizzily creation story.
+                   We had been fighting pirates and politics to reach what we have today
+                </span>
+                <div className={classes.note_img}>
+                   <img src={laptop} alt=""/>
+                </div>
              </section>
           </div>
        </div>

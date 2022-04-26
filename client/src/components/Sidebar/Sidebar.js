@@ -48,7 +48,7 @@ const Sidebar = (props) => {
 
             <div className={classes.userBar}>
                <div className={classes.userPhoto}>
-                  <img src={userPhoto} alt="user photo"/>
+                  <img src={userPhoto} alt="user_photo"/>
                </div>
 
                <div className={classes.userInfo}>

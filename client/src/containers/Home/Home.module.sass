@@ -1,4 +1,7 @@
 .container
+  background: url("../../img/home_overlay.png")
+  background-position: top right
+  background-repeat: repeat-y
   margin: 0 auto
   display: flex
   flex-direction: column
@@ -10,18 +13,24 @@
   flex-direction: column
 
 .preview
+  width: 100%
   display: flex
   padding-top: 1vw
   flex-direction: column
+  align-items: center
   justify-content: center
 
 .preview_nav
-  margin: 5vw auto
+  margin: 5vw
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  width: 75%
   & a
     text-decoration: none
-    font-family: Saphira, sans-serif
+    font-family: Satisfy, sans-serif
     font-style: italic
-    font-size: 6vw
+    font-size: 7vw
     color: #2d2c2c
     margin-right: 4vw
 
@@ -35,6 +44,34 @@
   background: #FF6F61
   border-radius: 1px
   font-family: RobotoRegular, sans-serif
-  padding: 4vw 10vw
+  padding: 4.5vw 13.5vw
   color: aliceblue
-  font-size: 4vw
+  font-size: 4.1vw
+
+.manuscript
+  margin: 12vw auto 5.7vw auto
+  font-family: WaterBrush, sans-serif
+  font-weight: 100
+  font-size: 8vw
+
+
+.notation
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.note_title
+  font-family: RobotoRegular, sans-serif
+  margin-bottom: 3vw
+
+.note_text
+  font-family: RobotoRegular, sans-serif
+  color: #565858
+  text-align: center
+
+.note_img
+  max-width: 90%
+  margin-top: 5vw
+  & img
+    width: 100%
+    object-fit: contain

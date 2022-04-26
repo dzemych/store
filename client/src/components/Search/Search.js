@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import classes from './Search.module.sass'
-import MediaQuery from "react-responsive";
 
 
 const Search = (props) => {
