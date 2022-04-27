@@ -3,6 +3,7 @@ import classes from './Home.module.sass'
 import {NavLink} from "react-router-dom";
 import {ReactComponent as FashionAndStyle} from '../../img/fashionAndStyle.svg'
 import laptop from '../../img/laptop.png'
+import Slider from "../../components/Slider/Slider";
 
 
 const Home = (props) => {
@@ -42,9 +43,25 @@ const Home = (props) => {
                    <img src={laptop} alt=""/>
                 </div>
              </section>
+
+             <section className={classes.recently}>
+                <h2 className={classes.recently_title}>Recently watched</h2>
+
+                <div className={classes.recently_slider}>
+                   <Slider>
+                     <div className={classes.recent_product}>Product 1</div>
+                     <div className={classes.recent_product}>Product 2</div>
+                     <div className={classes.recent_product}>Product 3</div>
+                     <div className={classes.recent_product}>Product 4</div>
+                   </Slider>
+                </div>
+
+                <span>View all products</span>
+             </section>
           </div>
        </div>
     )
 }
+
 
 export default Home

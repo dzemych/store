@@ -25,6 +25,7 @@ const Footer = (props) => {
              />
 
              <div className={classes.links}>
+                <NavLink to={'/'}>Home</NavLink>
                 <NavLink to={'about'}>About</NavLink>
                 <NavLink to={'contacts'}>Our contacts</NavLink>
                 <NavLink to={'info'}>Info</NavLink>
