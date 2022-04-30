@@ -53,6 +53,7 @@ const Home = (props) => {
                      <div className={classes.recent_product}>Product 2</div>
                      <div className={classes.recent_product}>Product 3</div>
                      <div className={classes.recent_product}>Product 4</div>
+                     <div className={classes.recent_product}>Product 5</div>
                    </Slider>
                 </div>
 
