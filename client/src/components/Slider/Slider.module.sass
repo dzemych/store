@@ -8,13 +8,17 @@
   height: 100%
   width: 100%
   overflow: auto
-  scrollbar-base-color: rgba(1,1,1, 0)
+  transition: 350ms
   &::-webkit-scrollbar
     display: none
 
-.all_pages_container
+//.window::-webkit-scrollbar
+//  display: none
+
+.allPages_container
   width: 100%
   display: flex
+  flex-direction: row
   justify-content: space-between
 
 .btn_next, .btn_prev
