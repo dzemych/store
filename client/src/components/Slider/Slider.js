@@ -5,49 +5,66 @@ import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
 
 
 export default ({children}) => {
-   // 1) States and other variables
+   // 1) States and refs
    const [pages, setPages] = useState()
+   const [prevOffset, setPrevOffset] = useState(0)
    const [offset, setOffset] = useState(0)
-   const [deltaX, setDeltaX] = useState(0)
-   const [startX, setStartX] = useState(0)
+
+   const startRef = useRef(0)
+   const blockFullWidth = useRef(0)
    const blockRef = useRef(null)
    const windowRef = useRef(null)
 
    // 2) Event handlers
    const clickHandler = (e, type) => {
-      setOffset(prev => {
-         const blockWidth = blockRef.current.offsetWidth
-         const marginStyle = getComputedStyle(blockRef.current).marginRight
+      let newX
 
-         const fullWidth = blockWidth + parseInt(marginStyle) * 2
+      if (type === 'next') {
+         const newOffset = offset + blockFullWidth.current
+         newX = Math.min(newOffset, blockFullWidth.current * (pages.length - 2))
+      }
+      if (type === 'prev') {
+         const newOffset = offset - blockFullWidth.current
+         newX = Math.max(newOffset, 0)
+      }
 
-         if (type === 'next') {
-            const newOffset = prev + fullWidth
-            console.log(newOffset)
-            return Math.min(newOffset, fullWidth * (pages.length - 2))
-         }
-
-         if (type === 'prev') {
-            const newOffset = prev - fullWidth
-            return Math.max(newOffset, 0)
-         }
-      })
+      setOffset(newX)
+      setPrevOffset(newX)
    }
 
    const touchStartHandler = e => {
-      console.log(e.touches[0].clientX)
+      startRef.current = e.touches[0].clientX
    }
 
    const touchMoveHandler = e => {
-      // console.log(startX)
-      setDeltaX(prev => startX - e.touches[0].clientX)
+      const offsetX = startRef.current - e.touches[0].clientX
+
+      setOffset(prev => {
+         const candidate = prevOffset + offsetX
+         const maxWidth = blockFullWidth.current * (pages.length - 2)
+
+         if (candidate > 0 && candidate < maxWidth)
+            return candidate
+
+         return prev
+      })
    }
 
    const touchEndHandler = e => {
-      console.log(deltaX)
+      const blocksMove = Math.round(offset / blockFullWidth.current)
+      console.log(blockFullWidth)
+      console.log(offset)
+      let newX = blocksMove * blockFullWidth.current
+
+      console.log(newX)
+
+      setOffset(newX)
+
+      setPrevOffset(newX)
    }
 
    // 3) Effects
+   // Set pages
    useEffect(() => {
       setPages(
          Children.map(children, (el, i) => {
@@ -63,10 +80,15 @@ export default ({children}) => {
       )
    }, [])
 
+   // Set block width
    useEffect(() => {
-      console.log(deltaX)
-      // windowRef.current.scrollLeft = offset
-   }, [deltaX])
+      if (pages) {
+         const blockWidth = blockRef.current.offsetWidth
+         const marginStyle = getComputedStyle(blockRef.current).marginRight
+
+         blockFullWidth.current = blockWidth + parseInt(marginStyle) * 2
+      }
+   }, [pages])
 
    return (
       <div className={classes.container}>
