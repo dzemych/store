@@ -29,9 +29,6 @@ export default ({children}) => {
          const blockWidth = blockRef.current.offsetWidth
 
          if (type === 'next') {
-            console.log(prev)
-            console.log(prev - blockWidth)
-            console.log(blockWidth * (pages.length - 2))
             const newOffset = prev - blockWidth
             return Math.max(newOffset, -(blockWidth * (pages.length - 2)))
          }
@@ -47,8 +44,11 @@ export default ({children}) => {
       <div className={classes.container}>
          <div className={classes.window}>
             <div
-               className={classes.all_pages_container}
+               // className={classes.all_pages_container}
                style={{
+                  width: "100%",
+                  display: 'flex',
+                  justifyContent: "space-between",
                   transform: `translateX(${offset})`
                }}
             >
