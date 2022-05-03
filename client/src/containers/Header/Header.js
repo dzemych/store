@@ -6,10 +6,12 @@ import {toggleSidebar} from '../../redux/app/appReducer'
 import {useDispatch} from "react-redux";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBars, faBasketShopping} from "@fortawesome/free-solid-svg-icons"
+import {useNavigate} from "react-router-dom";
 
 
 const Header = (props) => {
    const dispatch = useDispatch()
+   const navigate = useNavigate()
 
    const openSidebar = () => {
       dispatch(toggleSidebar())
@@ -30,6 +32,7 @@ const Header = (props) => {
                className={classes.logo}
                src={tdLogo}
                alt="logo"
+               onClick={() => navigate('/')}
             />
 
             <FontAwesomeIcon

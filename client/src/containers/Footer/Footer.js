@@ -19,10 +19,10 @@ const Footer = (props) => {
     return(
        <div className={classes.container}>
           <div className={classes.wrapper}>
-             <FontAwesomeIcon
-                icon={faAnglesUp}
-                className={classes.angleUp}
-             />
+             {/*<FontAwesomeIcon*/}
+             {/*   icon={faAnglesUp}*/}
+             {/*   className={classes.angleUp}*/}
+             {/*/>*/}
 
              <div className={classes.links}>
                 <NavLink to={'/'}>Home</NavLink>

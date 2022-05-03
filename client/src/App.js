@@ -1,5 +1,4 @@
 import './App.module.sass'
-import { BrowserRouter } from 'react-router-dom'
 import getRoutes from './routes'
 import Header from "./containers/Header/Header";
 import Footer from "./containers/Footer/Footer";
@@ -12,13 +11,11 @@ function App() {
 
    return (
       <div className={classes.container}>
-         <BrowserRouter>
-            <Header/>
+         <Header/>
 
-            {routes}
+         {routes}
 
-            <Footer/>
-         </BrowserRouter>
+         <Footer/>
       </div>
    );
 }

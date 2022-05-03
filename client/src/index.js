@@ -1,4 +1,5 @@
 import './index.sass';
+import { BrowserRouter } from 'react-router-dom'
 import React from 'react';
 import App from './App';
 import Layout from './hoc/Layout'
@@ -13,9 +14,11 @@ const root = createRoot(container)
 root.render(
    <React.StrictMode>
       <Provider store={store}>
-         <Layout>
-            <App />
-         </Layout>
+         <BrowserRouter>
+            <Layout>
+               <App />
+            </Layout>
+         </BrowserRouter>
       </Provider>
    </React.StrictMode>
 )

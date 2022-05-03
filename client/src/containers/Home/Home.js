@@ -3,7 +3,8 @@ import classes from './Home.module.sass'
 import {NavLink} from "react-router-dom";
 import {ReactComponent as FashionAndStyle} from '../../img/fashionAndStyle.svg'
 import laptop from '../../img/laptop.png'
-import Slider from "../../components/Slider/Slider";
+import Slider, {SliderItem} from "../../components/Slider/Slider";
+import ProductCard from "../../components/ProductCard/ProductCard";
 
 
 const Home = (props) => {
@@ -49,15 +50,44 @@ const Home = (props) => {
 
                <div className={classes.recently_slider}>
                   <Slider>
-                     <div className={classes.recent_product}>Product 1</div>
-                     <div className={classes.recent_product}>Product 2</div>
-                     <div className={classes.recent_product}>Product 3</div>
-                     <div className={classes.recent_product}>Product 4</div>
-                     <div className={classes.recent_product}>Product 5</div>
+
+                     <SliderItem key={1}>
+                        <ProductCard title={'Very cool jeans'} price={500}/>
+                     </SliderItem>
+
+                     <SliderItem key={2}>
+                        <ProductCard
+                           title={'Very cool and just beautiful T-shirt with cool logo'}
+                           price={700}
+                        />
+                     </SliderItem>
+
+                     <SliderItem key={3}>
+                        <ProductCard
+                           title={'Very cool and just beautiful T-shirt with cool logo'}
+                           price={700}
+                        />
+                     </SliderItem>
+
+                     <SliderItem key={4}>
+                        <ProductCard
+                           title={'Very cool and just beautiful T-shirt with cool logo'}
+                           price={700}
+                        />
+                     </SliderItem>
+
+                     <SliderItem key={5}>
+                        <ProductCard
+                           title={'Very cool and just beautiful T-shirt with cool logo'}
+                           price={700}
+                        />
+                     </SliderItem>
                   </Slider>
                </div>
 
-               <span>View all products</span>
+               <span className={classes.recents_btn}>View all products</span>
+
+               <hr className={classes.hr}/>
             </section>
          </div>
       </div>

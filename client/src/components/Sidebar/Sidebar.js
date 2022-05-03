@@ -17,15 +17,25 @@ import telegramImg from '../../img/telegram.png'
 import smallLogo from '../../img/small-logo.png'
 import tdLogo from '../../img/tan-dem-wide-logo.png'
 import userPhoto from '../../img/user-photo.png'
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {toggleSidebar} from '../../redux/app/appReducer'
 
 
 const Sidebar = (props) => {
 
    const [lang, setLang] = useState('rus')
+   const navigate = useNavigate()
+   const dispatch = useDispatch()
 
    const switchLanguage = val => {
       console.log(val)
       setLang(val)
+   }
+
+   const openPageHandler = (e, page) => {
+      dispatch(toggleSidebar())
+      navigate('/' + page)
    }
 
    return (
@@ -35,12 +45,24 @@ const Sidebar = (props) => {
       >
          <div className={classes.wrapper}>
             <div className={classes.topBar}>
-               <div className={classes.smallLogo}>
-                  <img src={smallLogo} alt=""/>
+               <div
+                  className={classes.smallLogo}
+                  onClick={e => openPageHandler(e, 'about')}
+               >
+                  <img
+                     src={smallLogo}
+                     alt=""
+                  />
                </div>
 
-               <div className={classes.tdLogo}>
-                  <img src={tdLogo} alt=""/>
+               <div
+                  className={classes.tdLogo}
+                  onClick={e => openPageHandler(e, '')}
+               >
+                  <img
+                     src={tdLogo}
+                     alt=""
+                  />
                </div>
 
                <FontAwesomeIcon icon={faXmark}/>
