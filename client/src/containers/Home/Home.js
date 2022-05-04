@@ -5,6 +5,7 @@ import {ReactComponent as FashionAndStyle} from '../../img/fashionAndStyle.svg'
 import laptop from '../../img/laptop.png'
 import Slider, {SliderItem} from "../../components/Slider/Slider";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import Button from "../../components/Button/Button";
 
 
 const Home = (props) => {
@@ -23,9 +24,12 @@ const Home = (props) => {
 
                <FashionAndStyle className={classes.preview_img}/>
 
-               <button className={classes.btnCatalog}>
+               <Button
+                  type={'big_orange_button'}
+                  onClickHandler={() => {}}
+               >
                   Catalog
-               </button>
+               </Button>
             </section>
 
             <span className={classes.manuscript}>
