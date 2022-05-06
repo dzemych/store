@@ -5,9 +5,9 @@ import classes from './Search.module.sass'
 const Search = (props) => {
    const [value, setValue] = useState('')
 
+
    const onChange = (e) => {
       setValue(e.target.value)
-      // Make find request
    }
 
    return (
@@ -19,7 +19,6 @@ const Search = (props) => {
                onChange={onChange}
                value={value}
             />
-            {/*<button>Find</button>*/}
          </form>
       </div>
    )

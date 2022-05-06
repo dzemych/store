@@ -25,7 +25,7 @@ const Info = (props) => {
             <div className={classes.contact_container}>
                <h2 className={classes.contact_title}>Ask us a question</h2>
 
-               <Button type={'bigMailUs_button'}>Mail us</Button>
+               <Button type={'bigBlue_button'}>Mail us</Button>
 
                <hr className={classes.contact_hr}/>
 

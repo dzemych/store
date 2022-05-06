@@ -21,7 +21,7 @@ import tdLogo from '../../img/tan-dem-wide-logo.png'
 import userPhoto from '../../img/user-photo.png'
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {toggleSidebar} from '../../redux/app/appReducer'
+import {toggleCatalog, toggleSidebar} from '../../redux/app/appReducer'
 import LinksList from "./LinksList";
 
 
@@ -40,6 +40,9 @@ const Sidebar = (props) => {
 
    const openCatalog = e => {
       console.log('Open catalog')
+      e.preventDefault()
+      dispatch(toggleSidebar())
+      dispatch(toggleCatalog())
    }
 
    const links = [
@@ -176,10 +179,22 @@ const Sidebar = (props) => {
                <span className={classes.info_title}>Company information</span>
 
                <ul className={classes.info_list}>
-                  <li className={classes.info_item}>About us</li>
-                  <li className={classes.info_item}>Contacts</li>
-                  <li className={classes.info_item}>Delivery and payment</li>
-                  <li className={classes.info_item}>Warrant</li>
+                  <li
+                     className={classes.info_item}
+                     onClick={e => openPageHandler(e, 'about')}
+                  >About us</li>
+                  <li
+                     className={classes.info_item}
+                     onClick={e => openPageHandler(e, 'contacts')}
+                  >Contacts</li>
+                  <li
+                     className={classes.info_item}
+                     onClick={e => openPageHandler(e, 'info')}
+                  >Delivery and payment</li>
+                  <li
+                     className={classes.info_item}
+                     onClick={e => openPageHandler(e, 'info')}
+                  >Warrant</li>
                </ul>
             </div>
 

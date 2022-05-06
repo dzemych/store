@@ -13,7 +13,9 @@ function App() {
       <div className={classes.container}>
          <Header/>
 
-         {routes}
+         <div className={classes.wrapper}>
+            {routes}
+         </div>
 
          <Footer/>
       </div>

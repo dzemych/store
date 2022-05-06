@@ -38,6 +38,7 @@ const Header = (props) => {
             <FontAwesomeIcon
                icon={faBasketShopping}
                className={classes.shopping_cart}
+               onClick={() => navigate('/shopping-cart')}
             />
          </div>
       </div>

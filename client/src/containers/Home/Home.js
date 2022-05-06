@@ -9,9 +9,13 @@ import Button from "../../components/Button/Button";
 import jeans from '../../img/jeans.jpg'
 import square from '../../img/square.jpg'
 import tShirt from '../../img/t-shirt.jpg'
+import {toggleCatalog} from "../../redux/app/appReducer";
+import {useDispatch} from "react-redux";
 
 
 const Home = (props) => {
+   const dispatch = useDispatch()
+
    return (
       <div className={classes.container}>
          <div className={classes.wrapper}>
@@ -29,7 +33,7 @@ const Home = (props) => {
 
                <Button
                   type={'big_orange_button'}
-                  onClickHandler={() => {}}
+                  onClickHandler={() => dispatch(toggleCatalog())}
                >
                   Catalog
                </Button>
@@ -100,7 +104,11 @@ const Home = (props) => {
                   </Slider>
                </div>
 
-               <Button type={'viewAll_button'}>View all products</Button>
+               <Button
+                  type={'viewAll_button'}
+                  onClickHandler={() => dispatch(toggleCatalog())}
+               >
+                  View all products</Button>
 
                <hr className={classes.hr}/>
             </section>

@@ -2,16 +2,27 @@ import React from 'react'
 import Drawer from "../components/Drawer/Drawer";
 import Sidebar from "../components/Sidebar/Sidebar";
 import {useDispatch, useSelector} from "react-redux";
-import {toggleSidebar} from '../redux/app/appReducer'
+import {toggleCatalog, toggleSidebar} from '../redux/app/appReducer'
 import {Transition} from "react-transition-group";
+import Catalog from "../components/Catalog/Catalog";
 
 
 const Layout = (props) => {
    const isSidebar = useSelector(state => state.app.sidebar)
+   const isCatalog = useSelector(state => state.app.catalog)
+
    const dispatch = useDispatch()
 
    return (
       <>
+
+         {isCatalog &&
+         <Drawer
+            onClick={() => dispatch(toggleCatalog())}
+         >
+            <Catalog/>
+         </Drawer>}
+
          <Transition
             in={isSidebar}
             timeout={{
@@ -19,7 +30,6 @@ const Layout = (props) => {
                enter: 400,
                exit: 500
             }}
-            // classNames={fadeStyles}
             mountOnEnter
             unmountOnExit
          >
@@ -33,7 +43,11 @@ const Layout = (props) => {
             )}
          </Transition>
 
-         <main>
+         <main
+            style={{
+               position: isSidebar || isCatalog ? 'fixed' : 'relative'
+            }}
+         >
             {props.children}
          </main>
       </>

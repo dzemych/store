@@ -1,11 +1,6 @@
 import React from 'react'
 import classes from './Footer.module.sass'
-// import instagramImg from "../../img/instagram.png";
-// import facebookImg from "../../img/facebook.png";
-// import telegramImg from "../../img/telegram.png";
-// import viberImg from "../../img/viber.png";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faAnglesUp} from "@fortawesome/free-solid-svg-icons";
 import {
    faInstagram,
    faFacebook,

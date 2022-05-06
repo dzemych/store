@@ -4,39 +4,66 @@ import '../basicStyles.sass'
 import ProductCard from "../../components/ProductCard/ProductCard";
 import square from '../../img/square.jpg'
 import jeans from '../../img/jeans.jpg'
+import Button from "../../components/Button/Button";
 
 
 const ShoppingCart = (props) => {
+   const products = [
+      {
+         type: 'basket',
+         title: "Amazing and cute jeans",
+         price: 850,
+         img: jeans
+      },
+      {
+         type: 'basket',
+         title: "Fancy T-shirt",
+         price: 500,
+         img: square
+      },
+      {
+         type: 'basket',
+         title: "Fancy T-shirt",
+         price: 500,
+      }
+   ]
+
    return (
       <div className={'container'}>
          <div className={'wrapper'}>
             <h1 className={'title'}>Shopping cart</h1>
 
-               <div className={classes.products_container}>
-                  <ProductCard
-                     type={'basket'}
-                     title={'Amazing and cute jeans'}
-                     price={850}
-                     img={jeans}
-                  />
+            <div className={classes.products_container}>
 
-                  <hr className={classes.hr}/>
+                  {products.map((el, i, arr) => (
+                     <div key={i}>
+                        <ProductCard
+                           type={el.type}
+                           title={el.title}
+                           price={el.price}
+                           img={el.img}
 
-                  <ProductCard
-                     type={'basket'}
-                     title={'Fancy T-shirt'}
-                     img={square}
-                     price={500}
-                  />
+                        />
+                        {i < arr.length - 1 && <hr className={classes.hr}/>}
+                     </div>
+                  ))}
 
-                  <hr className={classes.hr}/>
-
-                  <ProductCard
-                     type={'basket'}
-                     title={'Fancy T-shirt'}
-                     price={500}
-                  />
                </div>
+
+            <div className={classes.total_container}>
+               <div className={classes.total_amount}>
+                  <span>Total</span>
+                  <span className={classes.total_price}>
+                     {products.reduce((acc, el) => {
+                        acc += el.price
+                        return acc
+                     }, 0)}
+                     ₴
+                  </span>
+               </div>
+
+               <Button type={'bigGreen_button'}>Purchase</Button>
+            </div>
          </div>
       </div>
    )

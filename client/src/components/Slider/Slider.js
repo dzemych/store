@@ -1,10 +1,10 @@
-import React, {Children, cloneElement, forwardRef, useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import classes from './Slider.module.sass'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
 
 
-export default ({children}) => {
+const Slider = ({children}) => {
    // 1) States and refs
    const [pagesLength, setPagesLength] = useState()
    const [prevOffset, setPrevOffset] = useState(0)
@@ -112,3 +112,5 @@ export const SliderItem = React.forwardRef((props, ref) => {
       </div>
    )
 })
+
+export default Slider

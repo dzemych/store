@@ -16,15 +16,13 @@ const Drawer = (props) => {
       return () => {
          document.removeEventListener('keydown', onEscape, false)
       }
-   }, [])
+   }, [onEscape])
 
    return (
       <div
-         // className={[classes.container, props.state].join(' ')}
          className={[classes.container, classes[props.state]].join(' ')}
          onClick={() => props.onClick()}
       >
-         {/*<h1>{props.state}</h1>*/}
          {props.children}
       </div>
    )
