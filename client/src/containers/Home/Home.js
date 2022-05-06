@@ -6,6 +6,9 @@ import laptop from '../../img/laptop.png'
 import Slider, {SliderItem} from "../../components/Slider/Slider";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import Button from "../../components/Button/Button";
+import jeans from '../../img/jeans.jpg'
+import square from '../../img/square.jpg'
+import tShirt from '../../img/t-shirt.jpg'
 
 
 const Home = (props) => {
@@ -56,20 +59,28 @@ const Home = (props) => {
                   <Slider>
 
                      <SliderItem key={1}>
-                        <ProductCard title={'Very cool jeans'} price={500}/>
+                        <ProductCard
+                           title={'Very cool jeans'}
+                           price={500}
+                           img={jeans}
+                        />
                      </SliderItem>
 
                      <SliderItem key={2}>
                         <ProductCard
-                           title={'Very cool and just beautiful T-shirt with cool logo'}
+                           title={'Very cool and just ' +
+                           'beautiful T-shirt with cool logo'}
                            price={700}
+                           img={square}
                         />
                      </SliderItem>
 
                      <SliderItem key={3}>
                         <ProductCard
-                           title={'Very cool and just beautiful T-shirt with cool logo'}
+                           title={'Very cool and just beautiful ' +
+                           'T-shirt with cool logo'}
                            price={700}
+                           img={tShirt}
                         />
                      </SliderItem>
 
@@ -89,7 +100,7 @@ const Home = (props) => {
                   </Slider>
                </div>
 
-               <span className={classes.recents_btn}>View all products</span>
+               <Button type={'viewAll_button'}>View all products</Button>
 
                <hr className={classes.hr}/>
             </section>

@@ -5,7 +5,7 @@ import classes from './Button.module.sass'
 const Button = (props) => {
    const clickHandler = e => {
       e.preventDefault()
-      props.onClickHandler()
+      // props.onClickHandler()
    }
 
    return (

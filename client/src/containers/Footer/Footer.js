@@ -29,7 +29,6 @@ const Footer = (props) => {
                 <NavLink to={'about'}>About</NavLink>
                 <NavLink to={'contacts'}>Our contacts</NavLink>
                 <NavLink to={'info'}>Info</NavLink>
-                <NavLink to={'qanda'}>Q&A</NavLink>
              </div>
 
              <hr className={classes.hr}/>

@@ -8,7 +8,9 @@ import {
    faBasketShopping,
    faCircleQuestion,
    faSquarePhone,
-   faPeopleGroup
+   faPeopleGroup,
+   faHeart,
+   faHouse
 } from "@fortawesome/free-solid-svg-icons"
 import instagramImg from '../../img/instagram.png'
 import facebookImg from '../../img/facebook.png'
@@ -20,6 +22,7 @@ import userPhoto from '../../img/user-photo.png'
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {toggleSidebar} from '../../redux/app/appReducer'
+import LinksList from "./LinksList";
 
 
 const Sidebar = (props) => {
@@ -28,14 +31,62 @@ const Sidebar = (props) => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
-   const switchLanguage = val => {
-      console.log(val)
-      setLang(val)
-   }
-
    const openPageHandler = (e, page) => {
       dispatch(toggleSidebar())
-      navigate('/' + page)
+      if (page !== '/')
+         return navigate('/' + page)
+      navigate('/')
+   }
+
+   const openCatalog = e => {
+      console.log('Open catalog')
+   }
+
+   const links = [
+      {
+         icon: faHouse,
+         text: "Home",
+         onClickHandler: e => openPageHandler(e, '/')
+      },
+      {
+         icon: faShirt,
+         text: "Catalog",
+         onClickHandler: e => openCatalog(e)
+      },
+      {
+         icon: faList,
+         text: "Your orders",
+         onClickHandler: e => openPageHandler(e, 'orders')
+      },
+      {
+         icon: faBasketShopping,
+         text: "Shopping cart",
+         onClickHandler: e => openPageHandler(e, 'shopping-cart')
+      },
+      {
+         icon: faHeart,
+         text: "Wish list",
+         onClickHandler: e => openPageHandler(e, 'wish-list')
+      },
+      {
+         icon: faPeopleGroup,
+         text: "About us",
+         onClickHandler: e => openPageHandler(e, 'about')
+      },
+      {
+         icon: faSquarePhone,
+         text: "Our contacts",
+         onClickHandler: e => openPageHandler(e, 'contacts')
+      },
+      {
+         icon: faCircleQuestion,
+         text: "Q&A",
+         onClickHandler: e => openPageHandler(e, 'info')
+      },
+   ]
+
+   const switchLanguage = val => {
+      setLang(val)
    }
 
    return (
@@ -83,49 +134,7 @@ const Sidebar = (props) => {
                </div>
             </div>
 
-            <ul className={classes.list}>
-               <li className={classes.item}>
-                  <div className={classes.item_icon}>
-                     <FontAwesomeIcon icon={faShirt} />
-                  </div>
-                  <span className={classes.item_text}>Catalog</span>
-               </li>
-
-               <li className={classes.item}>
-                  <div className={classes.item_icon}>
-                     <FontAwesomeIcon icon={faList} />
-                  </div>
-                  <span className={classes.item_text}>Your orders</span>
-               </li>
-
-               <li className={classes.item}>
-                  <div className={classes.item_icon}>
-                     <FontAwesomeIcon icon={faBasketShopping} />
-                  </div>
-                  <span className={classes.item_text}>Shopping cart</span>
-               </li>
-
-               <li className={classes.item}>
-                  <div className={classes.item_icon}>
-                     <FontAwesomeIcon icon={faPeopleGroup} />
-                  </div>
-                  <span className={classes.item_text}>About us</span>
-               </li>
-
-               <li className={classes.item}>
-                  <div className={classes.item_icon}>
-                     <FontAwesomeIcon icon={faSquarePhone} />
-                  </div>
-                  <span className={classes.item_text}>Our contacts</span>
-               </li>
-
-               <li className={classes.item}>
-                  <div className={classes.item_icon}>
-                     <FontAwesomeIcon icon={faCircleQuestion} />
-                  </div>
-                  <span className={classes.item_text}>Q&A</span>
-               </li>
-            </ul>
+            <LinksList links={links}/>
 
             <hr className={classes.hr}/>
 

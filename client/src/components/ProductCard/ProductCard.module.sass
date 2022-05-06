@@ -1,12 +1,22 @@
 .container
   height: 36vh
+  width: 23.28vh
   background: #fff
   box-shadow: 1px 1px 8px 2px #b8b8b8
   border-radius: 4px
   position: relative
 
+.basket_container
+  width: 100%
+  height: 22vh
+  background: #fff
+  position: relative
+  & > div
+    padding: 2.5vh
+
 .wrapper
   height: 100%
+  width: 100%
   display: flex
   flex-direction: column
   padding: 3vw
@@ -15,15 +25,19 @@
   position: absolute
   top: 0
   right: 0
-  margin: 2.3vw
+  margin: 1.5vw
   font-size: 3vh
   color: #f8796b
+  background: #ffffff
+  padding: .4vh
+  border-radius: 2px
+
 
 .img_container
   min-height: 58%
   max-height: 58%
   margin: 0 auto
-  padding: 2vh
+  padding: .5vh
   & img
     border-radius: 3px
     height: 100%
@@ -37,7 +51,6 @@
   font-size: 2.4vh
   line-height: 3vh
   overflow: hidden
-  //text-overflow: clip
 
 .price
   text-align: left
@@ -49,4 +62,65 @@
   color: #221f1f
 
 .currency
+  font-size: 3vh
+
+.topBar
+  height: 65%
+  width: 100%
+  display: flex
+  flex-direction: row
+  justify-content: flex-start
+
+.basket_img_container
+  width: 30%
+  display: flex
+  justify-content: center
+  margin-right: 2vh
+  & img
+    height: 100%
+
+.basket_title
+  width: 40%
+  text-align: left
+  font-size: 2.4vh
+  margin-top: .2vh
+
+.bottomBar
+  width: 100%
+  margin-top: 2vh
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+
+.counter
+  width: 40%
+  margin-left: .5vh
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+
+.counter_minus
+  font-size: 3.5vh
+  color: #3a6980
+
+.counter_disabled
+  color: #8a8888
+
+.counter_plus
+  font-size: 3.5vh
+  color: #3a6980
+
+.counter_input
+  width: 50%
+  text-align: center
+  padding: 1.4vh 1.8vh
+  text-decoration: none
+  background: none
+  border-radius: 4px
+  border: 1px solid #8a8888
+  font-size: 2.5vh
+
+.basket_price
+  font-family: RobotoMedium, sans-serif
   font-size: 3vh

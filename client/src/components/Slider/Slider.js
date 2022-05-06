@@ -12,7 +12,6 @@ export default ({children}) => {
 
    const startRef = useRef(0)
    const blockFullWidth = useRef(0)
-   // const blockRef = useRef(null)
    const listRef = useRef(null)
 
    // 2) Event handlers
@@ -59,34 +58,10 @@ export default ({children}) => {
    }
 
    // 3) Effects
-   // Set pagesLength
    useEffect(() => {
       setPagesLength(React.Children.count(children))
       blockFullWidth.current = listRef.current.offsetWidth / 2
-      // setPages(
-      //    Children.map(children, (el, i) => {
-      //       return cloneElement(el, {
-      //          ref: i === 0 ? blockRef : null,
-      //          style: {
-      //             minWidth: "45%",
-      //             maxWidth: "45%",
-      //             margin: "0 2.5%"
-      //          }
-      //       })
-      //    })
-      // )
    }, [])
-
-   // Set block width
-   // useEffect(() => {
-   //    if (pages) {
-   //       console.log(pages)
-   //       const blockWidth = blockRef.current.offsetWidth
-   //       const marginStyle = getComputedStyle(blockRef.current).marginRight
-   //
-   //       blockFullWidth.current = blockWidth + parseInt(marginStyle) * 2
-   //    }
-   // }, [pages])
 
    return (
       <div className={classes.container}>

@@ -2,14 +2,15 @@ import React from 'react'
 import classes from './About.module.sass'
 import aboutUs from '../../img/about-us.png'
 import Button from "../../components/Button/Button";
+import '../basicStyles.sass'
 
 
 const About = (props) => {
    return (
-      <div className={classes.container}>
-         <div className={classes.wrapper}>
-            <div className={classes.main_title}>
-               <h1>About us</h1>
+      <div className={'container'}>
+         <div className={'wrapper'}>
+            <h1 className={'title'}>About us</h1>
+            <div className={classes.title_img}>
                <img src={aboutUs} alt="About us"/>
             </div>
 
@@ -32,7 +33,7 @@ const About = (props) => {
 
             <hr className={classes.hr}/>
 
-            <h2 className={classes.add_title}>View all catalog</h2>
+            <h2 className={classes.add_title}>View our catalog</h2>
 
             <Button
                type={'big_orange_button'}
