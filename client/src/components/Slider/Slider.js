@@ -4,11 +4,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
 
 
-const Slider = ({children}) => {
+const Slider = (props) => {
    // 1) States and refs
    const [pagesLength, setPagesLength] = useState()
    const [prevOffset, setPrevOffset] = useState(0)
    const [offset, setOffset] = useState(0)
+
+   const slides = props.slides ? props.slides : 2
 
    const startRef = useRef(0)
    const blockFullWidth = useRef(0)
@@ -20,7 +22,7 @@ const Slider = ({children}) => {
 
       if (type === 'next') {
          const newOffset = offset + blockFullWidth.current
-         newX = Math.min(newOffset, blockFullWidth.current * (pagesLength - 2))
+         newX = Math.min(newOffset, blockFullWidth.current * (pagesLength - slides))
       }
       if (type === 'prev') {
          const newOffset = offset - blockFullWidth.current
@@ -40,7 +42,7 @@ const Slider = ({children}) => {
 
       setOffset(prev => {
          const candidate = prevOffset + offsetX
-         const maxWidth = blockFullWidth.current * (pagesLength - 2)
+         const maxWidth = blockFullWidth.current * (pagesLength - slides)
 
          if (candidate > 0 && candidate < maxWidth)
             return candidate
@@ -59,8 +61,8 @@ const Slider = ({children}) => {
 
    // 3) Effects
    useEffect(() => {
-      setPagesLength(React.Children.count(children))
-      blockFullWidth.current = listRef.current.offsetWidth / 2
+      setPagesLength(React.Children.count(props.children))
+      blockFullWidth.current = listRef.current.offsetWidth / slides
    }, [])
 
    return (
@@ -82,7 +84,7 @@ const Slider = ({children}) => {
                   transform: `translateX(${-offset}px)`
                }}
             >
-               {children}
+               {props.children}
             </div>
          </div>
 
@@ -104,9 +106,17 @@ const Slider = ({children}) => {
 }
 
 export const SliderItem = React.forwardRef((props, ref) => {
+   const styles = {
+      maxWidth: props.slides === 1 ? '90%' : '45%',
+   }
+
    return (
       <div
-         className={classes.item}
+         style={{
+            max-width: 45%
+            min-width: 45%
+            margin: 2.5%
+         }}
       >
          {props.children}
       </div>

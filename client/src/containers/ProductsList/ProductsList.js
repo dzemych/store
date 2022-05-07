@@ -26,10 +26,6 @@ const ProductsList = (props) => {
       {
          text: 'Amazing T-shirt',
          price: 500,
-      },
-      {
-         text: 'Amazing T-shirt',
-         price: 500,
       }
    ]
 
