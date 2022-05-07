@@ -23,11 +23,14 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {toggleCatalog, toggleSidebar} from '../../redux/app/appReducer'
 import LinksList from "./LinksList";
+import RadioBox from "../RadioBox/RadioBox";
 
 
 const Sidebar = (props) => {
 
-   const [lang, setLang] = useState('rus')
+   const allLanguages = ['ru', 'uk']
+
+   const [curLang, setCurLang] = useState('ru')
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
@@ -88,10 +91,6 @@ const Sidebar = (props) => {
       },
    ]
 
-   const switchLanguage = val => {
-      setLang(val)
-   }
-
    return (
       <div
          className={[classes.container, classes[props.state]].join(' ')}
@@ -144,33 +143,16 @@ const Sidebar = (props) => {
             <div className={classes.lang_container}>
                <span>Language</span>
 
-               <input
-                  type="radio"
-                  onChange={switchLanguage}
-                  value='rus'
-                  id='radio_rus'
-                  checked={lang === 'rus'}
-               />
-               <label
-                  htmlFor="radio_rus"
-                  onClick={() => switchLanguage('rus')}
-               >
-                  RU
-               </label>
-
-               <input
-                  type="radio"
-                  value='ukr'
-                  id='radio_ukr'
-                  checked={lang === 'ukr'}
-                  onChange={switchLanguage}
-               />
-               <label
-                  htmlFor="radio_ukr"
-                  onClick={() => switchLanguage('ukr')}
-               >
-                  UK
-               </label>
+               <div className={classes.lang_items}>
+                  {allLanguages.map((el, i) => (
+                     <RadioBox
+                        value={el}
+                        checked={el === curLang}
+                        onChange={() => setCurLang(el)}
+                        key={i}
+                     />
+                  ))}
+               </div>
             </div>
 
             <hr className={classes.hr}/>

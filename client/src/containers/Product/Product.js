@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import classes from './Product.module.sass'
 import ReactStars from "react-rating-stars-component";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -8,6 +8,7 @@ import Slider, {SliderItem} from "../../components/Slider/Slider";
 import jeans from '../../img/jeans.jpg'
 import tShirt from '../../img/t-shirt.jpg'
 import square from '../../img/square.jpg'
+import RadioBox from "../../components/RadioBox/RadioBox";
 
 
 const Product = (props) => {
@@ -24,8 +25,12 @@ const Product = (props) => {
       filledIcon: <FontAwesomeIcon icon={faStar}/>,
    }
 
+   const [curSize, setCurSize] = useState('s')
+
+   const availableSizes = ['xs', 's', 'm', 'l', 'xl']
+
    return (
-      <div className={'container'}>
+      <div className={classes.container}>
          <div className={'wrapper'}>
             <div className={classes.product_top}>
                <h1 className={classes.product_title}>Product name for amazing good like t-shirt or jeans</h1>
@@ -38,6 +43,8 @@ const Product = (props) => {
                   </span>
                </div>
             </div>
+
+            <hr className={classes.main_hr}/>
 
             <div className={classes.photo_slider_container}>
                <Slider slides={1}>
@@ -59,6 +66,25 @@ const Product = (props) => {
                      </div>
                   </SliderItem>
                </Slider>
+            </div>
+
+            <hr className={classes.main_hr}/>
+
+            <div className={classes.size_container}>
+               <span className={classes.size_title}>Sizes:</span>
+
+               <div className={classes.sizes_items}>
+                  {
+                     availableSizes.map((el, i) => (
+                        <RadioBox
+                           value={el}
+                           checked={el === curSize}
+                           onChange={() => setCurSize(el)}
+                           key={i}
+                        />
+                     ))
+                  }
+               </div>
             </div>
          </div>
       </div>
