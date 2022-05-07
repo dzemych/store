@@ -41,19 +41,19 @@ const Product = (props) => {
 
             <div className={classes.photo_slider_container}>
                <Slider slides={1}>
-                  <SliderItem>
+                  <SliderItem slides={1}>
                      <div className={classes.photo_wrapper}>
                         <img src={jeans} alt=""/>
                      </div>
-                  </SliderItem>
+                  </SliderItem >
 
-                  <SliderItem>
+                  <SliderItem slides={1}>
                      <div className={classes.photo_wrapper}>
                         <img src={tShirt} alt=""/>
                      </div>
                   </SliderItem>
 
-                  <SliderItem>
+                  <SliderItem slides={1}>
                      <div className={classes.photo_wrapper}>
                         <img src={square} alt=""/>
                      </div>

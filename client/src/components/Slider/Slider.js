@@ -108,15 +108,13 @@ const Slider = (props) => {
 export const SliderItem = React.forwardRef((props, ref) => {
    const styles = {
       maxWidth: props.slides === 1 ? '90%' : '45%',
+      minWidth: props.slides === 1 ? '90%' : '45%',
+      margin: props.slides === 1 ? '5%' : '2.5%',
    }
 
    return (
       <div
-         style={{
-            max-width: 45%
-            min-width: 45%
-            margin: 2.5%
-         }}
+         style={styles}
       >
          {props.children}
       </div>
