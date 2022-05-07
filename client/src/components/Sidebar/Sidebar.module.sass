@@ -1,4 +1,4 @@
-@import "src/colors.sass"
+@use "src/colors.sass" as colors
 
 @mixin slight_text
   font-size: 4vw
@@ -32,9 +32,8 @@
   100%
     transform: translateX(0%)
 
-
 .topBar
-  @include blue_back
+  background: colors.$blue
   position: relative
   height: 15vw
   width: 100%
@@ -43,7 +42,7 @@
   flex-direction: row
   align-items: center
   & svg
-    @include yellow_color
+    color: colors.$yellow
     font-size: 7vw
     position: absolute
     top: 50%
@@ -54,7 +53,7 @@
 .userBar
   height: 20vw
   padding: 3vw 5vw
-  @include lightBlue_back
+  background: colors.$blue
   display: flex
   flex-direction: row
   align-items: center
@@ -110,7 +109,7 @@
   align-items: center
   & svg
     font-size: 7vw
-    @include yellow_color
+    color: colors.$yellow
 
 .hr
   margin: 0 2vw
@@ -119,7 +118,7 @@
   border: 0
 
 .lang_container
-  width: 90%
+  width: 95%
   padding: 6vw 4vw
   margin-left: 2vw
   display: flex
@@ -127,13 +126,13 @@
   justify-content: space-between
   align-items: center
   & span
-    font-size: 4vw
+    font-size: 4.5vw
     color: #2f2d2d
     opacity: .85
     margin-right: 8vw
 
 .lang_items
-  width: 43%
+  width: 60%
   display: flex
   flex-direction: row
   justify-content: space-between

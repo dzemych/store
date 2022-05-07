@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './Info.module.sass'
 import keyboardTyping from '../../img/keyboard-typing.png'
 import QuestionsList from "./QuestionsList";
-import Button from "../../components/Button/Button";
+import Button from "../../forms/Button/Button";
 import '../basicStyles.sass'
 
 

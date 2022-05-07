@@ -4,7 +4,7 @@ import '../basicStyles.sass'
 import ProductCard from "../../components/ProductCard/ProductCard";
 import square from '../../img/square.jpg'
 import jeans from '../../img/jeans.jpg'
-import Button from "../../components/Button/Button";
+import Button from "../../forms/Button/Button";
 
 
 const ShoppingCart = (props) => {

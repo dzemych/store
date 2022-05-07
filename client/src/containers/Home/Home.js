@@ -3,18 +3,48 @@ import classes from './Home.module.sass'
 import {NavLink} from "react-router-dom";
 import {ReactComponent as FashionAndStyle} from '../../img/fashionAndStyle.svg'
 import laptop from '../../img/laptop.png'
-import Slider, {SliderItem} from "../../components/Slider/Slider";
-import ProductCard from "../../components/ProductCard/ProductCard";
-import Button from "../../components/Button/Button";
+import Button from "../../forms/Button/Button";
 import jeans from '../../img/jeans.jpg'
 import square from '../../img/square.jpg'
 import tShirt from '../../img/t-shirt.jpg'
 import {toggleCatalog} from "../../redux/app/appReducer";
 import {useDispatch} from "react-redux";
+import RecentlySlider from "../../components/Slider/RecentlySlider";
 
 
 const Home = (props) => {
    const dispatch = useDispatch()
+
+   const products = [
+      {
+         type: 'basket',
+         title: "Amazing and cute jeans",
+         price: 850,
+         img: jeans
+      },
+      {
+         type: 'basket',
+         title: "Fancy T-shirt",
+         price: 500,
+         img: square
+      },
+      {
+         type: 'basket',
+         title: "Fancy T-shirt",
+         price: 500,
+         img: tShirt
+      },
+      {
+         type: 'basket',
+         title: "Fancy T-shirt",
+         price: 500,
+      },
+      {
+         type: 'basket',
+         title: "Fancy T-shirt",
+         price: 500,
+      }
+   ]
 
    return (
       <div className={classes.container}>
@@ -41,7 +71,7 @@ const Home = (props) => {
 
             <span className={classes.manuscript}>
                 Clean and Elegant Design
-             </span>
+            </span>
 
             <section className={classes.notation}>
                <h2 className={classes.note_title}>
@@ -57,52 +87,7 @@ const Home = (props) => {
             </section>
 
             <section className={classes.recently}>
-               <h2 className={classes.recently_title}>Recently watched</h2>
-
-               <div className={classes.recently_slider}>
-                  <Slider>
-
-                     <SliderItem key={1}>
-                        <ProductCard
-                           title={'Very cool jeans'}
-                           price={500}
-                           img={jeans}
-                        />
-                     </SliderItem>
-
-                     <SliderItem key={2}>
-                        <ProductCard
-                           title={'Very cool and just ' +
-                           'beautiful T-shirt with cool logo'}
-                           price={700}
-                           img={square}
-                        />
-                     </SliderItem>
-
-                     <SliderItem key={3}>
-                        <ProductCard
-                           title={'Very cool and just beautiful ' +
-                           'T-shirt with cool logo'}
-                           price={700}
-                           img={tShirt}
-                        />
-                     </SliderItem>
-
-                     <SliderItem key={4}>
-                        <ProductCard
-                           title={'Very cool and just beautiful T-shirt with cool logo'}
-                           price={700}
-                        />
-                     </SliderItem>
-
-                     <SliderItem key={5}>
-                        <ProductCard
-                           title={'Very cool and just beautiful T-shirt with cool logo'}
-                           price={700}
-                        />
-                     </SliderItem>
-                  </Slider>
-               </div>
+               <RecentlySlider products={products}/>
 
                <Button
                   type={'viewAll_button'}

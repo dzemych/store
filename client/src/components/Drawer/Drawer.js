@@ -1,14 +1,13 @@
-import React, {useEffect} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import classes from './Drawer.module.sass'
 
 
 const Drawer = (props) => {
 
-   const onEscape = e => {
-      console.log(e.key)
+   const onEscape = useCallback(e => {
       if (e.key === 'Escape')
          props.onClick()
-   }
+   }, [props])
 
    useEffect(() => {
       document.addEventListener('keydown', onEscape, false)

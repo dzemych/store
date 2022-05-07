@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './WishList.module.sass'
 import ProductCard from "../../components/ProductCard/ProductCard";
-import Button from "../../components/Button/Button";
+import Button from "../../forms/Button/Button";
 import '../basicStyles.sass'
 
 
@@ -45,10 +45,10 @@ const WishList = (props) => {
             <h1 className={'title'}>Your wish list</h1>
 
             <div className={classes.actions_container}>
-               <a href={"#"} className={classes.action_btn}>Buy all</a>
-               <a href={"#"} className={classes.action_btn}>Buy</a>
-               <a href={"#"} className={classes.action_btn}>Delete all</a>
-               <a href={"#"} className={classes.action_btn}>Delete</a>
+               <span className={classes.action_btn}>Buy all</span>
+               <span className={classes.action_btn}>Buy</span>
+               <span className={classes.action_btn}>Delete all</span>
+               <span className={classes.action_btn}>Delete</span>
             </div>
 
             <div className={classes.products_list}>

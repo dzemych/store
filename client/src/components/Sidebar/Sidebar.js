@@ -23,7 +23,7 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {toggleCatalog, toggleSidebar} from '../../redux/app/appReducer'
 import LinksList from "./LinksList";
-import RadioBox from "../RadioBox/RadioBox";
+import RadioBox from "../../forms/RadioBox/RadioBox";
 
 
 const Sidebar = (props) => {

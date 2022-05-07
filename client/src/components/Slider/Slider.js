@@ -63,7 +63,7 @@ const Slider = (props) => {
    useEffect(() => {
       setPagesLength(React.Children.count(props.children))
       blockFullWidth.current = listRef.current.offsetWidth / slides
-   }, [])
+   }, [props.children, slides])
 
    return (
       <div className={classes.container}>

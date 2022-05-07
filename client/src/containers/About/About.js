@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './About.module.sass'
 import aboutUs from '../../img/about-us.png'
-import Button from "../../components/Button/Button";
+import Button from "../../forms/Button/Button";
 import '../basicStyles.sass'
 
 

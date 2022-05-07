@@ -1,12 +1,12 @@
-@import "src/colors.sass"
+@use 'src/colors.sass' as colors
 
 .container
   position: fixed
   z-index: 50
   width: 100%
   padding: 1.7vw 4vw
-  height: 15vw
-  @include blue_back
+  height: 14vw
+  background: colors.$blue
 
 .wrapper
   width: 100%
@@ -17,11 +17,11 @@
 
 .burger
   height: 75%
-  @include yellow_color
+  color: colors.$yellow
 
 .shopping_cart
   height: 70%
-  @include yellow_color
+  color: colors.$yellow
 
 .logo
   height: 60%

@@ -1,4 +1,4 @@
-@import 'src/colors.sass'
+@use "src/colors.sass" as colors
 
 .title_img
   width: 100%
@@ -26,7 +26,7 @@
   display: flex
   justify-content: center
   & svg
-    @include yellow_color
+    color: colors.$yellow
     display: block
     align-self: flex-start
     font-size: 3.5vh

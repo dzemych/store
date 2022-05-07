@@ -2,30 +2,29 @@ import React from 'react'
 import classes from './ProductsList.module.sass'
 import '../basicStyles.sass'
 import ProductCard from "../../components/ProductCard/ProductCard";
-import Button from "../../components/Button/Button";
+import Button from "../../forms/Button/Button";
+import RecentlySlider from "../../components/Slider/RecentlySlider";
+import jeans from "../../img/jeans.jpg";
+import square from "../../img/square.jpg";
+import tShrit from '../../img/t-shirt.jpg'
 
 
 const ProductsList = (props) => {
    const products = [
       {
-         text: 'Very cool and cute jeans',
+         title: "Amazing and cute jeans",
          price: 850,
+         img: jeans
       },
       {
-         text: 'Very cool and cute jeans',
-         price: 850,
-      },
-      {
-         text: 'Very cool and cute jeans',
-         price: 850,
-      },
-      {
-         text: 'Very cool and cute jeans',
-         price: 850,
-      },
-      {
-         text: 'Amazing T-shirt',
+         title: "Fancy T-shirt",
          price: 500,
+         img: square
+      },
+      {
+         title: "Fancy T-shirt",
+         price: 500,
+         img: tShrit
       }
    ]
 
@@ -47,9 +46,9 @@ const ProductsList = (props) => {
                {
                   products.map((item, i) => (
                      <ProductCard
-                        title={item.text}
+                        title={item.title}
                         price={item.price}
-                        type={item.type}
+                        img={item.img}
                         key={i}
                      />
                   ))
@@ -57,6 +56,10 @@ const ProductsList = (props) => {
             </div>
 
             <Button type={'viewAll_button'}>Show more</Button>
+
+            <hr className={classes.hr}/>
+
+            <RecentlySlider products={products}/>
          </div>
       </div>
    )
