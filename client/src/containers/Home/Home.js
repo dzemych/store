@@ -4,9 +4,6 @@ import {NavLink} from "react-router-dom";
 import {ReactComponent as FashionAndStyle} from '../../img/fashionAndStyle.svg'
 import laptop from '../../img/laptop.png'
 import Button from "../../forms/Button/Button";
-import jeans from '../../img/jeans.jpg'
-import square from '../../img/square.jpg'
-import tShirt from '../../img/t-shirt.jpg'
 import {toggleCatalog} from "../../redux/app/appReducer";
 import {useDispatch} from "react-redux";
 import RecentlySlider from "../../components/Slider/RecentlySlider";
@@ -14,37 +11,6 @@ import RecentlySlider from "../../components/Slider/RecentlySlider";
 
 const Home = (props) => {
    const dispatch = useDispatch()
-
-   const products = [
-      {
-         type: 'basket',
-         title: "Amazing and cute jeans",
-         price: 850,
-         img: jeans
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-         img: square
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-         img: tShirt
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-      }
-   ]
 
    return (
       <div className={classes.container}>
@@ -87,7 +53,7 @@ const Home = (props) => {
             </section>
 
             <section className={classes.recently}>
-               <RecentlySlider products={products}/>
+               <RecentlySlider/>
 
                <Button
                   type={'viewAll_button'}

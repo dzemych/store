@@ -59,7 +59,7 @@ const ProductsList = (props) => {
 
             <hr className={classes.hr}/>
 
-            <RecentlySlider products={products}/>
+            <RecentlySlider/>
          </div>
       </div>
    )
