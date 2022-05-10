@@ -3,9 +3,13 @@ import classes from './About.module.sass'
 import aboutUs from '../../img/about-us.png'
 import Button from "../../forms/Button/Button";
 import '../basicStyles.sass'
+import {useDispatch} from "react-redux";
+import {toggleCatalog} from "../../redux/app/appReducer";
 
 
 const About = (props) => {
+   const dispatch = useDispatch()
+
    return (
       <div className={'container'}>
          <div className={'wrapper'}>
@@ -37,7 +41,7 @@ const About = (props) => {
 
             <Button
                type={'big_orange_button'}
-               onClickHandler={() => {}}
+               onClickHandler={() => dispatch(toggleCatalog())}
             >
                Catalog
             </Button>

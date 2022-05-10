@@ -1,0 +1,44 @@
+@use 'src/colors.sass' as colors
+
+.container
+  font-family: RobotoRegular, sans-serif !important
+  width: 98%
+  &:not(:last-child)
+    margin-bottom: 6vw
+  & hr
+    width: 94%
+    border: none
+    height: 1px
+    margin: 3vw auto
+    padding: 0
+    background: colors.$lightBlue
+
+.topBar_wrapper
+  margin: 3vw 0 2vw
+  width: 100%
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+
+.topBar_date, .sum_title
+  color: colors.$grey
+  font-size: 4.1vw
+  margin-bottom: .5vw
+
+.topBar_status, .sum_price
+  padding-left: .5vw
+  font-size: 4.35vw
+
+.order_sum_wrapper
+  display: flex
+  flex-direction: column
+
+.data_wrapper
+  margin: 3vw 0 2vw
+  width: 100%
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  font-size: 4.4vw
+  & span:not(:last-child)
+    margin-bottom: 1.5vw

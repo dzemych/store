@@ -1,0 +1,83 @@
+@use 'src/colors' as colors
+
+
+.container
+  width: 100%
+
+.wrapper
+  width: 100%
+  padding: 1.5vw
+  display: flex
+  flex-direction: column
+
+.topBar_wrapper
+  width: 100%
+  display: flex
+  flex-direction: row
+  align-items: center
+  justify-content: space-between
+  padding: 1.5vw 0
+
+.img_container
+  width: 25%
+  height: 20vw
+  margin-right: 2vw
+  display: flex
+  justify-content: center
+  align-items: center
+  & img
+    width: 100%
+    max-height: 100%
+    object-fit: contain
+
+.topBar_title
+  width: 75%
+  display: flex
+  justify-content: flex-end
+  align-items: center
+  color: colors.$darkBlue
+  font-size: 4.2vw
+
+.sum_wrapper
+  margin-top: 3.5vw
+  width: 100%
+  display: flex
+  flex-direction: row
+  justify-content: flex-end
+
+.sum_item
+  width: 28%
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.item_title
+  margin-bottom: 2vw
+  text-align: center
+  color: colors.$grey
+  font-size: 3.65vw
+
+.item_value
+  color: #333
+  font-size: 4vw
+
+.totals_wrapper
+  margin-top: 5vw
+  width: 100%
+  display: flex
+  flex-direction: column
+
+.totals_item
+  width: 100%
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  font-size: 4vw
+  &:not(:last-child)
+    margin-bottom: 2vw
+
+.total_title
+  color: colors.$grey
+
+.total_price
+  font-size: 5vw

@@ -9,6 +9,7 @@ import Info from './containers/Info/Info'
 import User from './containers/User/User'
 import WishList from "./containers/WishList/WishList";
 import ShoppingCart from "./containers/ShoppingCart/ShoppingCart";
+import Orders from "./containers/Orders/Orders";
 
 
 const getRoutes = (props) => {
@@ -16,6 +17,7 @@ const getRoutes = (props) => {
        <Routes>
           <Route path={'/'} exact element={ <Home/> } />
           <Route path={'/about'} exact element={ <About/> } />
+          <Route path={'/orders'} exact element={ <Orders/> } />
           <Route path={'/wish-list'} exact element={ <WishList/> } />
           <Route path={'/shopping-cart'} exact element={ <ShoppingCart/> } />
           <Route path={'/contacts'} exact element={ <Contacts/> } />

@@ -1,0 +1,112 @@
+@use 'src/colors.sass' as colors
+
+.container
+  width: 100%
+  margin: 5vw 0 0
+
+.title
+  width: 100%
+  text-align: start
+  font-family: RobotoRegular, sans-serif
+  font-size: 6.5vw
+  & span
+    opacity: .4
+
+.questions_container
+  margin-top: 4vw
+  width: 100%
+
+.questions_title
+  margin: 5vw 0
+  width: 100%
+  text-align: start
+  font-size: 6vw
+  & span
+    font-family: RobotoRegular, sans-serif
+    opacity: .4
+
+.question_item
+  padding: 3vw 2.2vw 4vw
+  border: 1px solid rgba(157, 180, 188, 0.4)
+  border-radius: 6px
+  &:not(:last-child)
+    margin-bottom: 5vw
+
+.question_topBar
+  width: 100% !important
+  display: flex
+  flex-direction: column
+  justify-content: flex-start !important
+  align-items: flex-start
+
+.question_userName
+  margin-bottom: 1vw
+  font-size: 4.5vw
+  font-family: RobotoMedium, sans-serif
+  color: #333
+
+.question_date
+  font-size: 3.5vw
+  color: #9d9c9c
+
+.question_text
+  padding-left: 1vw
+  margin-top: 2vw
+  font-size: 4.2vw
+  line-height: 5vw
+  text-align: left
+
+.answer_container
+  width: 100%
+  height: 100%
+
+.show_wrapper
+  margin-top: 3vw
+  width: 100%
+  display: flex
+  flex-direction: row
+  align-items: center
+  & span
+    font-size: 4.3vw
+    color: colors.$darkBlue
+
+.show_icon_wrapper
+  width: 12%
+  display: flex
+  justify-content: center
+  align-items: center
+
+.show_icon
+  color: colors.$darkBlue
+  font-size: 4.4vw
+  transition: 350ms
+
+.rotate_show_icon
+  transform: rotate(90deg)
+  transform-origin: center
+
+.answer_wrapper
+  width: 100%
+  padding-left: 5vw
+  position: relative
+  margin-left: 2vw
+  margin-top: 2vw
+  height: 100%
+  display: flex
+  flex-direction: row
+
+.answer_line
+  position: absolute
+  left: 0
+  top: 50%
+  transform: translateY(-50%)
+  height: 90%
+  width: 2.5px
+  margin: 0 2vw
+  background-color: #8a8888
+  border-radius: 20px
+
+.showMore_container
+  width: 100%
+  display: flex
+  justify-content: center

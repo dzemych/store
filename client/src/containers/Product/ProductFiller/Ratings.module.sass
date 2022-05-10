@@ -1,0 +1,121 @@
+@use 'src/colors.sass' as colors
+
+.container
+  width: 100%
+  margin: 5vw 0 0
+
+.title
+  width: 100%
+  text-align: start
+  font-family: RobotoRegular, sans-serif
+  font-size: 6.5vw
+
+.common_container, .rating_item
+  width: 100%
+  margin: 5vw 0 0
+  border: 1px solid rgba(103,186,207, 0.15)
+  border-radius: 4px
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.common_title, .rating_topBar
+  width: 100%
+  font-size: 5vw
+  font-family: RobotoRegular, sans-serif
+  border-bottom: 1px solid rgba(103,186,207, 0.15)
+  padding: 3vw
+  text-align: start
+
+.common_filler
+  width: 70%
+  padding: 6vw 0
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+
+.common_left
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  width: 50%
+
+.common_left_avg
+  font-family: RobotoMedium, sans-serif
+  font-weight: 900
+  font-size: 17vw
+  color: #333
+  margin-bottom: 4vw
+
+.rating_amount
+  font-size: 4vw
+  margin-top: 4vw
+
+.common_right
+  width: 45%
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
+  align-items: center
+
+.count_container
+  width: 65%
+  text-align: start
+  display: flex
+  flex-direction: row
+  justify-content: flex-start
+  &:not(:last-child)
+    margin-bottom: 3.8vw
+  & svg
+    margin-right: 4vw
+    color: #FFA900
+
+.count_number
+  margin-right: 4vw
+
+.ratings_title
+  margin: 5vw 0
+  width: 100%
+  text-align: left
+  font-size: 6vw
+  & span
+    font-family: RobotoRegular, sans-serif
+    & span
+      opacity: .4
+
+.ratings_container
+  width: 100%
+
+.rating_item
+  padding: 2vw
+
+.rating_topBar
+  width: 100% !important
+  display: flex
+  flex-direction: column
+  justify-content: flex-start !important
+  align-items: start
+
+.rating_userName
+  margin-bottom: 1vw
+  font-size: 4.5vw
+  font-family: RobotoMedium, sans-serif
+  color: #333
+
+.rating_date
+  font-size: 3.5vw
+  color: #9d9c9c
+
+.rating_text
+  padding-left: 1vw
+  margin-top: 2vw
+  font-size: 4.2vw
+  line-height: 5vw
+  text-align: left
+
+.showMore_container
+  width: 100%
+  display: flex
+  justify-content: center

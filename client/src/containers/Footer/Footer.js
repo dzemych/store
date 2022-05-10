@@ -8,17 +8,16 @@ import {
    faViber
 } from '@fortawesome/free-brands-svg-icons'
 import {NavLink} from "react-router-dom";
+import useDesktopCheck from "../../functions/useDesktopCheck";
 
 
 const Footer = (props) => {
+   const isDesktop = useDesktopCheck()
+
+   console.log(isDesktop)
     return(
        <div className={classes.container}>
           <div className={classes.wrapper}>
-             {/*<FontAwesomeIcon*/}
-             {/*   icon={faAnglesUp}*/}
-             {/*   className={classes.angleUp}*/}
-             {/*/>*/}
-
              <div className={classes.links}>
                 <NavLink to={'/'}>Home</NavLink>
                 <NavLink to={'about'}>About</NavLink>
@@ -46,7 +45,9 @@ const Footer = (props) => {
                 </li>
              </ul>
 
-             <hr className={classes.hr}/>
+             {!isDesktop &&
+               <hr className={classes.hr}/>
+             }
 
              <div className={classes.bottomBar}>
                 <button className={classes.mail}>Mail us</button>

@@ -1,7 +1,9 @@
+@use 'src/colors.sass' as colors
+
 .big_orange_button
   margin: 5vw auto 0 auto
   border: none
-  background: #FF6F61
+  background: colors.$pink
   border-radius: 1px
   font-family: RobotoRegular, sans-serif
   padding: 4.5vw 13.5vw
@@ -30,7 +32,7 @@
   margin-top: 2.5vh
   margin-bottom: 2vh
   font-family: RobotoMedium, sans-serif
-  font-size: 4vh
+  font-size: 8vw
 
 .bigGreen_button
   padding: 2vh 3vh
@@ -50,3 +52,14 @@
   font-family: RobotoRegular, sans-serif
   color: aliceblue
   font-size: 5vw
+
+.wideEmptyBlue_button
+  width: 100%
+  border: none
+  outline: none
+  background: none
+  padding: 2vw 0
+  font-size: 4.8vw
+  color: colors.$blue
+  justify-content: center
+  align-items: center

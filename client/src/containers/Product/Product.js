@@ -5,20 +5,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar, faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
 import '../basicStyles.sass'
 import RecentlySlider from "../../components/Slider/RecentlySlider";
-import Review from "./ProductFiller/Review";
-import Ratings from "./ProductFiller/Ratings";
+import ProductFiller from "./ProductFiller";
 
-
-const getProductFiller = (page) => {
-   switch (page) {
-      case 'review':
-         return <Review/>
-      case 'ratings':
-         return <Ratings/>
-
-      default: return <Review/>
-   }
-}
 
 const Product = (props) => {
    const [activePage, setPage] = useState('review')
@@ -40,7 +28,7 @@ const Product = (props) => {
       {key: 'Ratings', value: 'ratings'},
       {key: 'Questions', value: 'questions'},
       {key: 'Ask a question', value: 'askQuestion'},
-      {key: 'Leave a review', value: 'leaveReview'}
+      {key: 'Leave a review', value: 'leaveRating'}
    ]
 
    return (
@@ -80,7 +68,10 @@ const Product = (props) => {
                </div>
             </div>
 
-            {getProductFiller(activePage)}
+            <ProductFiller
+               page={activePage}
+               title={'Product name for amazing good like t-shirt or jeans'}
+            />
 
             <hr className={classes.recent_hr}/>
 

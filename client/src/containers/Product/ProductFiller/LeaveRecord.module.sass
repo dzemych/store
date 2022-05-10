@@ -1,0 +1,84 @@
+@use 'src/colors.sass' as colors
+
+.container
+  width: 100%
+
+.wrapper
+  width: 100%
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.header
+  width: 100%
+  padding: 3vw
+  display: flex
+  justify-content: space-between
+  align-items: center
+
+hr
+  margin: 3vw 0
+
+.title
+  font-size: 5.5vw
+
+.rates_section
+  width: 90%
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+
+.filledStar
+  color: colors.$orange
+
+.emptyStar
+  color: colors.$grey
+
+.rate_item
+  display: flex
+  flex-direction: column
+  align-items: center
+  width: 20%
+  & svg
+    font-size: 6vw
+    margin-bottom: 1.5vw
+  & span, .data_input_container label
+    font-size: 4vw
+    color: colors.$grey
+
+.text_wrapper
+  margin: 4vw 0 5vw
+  display: flex
+  justify-content: center
+  width: 100%
+  & textarea
+    width: 90%
+    border: 1px solid #b3b1b1
+    border-radius: 7px
+    padding: 2vw
+    font-size: 4.5vw
+    resize: none
+    &::-webkit-resizer
+      display: none
+
+.owner_data
+  margin-bottom: 5vw
+  width: 100%
+  display: flex
+  flex-direction: column
+
+.data_input_container
+  padding: 2vw
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  & input
+    width: 100%
+    padding: 2vw
+    border: 1px solid colors.$grey
+    border-radius: 5px
+    font-size: 4vw
+  & label
+    margin: 0 0 1.5vw
+    font-family: RobotoRegular, sans-serif
+    color: #333

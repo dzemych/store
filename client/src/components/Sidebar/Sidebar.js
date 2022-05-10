@@ -21,7 +21,7 @@ import tdLogo from '../../img/tan-dem-wide-logo.png'
 import userPhoto from '../../img/user-photo.png'
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {toggleCatalog, toggleSidebar} from '../../redux/app/appReducer'
+import {toggleAuth, toggleCatalog, toggleSidebar} from '../../redux/app/appReducer'
 import LinksList from "./LinksList";
 import RadioBox from "../../forms/RadioBox/RadioBox";
 
@@ -42,10 +42,15 @@ const Sidebar = (props) => {
    }
 
    const openCatalog = e => {
-      console.log('Open catalog')
       e.preventDefault()
       dispatch(toggleSidebar())
       dispatch(toggleCatalog())
+   }
+
+   const openAuth = e => {
+      e.preventDefault()
+      dispatch(toggleSidebar())
+      dispatch(toggleAuth())
    }
 
    const links = [
@@ -100,7 +105,7 @@ const Sidebar = (props) => {
             <div className={classes.topBar}>
                <div
                   className={classes.smallLogo}
-                  onClick={e => openPageHandler(e, 'about')}
+                  onClick={e => openPageHandler(e, '/')}
                >
                   <img
                      src={smallLogo}
@@ -123,14 +128,24 @@ const Sidebar = (props) => {
 
             <div className={classes.userBar}>
                <div className={classes.userPhoto}>
-                  <img src={userPhoto} alt="user_photo"/>
+                  <img
+                     src={userPhoto}
+                     alt="user_photo"
+                     onClick={e => openAuth(e)}
+                  />
                </div>
 
                <div className={classes.userInfo}>
-                  <span className={classes.userName}>
+                  <span
+                     className={classes.userName}
+                     onClick={e => openAuth(e)}
+                  >
                      Name
                   </span>
-                  <span className={classes.userEmail}>
+                  <span
+                     className={classes.userEmail}
+                     onClick={e => openAuth(e)}
+                  >
                      test@gmail.com
                   </span>
                </div>

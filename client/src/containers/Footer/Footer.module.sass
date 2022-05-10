@@ -80,3 +80,20 @@
 .power
   font-family: RobotoRegular, sans-serif
   font-size: 4.3vw
+
+@media (min-width: 520px)
+  .wrapper
+    flex-direction: row
+    & hr
+      transform: rotate(90deg)
+      transform-origin: 50% 50%
+  .links
+    width: 100%
+    flex-direction: row
+    & a
+      font-size: 30px
+  .social_list
+    flex-direction: column
+    & svg
+      font-size: 40px
+    //margin-left: 35px

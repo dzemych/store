@@ -1,0 +1,94 @@
+@use "src/colors.sass" as colors
+
+.container
+  width: 100%
+  min-height: 100vh
+  background: #ffffff
+  & hr
+    width: 95%
+    border: none
+    background: #d4e3e5
+    height: 1px
+    margin: 3vw 0
+
+.wrapper
+  width: 100%
+  padding: 4vw
+
+.auth_body
+  width: 100%
+  display: flex
+  flex-direction: column
+
+.topBar
+  width: 100%
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+  & span
+    margin-left: 1vw
+    font-family: Satisfy, sans-serif
+    font-size: 8vw
+  & svg
+    font-size: 7vw
+    color: #333
+
+.form_wrapper
+  width: 100%
+  display: flex
+  flex-direction: column
+  padding: 3vw 0 3vw 2vw
+
+.form_item
+  width: 100%
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: flex-start
+  &:not(:last-child)
+    margin-bottom: 4vw
+  & label
+    color: colors.$grey
+    font-size: 4vw
+    margin-bottom: .5vw
+
+
+.input_wrapper
+  width: 100%
+  display: flex
+  flex-direction: row
+  align-items: center
+  & input
+    width: 87%
+    color: #333
+    font-size: 4.5vw
+    border-radius: 6px
+    border: 1px solid colors.$lightBlue
+    background: none
+    outline: none
+    padding: 3vw
+  & svg
+    width: 13%
+    font-size: 6.5vw
+    color: #333
+
+.actions_container
+  width: 100%
+  margin-top: 5vw
+  padding: 3vw
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.forgotPassword
+  margin-bottom: 2.5vw
+  color: colors.$blue
+  font-size: 4vw
+  align-self: flex-start
+
+.primaryAction, .secondaryAction
+  width: 100%
+
+.primaryAction
+  margin-bottom: 3.5vw
