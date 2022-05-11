@@ -1,57 +1,68 @@
-.container
-  height: 66vw
-  width: 40vw
+@use 'src/colors' as colors
+
+.simple_container
+  max-width: 100%
   background: #fff
   box-shadow: 1px 1px 8px 2px #b8b8b8
   border-radius: 4px
   position: relative
 
-.basket_container
-  width: 100%
-  height: 22vh
-  background: rgba(255, 255, 255, 0.6)
-  position: relative
-  & > div
-    padding: 2.5vh
-
 .wrapper
-  height: 100%
   width: 100%
   display: flex
   flex-direction: column
-  padding: 3vw
+  padding: 3vw 3vw 2vw
 
 .heartIcon
+  cursor: pointer
   position: absolute
   top: 0
   right: 0
   margin: 1.5vw
   font-size: 3vh
-  color: #f8796b
+  color: colors.$yellow
   background: #ffffff
   padding: .4vh
   border-radius: 2px
 
-
 .img_container
-  min-height: 58%
-  max-height: 58%
-  margin: 0 auto
-  padding: .5vh
+  cursor: pointer
+  height: 140px
+  padding: .5vh .5vh 0 .5vh
+  display: flex
+  justify-content: center
+  align-items: center
   & img
     border-radius: 3px
-    height: 100%
+    max-height: 120px
     max-width: 100%
     object-fit: contain
 
 .title
+  cursor: pointer
+  margin-bottom: 1vw
   color: #333
   text-align: left
-  margin: 1vh 0
-  height: 6vh
   font-size: 4.2vw
-  line-height: 5.5vw
+  line-height: 4.8vw
+  height: 9.6vw
   overflow: hidden
+
+.rating
+  width: 100%
+  margin-bottom: 3vw
+  display: flex
+  flex-direction: row
+  justify-content: flex-start
+  align-items: center
+  & > div
+    margin-right: 1.8vw
+  & > span
+    transform: translateY(5%)
+    display: flex
+    color: colors.$darkBlue
+    font-size: 100%
+    line-height: 90%
 
 .price
   text-align: left
@@ -65,23 +76,43 @@
 .currency
   font-size: 3vh
 
+.basket_container
+  width: 100%
+  background: rgba(255, 255, 255, 0.6)
+  position: relative
+  & > div
+    padding: 1.5vh
+
+.shoppingCart_icon
+  cursor: pointer
+  position: absolute
+  bottom: 0
+  right: 0
+  margin: 3vw 2.5vw
+  font-size: 3vh
+  color: colors.$pink
+  background: #ffffff
+  border-radius: 2px
+
 .topBar
-  height: 65%
   width: 100%
   display: flex
   flex-direction: row
   justify-content: flex-start
 
 .basket_img_container
-  width: 30%
+  cursor: pointer
+  width: 96px
+  height: 96px
+  margin-right: 15px
   display: flex
   justify-content: center
-  margin-right: 2vh
   & img
     height: 100%
 
 .basket_title
-  width: 40%
+  cursor: pointer
+  width: 50%
   text-align: left
   font-size: 5vw
   margin-top: .2vh
@@ -95,13 +126,13 @@
   align-items: center
 
 .counter
-  width: 50%
   display: flex
   flex-direction: row
   justify-content: space-between
   align-items: center
 
 .counter_minus
+  cursor: pointer
   font-size: 3.5vh
   color: #3a6980
 
@@ -109,19 +140,67 @@
   color: #8a8888
 
 .counter_plus
+  cursor: pointer
   font-size: 3.5vh
   color: #3a6980
 
 .counter_input
-  width: 40%
-  padding: 1.4vh 1.8vh
+  width: 56px
+  height: 40px
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button
+      -webkit-appearance: none
+      margin: 0
+  //padding: 2.5vw 3vw
+  padding: 0 14px
+  margin: 0 15px
   text-align: center
   text-decoration: none
   background: none
   border-radius: 4px
   border: 1px solid #8a8888
-  font-size: 2.5vh
+  font-size: 18px
 
 .basket_price
   font-family: RobotoMedium, sans-serif
   font-size: 6vw
+
+@media (min-width: 678px)
+  .img_container
+    height: 170px
+    padding: 0
+    & img
+      max-height: 150px
+
+  .wrapper
+    padding: 15px
+
+  .heartIcon
+    margin: 15px
+
+  .title
+    margin-bottom: 10px
+    height: 40px
+    font-size: 18px
+    line-height: 20px
+
+  .rating > div
+    margin-right: 10px
+
+  .price
+    font-size: 30px
+
+  .currency
+    font-size: 27px
+
+  .shoppingCart_icon
+    margin: 20px 15px
+
+  .basket_title
+    font-size: 20px
+
+  .basket_img_container
+    margin-right: 30px
+
+  .basket_price
+    font-size: 25px

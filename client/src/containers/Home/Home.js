@@ -27,12 +27,14 @@ const Home = (props) => {
 
                <FashionAndStyle className={classes.preview_img}/>
 
-               <Button
-                  type={'big_orange_button'}
-                  onClickHandler={() => dispatch(toggleCatalog())}
-               >
-                  Catalog
-               </Button>
+               <div className={classes.catalog_container}>
+                  <Button
+                     type={'big_orange_button'}
+                     onClickHandler={() => dispatch(toggleCatalog())}
+                  >
+                     Catalog
+                  </Button>
+               </div>
             </section>
 
             <span className={classes.manuscript}>

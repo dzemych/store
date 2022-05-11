@@ -1,12 +1,21 @@
 .products_container
+  width: 100%
   margin: 2.5vh 0
-  padding: 2.5vh .5vh 3vh
+  padding: .5vh .5vh 3vh
   border-bottom: 1px solid #c6cac9
   border-top: 1px solid #c6cac9
+
+.body
+  display: flex
+  flex-direction: column
+  width: 70%
 
 .hr
   width: 90% !important
   margin: 1.5vh auto
+
+.product_item
+  width: 100%
 
 .total_container
   margin: 2.5vh 0
@@ -34,3 +43,26 @@
   color: #333
   font-family: RobotoMedium, sans-serif
   font-size: 7vw
+
+@media (min-width: 768px)
+  .products_container
+    display: flex
+    flex-direction: column
+    align-items: center
+
+  .total_container
+    width: fit-content
+    padding: 24px
+    margin-right: 15px
+    align-self: flex-end
+    flex-direction: row
+    justify-content: center
+    & button
+      margin: 0
+      font-size: 30px
+
+  .total_price
+    font-size: 28px
+    margin-right: 24px
+
+@media (min-width: 1380px)

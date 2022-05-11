@@ -179,19 +179,23 @@ const Sidebar = (props) => {
                   <li
                      className={classes.info_item}
                      onClick={e => openPageHandler(e, 'about')}
-                  >About us</li>
+                  >About us
+                  </li>
                   <li
                      className={classes.info_item}
                      onClick={e => openPageHandler(e, 'contacts')}
-                  >Contacts</li>
+                  >Contacts
+                  </li>
                   <li
                      className={classes.info_item}
                      onClick={e => openPageHandler(e, 'info')}
-                  >Delivery and payment</li>
+                  >Delivery and payment
+                  </li>
                   <li
                      className={classes.info_item}
                      onClick={e => openPageHandler(e, 'info')}
-                  >Warrant</li>
+                  >Warrant
+                  </li>
                </ul>
             </div>
 
@@ -224,7 +228,7 @@ const Sidebar = (props) => {
             <div className={classes.logOut}>Log out</div>
          </div>
       </div>
-   )
+   );
 }
 
 export default Sidebar

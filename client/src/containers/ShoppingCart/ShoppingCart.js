@@ -5,6 +5,8 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import square from '../../img/square.jpg'
 import jeans from '../../img/jeans.jpg'
 import Button from "../../forms/Button/Button";
+import {Tablet} from "../../functions/mediaCheck";
+import MediaQuery from "react-responsive";
 
 
 const ShoppingCart = (props) => {
@@ -33,10 +35,14 @@ const ShoppingCart = (props) => {
          <div className={'wrapper'}>
             <h1 className={'title'}>Shopping cart</h1>
 
-            <div className={classes.products_container}>
+            <div className={classes.body}>
+               <div className={classes.products_container}>
 
                   {products.map((el, i, arr) => (
-                     <div key={i}>
+                     <div
+                        key={i}
+                        className={classes.product_item}
+                     >
                         <ProductCard
                            type={el.type}
                            title={el.title}
@@ -50,19 +56,23 @@ const ShoppingCart = (props) => {
 
                </div>
 
-            <div className={classes.total_container}>
-               <div className={classes.total_amount}>
-                  <span>Total</span>
-                  <span className={classes.total_price}>
+               <div className={classes.total_container}>
+                  <div className={classes.total_amount}>
+                     <MediaQuery maxWidth={768}>
+                        <span>Total</span>
+                     </MediaQuery>
+
+                     <span className={classes.total_price}>
                      {products.reduce((acc, el) => {
                         acc += el.price
                         return acc
                      }, 0)}
-                     ₴
+                        ₴
                   </span>
-               </div>
+                  </div>
 
-               <Button type={'bigGreen_button'}>Purchase</Button>
+                  <Button type={'bigGreen_button'}>Purchase</Button>
+               </div>
             </div>
          </div>
       </div>

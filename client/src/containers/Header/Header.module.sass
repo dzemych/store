@@ -30,9 +30,10 @@
     height: 100%
 
 .catalog_container
+  cursor: pointer
   height: 39px
   padding: 0 15px
-  margin-left: 25px
+  margin-left: 18px
   border-radius: 5px
   background: colors.$pink
   display: flex
@@ -43,8 +44,9 @@
     margin-right: 10px
 
 .search_btn
+  cursor: pointer
   height: 40px
-  margin-right: 15px
+  margin-right: 18px
   padding: 0 16px
   display: flex
   align-items: center
@@ -53,15 +55,37 @@
   border-radius: 0 5px 5px 0
   color: #F4FAF6
 
-@media (min-width: 520px)
+.tanDem_logo
+  cursor: pointer
+  height: 40px
+  margin-left: 15px
+  & img
+    height: 100%
+
+.user_icon
+  cursor: pointer
+  height: 30px
+  margin-right: 15px
+  color: colors.$yellow
+
+@media (min-width: 425px)
   .container
-    height: 60px
+    height: 68px
+    padding: 0 24px
   .burger
+    cursor: pointer
     height: 30px
   .shopping_cart
+    cursor: pointer
     height: 30px
   .logo
     height: 30px
+    cursor: pointer
+    margin-right: 15px
     & img
       height: 100%
       width: auto
+
+@media (min-width: 1024px)
+  .search_btn
+    margin-right: 35px

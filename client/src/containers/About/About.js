@@ -39,12 +39,14 @@ const About = (props) => {
 
             <h2 className={classes.add_title}>View our catalog</h2>
 
-            <Button
-               type={'big_orange_button'}
-               onClickHandler={() => dispatch(toggleCatalog())}
-            >
-               Catalog
-            </Button>
+            <div className={classes.catalogBtn_container}>
+               <Button
+                  type={'big_orange_button'}
+                  onClickHandler={() => dispatch(toggleCatalog())}
+               >
+                  Catalog
+               </Button>
+            </div>
 
             <hr className={classes.hr}/>
          </div>

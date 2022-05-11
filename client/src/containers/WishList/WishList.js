@@ -41,14 +41,12 @@ const WishList = (props) => {
 
    return (
       <div className={'container'}>
-         <div className={'wrapper'}>
+         <div className={classes.wrapper}>
             <h1 className={'title'}>Your wish list</h1>
 
             <div className={classes.actions_container}>
                <span className={classes.action_btn}>Buy all</span>
-               <span className={classes.action_btn}>Buy</span>
                <span className={classes.action_btn}>Delete all</span>
-               <span className={classes.action_btn}>Delete</span>
             </div>
 
             <div className={classes.products_list}>

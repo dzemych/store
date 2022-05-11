@@ -18,17 +18,29 @@
 .btn_next, .btn_prev
   position: absolute
   top: 50%
-  font-size: 10vw
-  height: 35%
+  height: 24%
   display: flex
   justify-content: center
   align-items: center
-  color: rgba(103, 186, 207, .9)
+  & img
+    height: 100%
 
 .btn_next
   right: 0
-  transform: translate(-15%, -50%)
+  transform: translateY(-50%) translateX(32%)
 
 .btn_prev
   left: 0
-  transform: translate(15%, -50%)
+  transform: translateY(-50%) translateX(-32%) scaleX(-1)
+
+.recently_container
+  width: 100%
+
+.recently_title
+  font-family: RobotoRegular, sans-serif
+  margin-bottom: 3vw
+  text-align: center
+
+@media (min-width: 768px)
+  .recently_title
+    font-size: 35px

@@ -92,3 +92,56 @@
 
 .primaryAction
   margin-bottom: 3.5vw
+
+@media (min-width: 768px)
+  .container
+    position: absolute
+    width: 650px
+    height: fit-content
+    min-height: fit-content
+    margin: 0 auto
+    top: 50%
+    right: 50%
+    transform: translate(50%, -50%)
+    border-radius: 8px
+    & hr
+      margin: 15px 0
+
+  .wrapper
+    padding: 15px 20px
+
+  .form_wrapper
+    padding: 0 0 0 15px
+
+  .topBar
+    & span
+      font-size: 35px
+    & svg
+      font-size: 30px
+
+  .form_item
+    &:not(:last-child)
+      margin-bottom: 15px
+    & label
+      font-size: 12px
+
+  .input_wrapper
+    & input
+      padding: 10px 15px
+      font-size: 15px
+    & svg
+      font-size: 35px
+
+  .actions_container
+    margin-top: 20px
+    padding: 0 20px
+
+  .forgotPassword
+    font-size: 15px
+
+  .primaryAction, .secondaryAction
+    & button
+      font-size: 20px
+
+  .primaryAction
+    margin-bottom: 0

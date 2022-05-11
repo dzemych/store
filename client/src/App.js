@@ -4,13 +4,11 @@ import Header from "./containers/Header/Header";
 import Footer from "./containers/Footer/Footer";
 import React from "react";
 import classes from './App.module.sass'
-import useDesktopCheck from "./functions/useDesktopCheck";
+import {Phone} from "./functions/mediaCheck";
 
 
 function App() {
    const routes = getRoutes()
-
-   const isDesktop = useDesktopCheck()
 
    return (
       <div className={classes.container}>
@@ -20,9 +18,9 @@ function App() {
             {routes}
          </div>
 
-         {!isDesktop &&
+         <Phone>
             <Footer/>
-         }
+         </Phone>
       </div>
    );
 }

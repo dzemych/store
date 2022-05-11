@@ -37,7 +37,7 @@
     font-size: 3.5vh
 
 .item_right
-  width: 80%
+  width: 75%
 
 .item_hr
   margin: 5vw 0
@@ -55,10 +55,16 @@
   width: 100%
 
 .contact_container
-  width: 100%
-  padding: 2vh
+  width: 95%
   display: flex
   flex-direction: column
+  align-items: flex-start
+
+.contact_wrapper
+  width: 100%
+  display: flex
+  flex-direction: column
+  justify-content: center
   align-items: flex-start
 
 .contact_title
@@ -69,21 +75,63 @@
 
 .textUs_container
   margin-top: 1vh
+  margin-bottom: 3vw
   display: flex
   flex-direction: column
+  align-items: flex-start
 
 .textUs_title
-  margin-bottom: 2vh
+  margin-bottom: 1vw
   color: #698ba4
-  font-size: 3.9vh
+  font-size: 6vw
 
 .textUs_text
   color: #333
   font-family: RobotoMedium, sans-serif
-  font-size: 2.8vh
+  font-size: 5vw
   margin-left: .5vh
 
 .contact_hr
   width: 60%
   height: 2px
   margin: 1.5vh 0
+
+@media (min-width: 768px)
+  .title_img
+    width: 75%
+
+  .list_container hr
+    margin: 25px
+
+  .item_left svg
+    font-size: 40px
+
+  .item_title
+    font-size: 25px
+
+  .item_text
+    font-size: 20px
+    line-height: 26px
+
+  .contact_container
+    display: flex
+    align-items: center
+
+  .contact_wrapper
+    width: 90%
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+
+  .contact_title
+    font-size: 35px
+    margin-bottom: 40px
+
+  .textUs_container
+    width: 45%
+
+  .textUs_title
+    font-size: 35px
+
+  .textUs_text
+    font-size: 29px

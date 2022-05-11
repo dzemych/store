@@ -55,8 +55,6 @@ const SignUp = (props) => {
          </div>
 
          <div className={classes.actions_container}>
-            <span className={classes.forgotPassword}>Forgot password</span>
-
             <div className={classes.primaryAction}>
                <Button type={'wideBlue_button'}>
                   Registration

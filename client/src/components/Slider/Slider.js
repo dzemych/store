@@ -1,7 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useMemo, useRef, useState} from 'react'
 import classes from './Slider.module.sass'
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
+import chevron from '../../img/chevron.png'
 
 
 const Slider = (props) => {
@@ -15,6 +14,9 @@ const Slider = (props) => {
    const startRef = useRef(0)
    const blockFullWidth = useRef(0)
    const listRef = useRef(null)
+   const maxOffset = useMemo(
+      () => blockFullWidth.current * (pagesLength - slides),
+      [blockFullWidth.current, pagesLength, slides])
 
    // 2) Event handlers
    const clickHandler = (e, type) => {
@@ -79,7 +81,7 @@ const Slider = (props) => {
                style={{
                   width: "100%",
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: pagesLength > props.slides ? 'space-between': 'center',
                   transition: "350ms",
                   transform: `translateX(${-offset}px)`
                }}
@@ -88,28 +90,34 @@ const Slider = (props) => {
             </div>
          </div>
 
-         <div
-            className={classes.btn_next}
-            onClick={e => clickHandler(e, 'next')}
-         >
-            <FontAwesomeIcon icon={faChevronRight}/>
-         </div>
+         {offset > 1 &&
+            <div
+               className={classes.btn_prev}
+               onClick={e => clickHandler(e, 'prev')}
+            >
+               <img src={chevron}/>
+            </div>
+         }
 
-         <div
-            className={classes.btn_prev}
-            onClick={e => clickHandler(e, 'prev')}
-         >
-            <FontAwesomeIcon icon={faChevronLeft}/>
-         </div>
+         {pagesLength > props.slides && offset !== maxOffset &&
+            <div
+               className={classes.btn_next}
+               onClick={e => clickHandler(e, 'next')}
+            >
+               <img src={chevron}/>
+            </div>
+         }
       </div>
    )
 }
 
 export const SliderItem = React.forwardRef((props, ref) => {
+   const slideFullWidth = 100 / (props.slides ? props.slides : 2)
+
    const styles = {
-      maxWidth: props.slides === 1 ? '90%' : '45%',
-      minWidth: props.slides === 1 ? '90%' : '45%',
-      margin: props.slides === 1 ? '5%' : '2.5%',
+      maxWidth: `${slideFullWidth - slideFullWidth * .08}%`,
+      minWidth: `${slideFullWidth - slideFullWidth * .08}%`,
+      margin: `${(slideFullWidth * .08) / 2}%`,
    }
 
    return (

@@ -2,7 +2,6 @@ import React from 'react'
 import classes from './Info.module.sass'
 import keyboardTyping from '../../img/keyboard-typing.png'
 import QuestionsList from "./QuestionsList";
-import Button from "../../forms/Button/Button";
 import '../basicStyles.sass'
 
 
@@ -25,14 +24,18 @@ const Info = (props) => {
             <div className={classes.contact_container}>
                <h2 className={classes.contact_title}>Ask us a question</h2>
 
-               <Button type={'bigBlue_button'}>Mail us</Button>
+               <div className={classes.contact_wrapper}>
+                  <div className={classes.textUs_container}>
+                     <h3 className={classes.textUs_title}>Mail us</h3>
 
-               <hr className={classes.contact_hr}/>
+                     <span className={classes.textUs_text}>dzemichivan@gmail.com</span>
+                  </div>
 
-               <div className={classes.textUs_container}>
-                  <h3 className={classes.textUs_title}>In Viber</h3>
+                  <div className={classes.textUs_container}>
+                     <h3 className={classes.textUs_title}>Text us in Viber</h3>
 
-                  <span className={classes.textUs_text}>+380509008875</span>
+                     <span className={classes.textUs_text}>+380509008875</span>
+                  </div>
                </div>
             </div>
          </div>
