@@ -37,6 +37,22 @@ const RecentlySlider = (props) => {
          type: 'basket',
          title: "Fancy T-shirt",
          price: 500,
+      },
+      {
+         type: 'basket',
+         title: "Fancy T-shirt",
+         price: 500,
+      },
+      {
+         type: 'basket',
+         title: "Fancy T-shirt",
+         price: 500,
+         img: tShirt
+      },
+      {
+         type: 'basket',
+         title: "Fancy T-shirt",
+         price: 500,
       }
    ]
 

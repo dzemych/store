@@ -3,9 +3,15 @@
 
 .container
   width: 100%
+  padding: 0 3vw
   display: flex
   flex-direction: column
   align-items: center
+
+.data_wrapper
+  width: 100%
+  display: flex
+  flex-direction: column
 
 .photo_slider_container
   width: 100%
@@ -132,3 +138,36 @@
   font-size: 4.6vw
   line-height: 5.5vw
   color: #373636
+
+@media (min-width: 768px)
+  .container
+    margin-top: 1.5em
+    padding: 0
+    width: 95%
+    flex-direction: row
+    align-items: flex-start
+
+  .photo_slider_container
+    width: 50%
+
+  .data_wrapper
+    width: 50%
+
+  .photo_wrapper
+    width: 100%
+    height: 100%
+    padding: 3em 0
+    align-items: center
+    justify-content: center
+    & img
+      object-fit: contain
+      height: 100%
+      width: 100%
+      padding: 15px
+
+  .size_container
+    margin: 0
+
+  .sizes_items
+    & label
+      padding: 15px 20px !important

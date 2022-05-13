@@ -6,12 +6,16 @@ import {faStar, faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
 import '../basicStyles.sass'
 import RecentlySlider from "../../components/Slider/RecentlySlider";
 import ProductFiller from "./ProductFiller";
+import {useMediaQuery} from "react-responsive";
 
 
 const Product = (props) => {
    const [activePage, setPage] = useState('review')
 
+   const isTablet = useMediaQuery({minWidth: 768})
+
    const ratingStars = {
+      size: isTablet ? 20 : '',
       count: 5,
       edit: false,
       color: "#D2D2D2",
@@ -33,38 +37,40 @@ const Product = (props) => {
 
    return (
       <div className={classes.container}>
-         <div className={'wrapper'}>
-            <div className={classes.product_top}>
-               <h1 className={classes.product_title}>
-                  Product name for amazing good like t-shirt or jeans
-               </h1>
-               
-               <div className={classes.all_reviews}>
-                  <ReactStars {...ratingStars} />
+         <div className={classes.wrapper}>
+            <div className={classes.product_topBar}>
+               <div className={classes.product_title_container}>
+                  <h1 className={classes.product_title}>
+                     Product name for amazing good like t-shirt or jeans
+                  </h1>
 
-                  <span className={classes.review_number}>
+                  <div className={classes.all_reviews}>
+                     <ReactStars {...ratingStars} />
+
+                     <span className={classes.review_number}>
                      731 review
                   </span>
+                  </div>
                </div>
-            </div>
 
-            <div className={classes.nav_container}>
-               <div className={classes.nav_list}>
-                  {
-                     pages.map((el, i) => (
-                        <span
-                           key={i}
-                           className={`${classes.nav_item} ${
-                              el.value === activePage ? 
-                              classes.nav_item_active :
-                              ''   
-                           }`}
-                           onClick={() => setPage(el.value)}
-                        >
+               <div className={classes.nav_container}>
+                  <div className={classes.nav_list}>
+                     {
+                        pages.map((el, i) => (
+                           <span
+                              key={i}
+                              className={`${classes.nav_item} ${
+                                 el.value === activePage ?
+                                    classes.nav_item_active :
+                                    ''
+                              }`}
+                              onClick={() => setPage(el.value)}
+                           >
                            {el.key}
                         </span>
-                     ))
-                  }
+                        ))
+                     }
+                  </div>
                </div>
             </div>
 
@@ -75,7 +81,9 @@ const Product = (props) => {
 
             <hr className={classes.recent_hr}/>
 
-            <RecentlySlider/>
+            <div className={classes.recently_container}>
+               <RecentlySlider />
+            </div>
 
             <hr className={classes.main_hr}/>
          </div>

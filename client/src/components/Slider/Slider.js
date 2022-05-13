@@ -80,6 +80,7 @@ const Slider = (props) => {
                ref={listRef}
                style={{
                   width: "100%",
+                  height: "100%",
                   display: "flex",
                   justifyContent: pagesLength > props.slides ? 'space-between': 'center',
                   transition: "350ms",
@@ -92,7 +93,10 @@ const Slider = (props) => {
 
          {offset > 1 &&
             <div
-               className={classes.btn_prev}
+               className={props.slides > 1
+                  ? classes.btn_prev
+                  : classes.btn_prev + ' ' + classes.small_btn
+               }
                onClick={e => clickHandler(e, 'prev')}
             >
                <img src={chevron}/>
@@ -101,7 +105,10 @@ const Slider = (props) => {
 
          {pagesLength > props.slides && offset !== maxOffset &&
             <div
-               className={classes.btn_next}
+               className={props.slides > 1
+                  ? classes.btn_next
+                  : classes.btn_next + ' ' + classes.small_btn
+               }
                onClick={e => clickHandler(e, 'next')}
             >
                <img src={chevron}/>
