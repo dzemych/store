@@ -25,12 +25,22 @@ const ProductsList = (props) => {
          title: "Fancy T-shirt",
          price: 500,
          img: tShrit
+      },
+      {
+         title: "Fancy T-shirt",
+         price: 500,
+         img: tShrit
+      },
+      {
+         title: "Fancy T-shirt",
+         price: 500,
+         img: tShrit
       }
    ]
 
    return (
       <div className={'container'}>
-         <div className={'wrapper'}>
+         <div className={classes.wrapper}>
             <h2 className={classes.title}>Title</h2>
 
             <div className={classes.sort_panel}>

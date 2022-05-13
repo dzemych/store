@@ -18,7 +18,6 @@ const ProductCard = React.forwardRef((props, ref) => {
    const [amount, setAmount] = useState(1)
    const isTablet = useMediaQuery({ minWidth: 425 })
 
-   console.log(isTablet)
    const changeAmount = (e, type) => {
       e.preventDefault()
       console.log(type)

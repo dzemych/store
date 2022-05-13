@@ -3,14 +3,16 @@
 
 .container
   width: 100%
+  border-top: 1px solid colors.$lightBlue
 
 .wrapper
   width: 100%
-  padding: 1.5vw
+  padding: 0 1.5vw 1.5vw
   display: flex
   flex-direction: column
 
 .topBar_wrapper
+  cursor: pointer
   width: 100%
   display: flex
   flex-direction: row
@@ -19,7 +21,7 @@
   padding: 1.5vw 0
 
 .img_container
-  width: 25%
+  width: 30%
   height: 20vw
   margin-right: 2vw
   display: flex
@@ -31,7 +33,7 @@
     object-fit: contain
 
 .topBar_title
-  width: 75%
+  width: 70%
   display: flex
   justify-content: flex-end
   align-items: center
@@ -62,10 +64,12 @@
   font-size: 4vw
 
 .totals_wrapper
-  margin-top: 5vw
+  margin-top: 2.5vw
+  padding-top: 2.5vw
   width: 100%
   display: flex
   flex-direction: column
+  border-top: 1px solid #e4e8ea
 
 .totals_item
   width: 100%
@@ -81,3 +85,39 @@
 
 .total_price
   font-size: 5vw
+
+@media (min-width: 768px)
+  .topBar_wrapper
+    padding: 13px 10px
+
+  .img_container
+    height: 110px
+    justify-content: flex-start
+    & img
+      width: fit-content
+
+  .topBar_title
+    font-size: 20px
+
+  .sum_wrapper
+    margin-left: 15px
+    margin-top: 18px
+    justify-content: flex-start
+
+  .sum_item
+    width: fit-content
+    margin-right: 22px
+    & span
+      font-size: 23px
+
+  .item_title
+    margin-bottom: 10px
+
+  .totals_wrapper
+    margin-top: 10px
+    padding-top: 10px
+    & span
+      font-size: 25px
+
+  .totals_item:not(:last-child)
+    margin-bottom: 12px

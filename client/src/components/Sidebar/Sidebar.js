@@ -155,22 +155,22 @@ const Sidebar = (props) => {
 
             <hr className={classes.hr}/>
 
-            <div className={classes.lang_container}>
-               <span>Language</span>
+            {/*<div className={classes.lang_container}>*/}
+            {/*   <span>Language</span>*/}
 
-               <div className={classes.lang_items}>
-                  {allLanguages.map((el, i) => (
-                     <RadioBox
-                        value={el}
-                        checked={el === curLang}
-                        onChange={() => setCurLang(el)}
-                        key={i}
-                     />
-                  ))}
-               </div>
-            </div>
+            {/*   <div className={classes.lang_items}>*/}
+            {/*      {allLanguages.map((el, i) => (*/}
+            {/*         <RadioBox*/}
+            {/*            value={el}*/}
+            {/*            checked={el === curLang}*/}
+            {/*            onChange={() => setCurLang(el)}*/}
+            {/*            key={i}*/}
+            {/*         />*/}
+            {/*      ))}*/}
+            {/*   </div>*/}
+            {/*</div>*/}
 
-            <hr className={classes.hr}/>
+            {/*<hr className={classes.hr}/>*/}
 
             <div className={classes.infoBar}>
                <span className={classes.info_title}>Company information</span>

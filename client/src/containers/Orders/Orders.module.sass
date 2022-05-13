@@ -1,3 +1,5 @@
+@use 'src/colors' as colors
+
 .container
   width: 100%
 
@@ -14,3 +16,22 @@
   display: flex
   flex-direction: column
   align-items: center
+
+@media (min-width: 768px)
+  .container
+    margin-bottom: 20px
+
+  .wrapper
+    padding-top: 15px
+
+  .orders_list
+    margin-top: 25px
+    width: 90%
+
+@media (min-width: 1024px)
+  .orders_list
+    width: 70%
+
+@media (min-width: 1440px)
+  .orders_list
+    width: 60%

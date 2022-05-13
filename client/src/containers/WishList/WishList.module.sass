@@ -7,9 +7,9 @@
   align-items: center
 
 .actions_container
-  width: 100%
+  width: fit-content
   margin-top: 4vh
-  padding: 3vh 4vh
+  padding: 4vw 6vw
   display: flex
   flex-direction: row
   justify-content: space-between
@@ -20,6 +20,8 @@
   text-decoration: none
   color: #698ba4
   font-size: 5vw
+  &:first-child
+    margin-right: 6vw
 
 .products_list
   margin-top: 1vh
@@ -30,6 +32,9 @@
   flex-direction: row
   flex-wrap: wrap
   & > div
+    flex-grow: 1
+    min-width: 45%
+    max-width: 45%
     margin-top: 2vh
     margin-right: 2vh
 
@@ -65,7 +70,7 @@
 
 @media (min-width: 768px)
   .wrapper
-    width: 70%
+    width: 85%
     padding: 25px
     align-items: center
 
@@ -82,5 +87,26 @@
     &:not(:last-child)
       margin-right: 20px
 
+
+  .products_list > div
+    flex-grow: 1
+    flex-shrink: 1
+    min-width: 30%
+    max-width: 30%
+
   .sum_right button
     font-size: 30px
+
+@media (min-width: 1024px)
+  .wrapper
+    width: 75%
+
+  .products_list
+    width: 95%
+    & > div
+      min-width: 23%
+
+@media (min-width: 1350px)
+  .products_list > div
+    min-width: 23%
+    max-width: 23%

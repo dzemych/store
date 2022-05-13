@@ -13,19 +13,28 @@
     padding: 0
     background: colors.$lightBlue
 
-.topBar_wrapper
+.topBar
+  display: flex
+  flex-direction: column
+
+.bottomBar
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+
+.status_wrapper
   margin: 3vw 0 2vw
   width: 100%
   display: flex
   flex-direction: column
   align-items: flex-start
 
-.topBar_date, .sum_title
+.status_date, .sum_title
   color: colors.$grey
   font-size: 4.1vw
   margin-bottom: .5vw
 
-.topBar_status, .sum_price
+.status_status, .sum_price
   padding-left: .5vw
   font-size: 4.35vw
 
@@ -33,12 +42,65 @@
   display: flex
   flex-direction: column
 
+.action_wrapper
+  cursor: pointer
+  margin-top: 4vw
+  color: colors.$lightBlue
+  font-size: 3.8vw
+
 .data_wrapper
-  margin: 3vw 0 2vw
+  color: #333
+  margin: 4vw 0 6vw
   width: 100%
   display: flex
   flex-direction: column
   align-items: flex-start
   font-size: 4.4vw
   & span:not(:last-child)
-    margin-bottom: 1.5vw
+    margin-bottom: .75vw
+    padding-bottom: .75vw
+    border-bottom: 1px solid #c7d6d6
+
+@media (min-width: 768px)
+  .container
+    &:not(:last-child)
+      margin-bottom: 25px
+
+  .topBar
+    flex-direction: row
+    width: 100%
+    justify-content: space-between
+
+  .status_wrapper, .order_sum_wrapper
+    margin: 0 !important
+    display: flex
+    flex-direction: column
+
+  .status_wrapper
+    width: fit-content
+    align-items: flex-start
+
+  .order_sum_wrapper
+    margin-top: 10px
+    width: fit-content
+    align-items: center
+
+  .status_date, .sum_title
+    font-size: 17px
+
+  .status_status, .sum_price
+    padding-left: 0
+    font-size: 22px
+
+  .data_wrapper
+    width: fit-content
+    font-size: 25px
+    margin: 16px 15px 20px
+    & span:not(:last-child)
+      margin-bottom: 10px
+      padding-bottom: 10px
+
+  .action_wrapper
+    color: #f85656
+    margin-top: 20px
+    font-size: 20px

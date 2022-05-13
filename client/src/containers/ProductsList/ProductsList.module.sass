@@ -1,3 +1,11 @@
+.wrapper
+  width: 100%
+  padding: 5vw
+  margin: 0 auto
+  display: flex
+  flex-direction: column
+  align-items: center
+
 .title
   margin: 2vh 2vh 2vh
   font-family: Satisfy, sans-serif
@@ -20,17 +28,54 @@
   border-radius: 5px
 
 .products_container
-  width: 97%
+  width: 100%
   margin-top: 3vh
   margin-bottom: 1.8vh
   display: flex
   flex-direction: row
   flex-wrap: wrap
   justify-content: center
-  & > div:nth-child(n + 3)
-    margin-top: 4.5vw
-  & > div:nth-child(odd)
-    margin-right: 4vw
+  & > div
+    min-width: 45%
+    max-width: 45%
+    flex-grow: 1
+    flex-shrink: 1
+    margin-right: 15px
+    margin-top: 15px
 
 .hr
   margin: 3vw
+
+@media (min-width: 768px)
+  .wrapper
+    width: 85%
+    padding: 25px
+
+  .title
+    font-size: 40px
+
+  .sort_panel
+    padding: 20px
+
+  .select
+    font-size: 20px
+
+  .products_container > div
+    margin-top: 20px
+    margin-right: 20px
+    min-width: 30%
+    max-width: 30%
+
+
+@media (min-width: 1024px)
+  .wrapper
+    width: 75%
+
+  .products_container
+    width: 95%
+    & > div
+      min-width: 23%
+
+@media (min-width: 1350px)
+  .products_container > div
+    min-width: 23%
