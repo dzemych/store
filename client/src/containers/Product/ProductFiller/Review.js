@@ -13,7 +13,6 @@ import jeans from "../../../img/jeans.jpg";
 import tShirt from "../../../img/t-shirt.jpg";
 import square from "../../../img/square.jpg";
 import MediaQuery from "react-responsive";
-import {Tablet} from "../../../functions/mediaCheck";
 
 
 const Review = (props) => {
@@ -92,50 +91,53 @@ const Review = (props) => {
                </Button>
             </div>
 
-            <div className={classes.features_container}>
-               <div className={classes.title_container}>
+            <div className={classes.bottomData_wrapper}>
+               <div className={classes.features_container}>
+                  <div className={classes.title_container}>
                   <span className={classes.features_first}>
                      Characteristics
                   </span>
 
-                  <span className={classes.features_second}>
+                     <span className={classes.features_second}>
                      &nbsp;Product name for amazing good like t-shirt or jeans
                   </span>
-               </div>
-
-               <div className={classes.features_table}>
-                  <div className={classes.tabel_left}>
-                     <ul>
-                        {features.map((el, i) => (
-                           <li key={i}>{el.key}:</li>
-                        ))}
-                     </ul>
                   </div>
 
-                  <div className={classes.tabel_right}>
-                     <ul>
-                        {features.map((el, i) => (
-                           <li key={i}>{el.value}</li>
-                        ))}
-                     </ul>
+                  <div className={classes.features_table}>
+                     <div className={classes.tabel_left}>
+                        <ul>
+                           {features.map((el, i) => (
+                              <li key={i}>{el.key}:</li>
+                           ))}
+                        </ul>
+                     </div>
+
+                     <div className={classes.tabel_right}>
+                        <ul>
+                           {features.map((el, i) => (
+                              <li key={i}>{el.value}</li>
+                           ))}
+                        </ul>
+                     </div>
                   </div>
                </div>
-            </div>
 
-            <hr className={classes.main_hr}/>
+               <MediaQuery maxWidth={768}>
+                  <hr className={classes.main_hr}/>
+               </MediaQuery>
 
-            <div className={classes.description_container}>
-               <div className={classes.title_container}>
+               <div className={classes.description_container}>
+                  <div className={classes.title_container}>
                   <span className={classes.features_first}>
                      Description
                   </span>
 
-                  <span className={classes.features_second}>
+                     <span className={classes.features_second}>
                      &nbsp;Product name for amazing good like t-shirt or jeans
                   </span>
-               </div>
+                  </div>
 
-               <div className={classes.description_text}>
+                  <div className={classes.description_text}>
                   <span>
                      Lorem ipsum dolor sit amet, consectetur
                      adipiscing elit, sed do eiusmod tempor
@@ -144,6 +146,7 @@ const Review = (props) => {
                      nostrud exercitation ullamco laboris nisi
                      ut aliquip ex ea commodo consequat.
                   </span>
+                  </div>
                </div>
             </div>
          </div>

@@ -1,9 +1,11 @@
 import React from 'react'
 import classes from './Ratings.module.sass'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faStar, faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
+import {faHeartCirclePlus, faStar, faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
 import ReactStars from "react-rating-stars-component";
 import Button from "../../../forms/Button/Button";
+import {Tablet} from "../../../functions/mediaCheck";
+import tShirt from '../../../img/t-shirt.jpg'
 
 
 const Ratings = (props) => {
@@ -67,32 +69,66 @@ const Ratings = (props) => {
             Ratings about {props.title}
          </span>
 
-         <div className={classes.common_container}>
-            <div className={classes.common_title}>
-               <span>General rating</span>
-            </div>
-
-            <div className={classes.common_filler}>
-               <div className={classes.common_left}>
-                  <span className={classes.common_left_avg}>4,5</span>
-
-                  <ReactStars {...ratingStars} />
-
-                  <span className={classes.rating_amount}>15 ratings</span>
+         <div className={classes.topBar_container}>
+            <div className={classes.common_container}>
+               <div className={classes.common_title}>
+                  <span>General rating</span>
                </div>
 
-               <div className={classes.common_right}>
-                  {[5, 4, 3, 2, 1].map(num => (
-                     <div key={num} className={classes.count_container}>
-                        <span className={classes.count_number}>{num}</span>
+               <div className={classes.common_filler}>
+                  <div className={classes.common_left}>
+                     <span className={classes.common_left_avg}>4,5</span>
 
-                        <FontAwesomeIcon icon={faStar}/>
+                     <ReactStars {...ratingStars} />
 
-                        <span className={classes.count_amount}>{num * 12}</span>
+                     <span className={classes.rating_amount}>15 ratings</span>
+                  </div>
+
+                  <div className={classes.common_right}>
+                     {[5, 4, 3, 2, 1].map(num => (
+                        <div key={num} className={classes.count_container}>
+                           <span className={classes.count_number}>{num}</span>
+
+                           <FontAwesomeIcon icon={faStar}/>
+
+                           <span className={classes.count_amount}>{num * 12}</span>
+                        </div>
+                     ))}
+                  </div>
+               </div>
+            </div>
+
+            <Tablet>
+               <div className={classes.product_container}>
+                  <div className={classes.product_header}>
+                     <div className={classes.product_img_container}>
+                        <img src={tShirt} alt=""/>
                      </div>
-                  ))}
+
+                     <div className={classes.product_title}>
+                        Amazing tshirt with beautiful logo
+                     </div>
+                  </div>
+
+                  <div className={classes.product_action_container}>
+                     <div className={classes.action_top}>
+                        <div className={classes.price}>
+                           755 ₴
+                        </div>
+
+                        <div className={classes.product_wish}>
+                           <FontAwesomeIcon icon={faHeartCirclePlus}/>
+                        </div>
+                     </div>
+
+                     <div className={classes.action_bottom}>
+                        <Button type={'wideBlue_button'}>
+                           Purchase
+                        </Button>
+                     </div>
+                  </div>
                </div>
-            </div>
+            </Tablet>
          </div>
 
          <div className={classes.ratings_container}>
@@ -100,29 +136,33 @@ const Ratings = (props) => {
                <span>All ratings <span>{ratings.length}</span></span>
             </div>
 
-            {
-               ratings.map((el, i) => (
-                  <div className={classes.rating_item} key={i}>
-                     <div className={classes.rating_topBar}>
+            <div className={classes.ratings_list}>
+               {
+                  ratings.map((el, i) => (
+                     <div className={classes.rating_item} key={i}>
+                        <div className={classes.rating_topBar}>
                         <span className={classes.rating_userName}>
                            {el.userName}
                         </span>
 
-                        <span className={classes.rating_date}>
+                           <span className={classes.rating_date}>
                            {el.date}
                         </span>
-                     </div>
+                        </div>
 
-                     <div className={classes.rating_main}>
-                        <ReactStars {...ratingStars} />
+                        <div className={classes.rating_main}>
+                           <div className={classes.stars_wrapper}>
+                              <ReactStars {...ratingStars} />
+                           </div>
 
-                        <div className={classes.rating_text}>
-                           {el.text}
+                           <div className={classes.rating_text}>
+                              {el.text}
+                           </div>
                         </div>
                      </div>
-                  </div>
-               ))
-            }
+                  ))
+               }
+            </div>
 
             <div className={classes.showMore_container}>
                <Button type={'viewAll_button'}>Show more</Button>

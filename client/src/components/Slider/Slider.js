@@ -80,8 +80,8 @@ const Slider = (props) => {
                ref={listRef}
                style={{
                   width: "100%",
-                  height: "100%",
                   display: "flex",
+                  height: 'fit-content',
                   justifyContent: pagesLength > props.slides ? 'space-between': 'center',
                   transition: "350ms",
                   transform: `translateX(${-offset}px)`
@@ -95,7 +95,7 @@ const Slider = (props) => {
             <div
                className={props.slides > 1
                   ? classes.btn_prev
-                  : classes.btn_prev + ' ' + classes.small_btn
+                  : classes.btn_prev + ' ' + classes.small_btn_prev
                }
                onClick={e => clickHandler(e, 'prev')}
             >
@@ -107,7 +107,7 @@ const Slider = (props) => {
             <div
                className={props.slides > 1
                   ? classes.btn_next
-                  : classes.btn_next + ' ' + classes.small_btn
+                  : classes.btn_next + ' ' + classes.small_btn_next
                }
                onClick={e => clickHandler(e, 'next')}
             >

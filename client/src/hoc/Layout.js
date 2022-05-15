@@ -19,10 +19,10 @@ const Layout = (props) => {
 
    useEffect(() => {
       if (isCatalog || isSidebar || isAuth)
-         setScroll(false)
+         document.body.style.overflowY = 'hidden'
 
       if (!isCatalog && !isAuth && !isSidebar)
-         setScroll(true)
+         document.body.style.overflow = 'auto'
    }, [isSidebar, isCatalog, isAuth])
 
    return (
@@ -49,8 +49,8 @@ const Layout = (props) => {
             in={isSidebar}
             timeout={{
                appear: 0,
-               enter: 400,
-               exit: 500
+               enter: 350,
+               exit: 350
             }}
             mountOnEnter
             unmountOnExit
@@ -65,11 +65,7 @@ const Layout = (props) => {
             )}
          </Transition>
 
-         <main
-            style={{
-               position: bodyScroll ?  'relative' : 'fixed'
-            }}
-         >
+         <main>
             {props.children}
          </main>
       </>

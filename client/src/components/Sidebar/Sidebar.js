@@ -123,7 +123,10 @@ const Sidebar = (props) => {
                   />
                </div>
 
-               <FontAwesomeIcon icon={faXmark}/>
+               <FontAwesomeIcon
+                  icon={faXmark}
+                  onClick={() => dispatch(toggleSidebar())}
+               />
             </div>
 
             <div className={classes.userBar}>

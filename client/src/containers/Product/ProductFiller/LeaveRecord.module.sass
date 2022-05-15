@@ -2,10 +2,10 @@
 
 .container
   width: 100%
-  padding: 0 3vw
 
 .wrapper
   width: 100%
+  padding: 0 3vw
   display: flex
   flex-direction: column
   align-items: center
@@ -83,3 +83,61 @@ hr
     margin: 0 0 1.5vw
     font-family: RobotoRegular, sans-serif
     color: #333
+
+@media (min-width: 768px)
+  .container
+    width: 90%
+    & hr
+      margin: 1em 0 1.5em
+
+  .wrapper
+    padding: 1.5em 1em
+
+  .header
+    padding: 0
+
+  .title
+    font-size: 2em
+
+  .rates_section
+    width: 65%
+    & svg
+      margin-bottom: .3em
+      cursor: pointer
+      font-size: 1.85em
+
+  .rates_section span
+    font-size: 1.2em
+
+  .text_wrapper
+    margin-top: 1em
+    margin-bottom: 1.3em
+    & textarea
+      padding: .5em
+      font-size: 1.5em
+
+  .owner_data
+    margin-bottom: 2.5em
+
+  .data_input_container
+    margin-bottom: 1em
+    padding: 0 1.5em
+    & label
+      font-size: 1.5em
+      margin-bottom: .2em
+    & input
+      padding: .5em
+      font-size: 1.5em
+    &:last-child
+      margin: 0
+
+  .wrapper button
+    font-size: 1.8em
+    width: 80%
+
+@media (min-width: 1024px)
+  .container
+    width: 50%
+
+  .rates_section
+    width: 75%

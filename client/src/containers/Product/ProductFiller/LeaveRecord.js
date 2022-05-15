@@ -24,6 +24,12 @@ const LeaveRecord = (props) => {
       return classes.emptyStar
    }
 
+   const changeStars = val => {
+      if (stars === val)
+         return setStars(0)
+      setStars(val)
+   }
+
    return (
       <div className={classes.container}>
          <div className={classes.wrapper}>
@@ -43,7 +49,7 @@ const LeaveRecord = (props) => {
                         <FontAwesomeIcon
                            icon={faStar}
                            className={getStarClass(el.value)}
-                           onClick={() => setStars(el.value)}
+                           onClick={() => changeStars(el.value)}
                         />
 
                         <span>{el.text}</span>

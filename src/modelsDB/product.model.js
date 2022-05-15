@@ -18,7 +18,7 @@ const productSchema = new Schema({
    },
    status: {
      type: String,
-     enum: ['active', 'nosizes', 'unavailable'],
+     enum: ['active', 'nosizes ', 'unavailable'],
      default: 'active'
    },
    price: {
@@ -26,6 +26,11 @@ const productSchema = new Schema({
       required: true,
       min: 0,
       max: 20000
+   },
+   sex: {
+      type: String,
+      enum: ['man', 'woman'],
+      required: true
    },
    category: {
       type: String,

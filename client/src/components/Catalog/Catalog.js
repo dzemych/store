@@ -12,7 +12,8 @@ const Catalog = (props) => {
 
    const categories = [
       'Jackets and coats',
-      'Trousers and shorts',
+      'Trousers',
+      'Shorts',
       'Underwear',
       'Suits',
       'Skirts and dresses'
