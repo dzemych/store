@@ -1,42 +1,53 @@
-import React from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import classes from './ProductsList.module.sass'
 import '../basicStyles.sass'
 import ProductCard from "../../components/ProductCard/ProductCard";
 import Button from "../../forms/Button/Button";
 import RecentlySlider from "../../components/Slider/RecentlySlider";
-import jeans from "../../img/jeans.jpg";
-import square from "../../img/square.jpg";
-import tShrit from '../../img/t-shirt.jpg'
+import {useHttp} from "../../functions/http.hook";
+import {useLocation} from "react-router-dom";
 
 
 const ProductsList = (props) => {
-   const products = [
-      {
-         title: "Amazing and cute jeans",
-         price: 850,
-         img: jeans
-      },
-      {
-         title: "Fancy T-shirt",
-         price: 500,
-         img: square
-      },
-      {
-         title: "Fancy T-shirt",
-         price: 500,
-         img: tShrit
-      },
-      {
-         title: "Fancy T-shirt",
-         price: 500,
-         img: tShrit
-      },
-      {
-         title: "Fancy T-shirt",
-         price: 500,
-         img: tShrit
-      }
-   ]
+
+   const [products, setProducts] = useState([])
+
+   const {requestJson} = useHttp()
+   const location = useLocation()
+
+   useEffect(() => {
+      (async () => {
+         try {
+            const data = await requestJson(
+               `/product${location.search}&fields=price,title,slug,avgRating,numRating,mainPhoto`
+            )
+
+            setProducts(data.resObj)
+         } catch (e) {
+            console.log(e)
+         }
+      })()
+   }, [location, requestJson])
+
+   const getProduct = useMemo(() => {
+      if (!products || products.length === 0)
+         return (<span className={classes.noProducts}>No products found</span>)
+
+      if (products.length >= 1)
+         return (
+            products.map((item, i) => (
+               <ProductCard
+                  slug={item.slug}
+                  title={item.title}
+                  price={item.price}
+                  mainPhoto={item.mainPhoto}
+                  avgRating={item.avgRating}
+                  numRating={item.numRating}
+                  key={i}
+               />
+            ))
+         )
+   }, [products])
 
    return (
       <div className={'container'}>
@@ -53,16 +64,7 @@ const ProductsList = (props) => {
             </div>
 
             <div className={classes.products_container}>
-               {
-                  products.map((item, i) => (
-                     <ProductCard
-                        title={item.title}
-                        price={item.price}
-                        img={item.img}
-                        key={i}
-                     />
-                  ))
-               }
+               {getProduct}
             </div>
 
             <Button type={'viewAll_button'}>Show more</Button>

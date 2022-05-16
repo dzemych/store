@@ -7,6 +7,7 @@ const ratingRouter = require('./routes/rating.router')
 const purchaseRouter = require('./routes/purchase.router')
 const questionRouter = require('./routes/question.router')
 const contactRouter = require('./routes/contact.router')
+const imgRouter = require('./routes/img.router')
 
 
 const router = Router()
@@ -18,6 +19,7 @@ router.use('/api/rating', ratingRouter)
 router.use('/api/purchase', purchaseRouter)
 router.use('/api/question', questionRouter)
 router.use('/api/contact', contactRouter)
+router.use('/api/img', imgRouter)
 
 router.use('*', (req, res, next) => {
    next(new AppError('This route is not yet defined', 404))

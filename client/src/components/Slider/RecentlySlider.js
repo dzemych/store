@@ -58,8 +58,8 @@ const RecentlySlider = (props) => {
 
    const isTablet = useMediaQuery({minWidth: 660})
    const isLaptop = useMediaQuery({minWidth: 836})
-   const isDesktop = useMediaQuery({minWidth: 1100})
-   const isBigDesktop = useMediaQuery({minWidth: 1450})
+   const isDesktop = useMediaQuery({minWidth: 1240})
+   const isBigDesktop = useMediaQuery({minWidth: 1750})
 
    const slides = props.slides
       ? props.slides

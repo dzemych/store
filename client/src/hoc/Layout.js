@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import Drawer from "../components/Drawer/Drawer";
 import Sidebar from "../components/Sidebar/Sidebar";
 import {useDispatch, useSelector} from "react-redux";
@@ -12,8 +12,6 @@ const Layout = (props) => {
    const isSidebar = useSelector(state => state.app.sidebar)
    const isCatalog = useSelector(state => state.app.catalog)
    const isAuth = useSelector(state => state.app.auth)
-
-   const [bodyScroll, setScroll] = useState(true)
 
    const dispatch = useDispatch()
 

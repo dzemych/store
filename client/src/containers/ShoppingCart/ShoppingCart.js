@@ -5,7 +5,6 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import square from '../../img/square.jpg'
 import jeans from '../../img/jeans.jpg'
 import Button from "../../forms/Button/Button";
-import {Tablet} from "../../functions/mediaCheck";
 import MediaQuery from "react-responsive";
 
 

@@ -17,6 +17,8 @@ router
       productController.createOneProduct
    )
 
+router.get('/allCategories', productController.getAllCategories)
+
 router
    .route('/:slug')
    .get(productController.getOneProduct)

@@ -50,9 +50,8 @@ const upload = multer({
    fileFilter: multerFilter
 })
 
-const getPhotoPath = (slug, fileName) => {
-   return path.resolve('public/img/product', slug, fileName)
-}
+const getFullPath = (slug, fileName) =>
+   path.resolve('public/img/product', slug, fileName)
 
 exports.getTopProducts = handlerFactory.getAll(Product, {sort: '-sold,price'})
 exports.createOneProduct = handlerFactory.createOne(Product)
@@ -70,9 +69,9 @@ exports.updateOneProduct = catchAsync(async (req, res, next) => {
          for (i in product.photos) {
             const fileName = product.photos[i]
 
-            //! If body to update does not include current photo - delete it
             if (!req.body.photos.includes(fileName)) {
-               const fullPath = getPhotoPath(req.params.slug, fileName)
+               //! If body to update does not include current photo - delete it
+               const fullPath = getFullPath(slug, fileName)
                const isPhoto = await fsPromises.unlink(fullPath)
             }
          }
@@ -90,13 +89,13 @@ exports.updateOneProduct = catchAsync(async (req, res, next) => {
 
       if (data instanceof Object && !(data instanceof Array)) {
          const oldValue = {...product[key]}._doc
-         product[key] = {...oldValue, ...data[key]}
+         product[key] = {...oldValue, ...data}
       }
       else {
          product[key] = data
       }
    })
-   console.log(product)
+
    await product.save()
 
    res.json({
@@ -108,7 +107,7 @@ exports.updateOneProduct = catchAsync(async (req, res, next) => {
 
 exports.getAllProducts = catchAsync(async (req, res, next) => {
    // 1) Create queryObj and query it throw filter obj
-   const features = new APIfeatures(Product, {...req.body})
+   const features = new APIfeatures(Product, {...req.query})
 
    features
       .filter()
@@ -120,10 +119,13 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
    const data = await features.query.lean()
 
    const resObj = data.map(product => {
-      return {
-         ...product,
-         mainPhoto: getPhotoPath(product.slug, product.mainPhoto)
-      }
+      if (product.slug && product.mainPhoto)
+         return {
+            ...product,
+            mainPhoto: product.mainPhoto
+         }
+
+      return product
    })
 
    res.json({
@@ -135,17 +137,12 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 })
 
 exports.getOneProduct = catchAsync(async (req, res, next) => {
-   const product = await Product.findOne({slug: req.params.slug}).lean()
+   const slug = req.params.slug
+
+   const product = await Product.findOne({slug}).lean()
 
    if (!product)
       return next(new AppError('No product with such slug', 404))
-
-   const photoPaths = product.photos.map(photo =>
-      getPhotoPath(req.params.slug, photo)
-   )
-
-   product.mainPhoto = getPhotoPath(req.params.slug, product.mainPhoto)
-   product.photos = photoPaths
 
    res.json({
       status: 'success',
@@ -155,3 +152,23 @@ exports.getOneProduct = catchAsync(async (req, res, next) => {
 })
 
 exports.uploadPhotos = upload.array('photos', 12)
+
+exports.getAllCategories = catchAsync(async (req, res, next) => {
+   const data = await Product.aggregate([
+      {
+         $group: { _id: "$sex", categories: { $addToSet: '$category'} }
+      }
+   ])
+
+   if (!data) return next(new AppError('No categories', 404))
+
+   const categories = data.reduce((acc, el) => {
+      acc[el._id] = el.categories
+      return acc
+   }, {})
+
+   res.json({
+      status: 'success',
+      categories
+   })
+})

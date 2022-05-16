@@ -1,9 +1,10 @@
 [
 {
     "title": "H&M Shirts",
-    "status": "active",
+    "status": "nosizes",
     "price": 300,
     "category": "shirts",
+    "sex": "man",
     "description": "Perfect white shorts for summer",
     "numSizes": {
       "s": 4,
@@ -17,9 +18,10 @@
   },
 {
     "title": "Adidas Shirts",
-    "status": "active",
     "price": 900,
+    "status": "nosizes",
     "category": "shirts",
+    "sex": "man",
     "description": "Perfect sport shirts",
     "numSizes": {
       "s": 2,
@@ -36,6 +38,7 @@
   "status": "active",
   "price": 1050,
   "category": "shirts",
+  "sex": "woman",
   "description": "Perfect sport and light shirts",
   "numSizes": {
     "s": 4,
@@ -52,6 +55,7 @@
   "status": "nosizes",
   "price": 700,
   "category": "shirts",
+  "sex": "woman",
   "description": "Perfect sport and light shirts",
   "numSizes": {
     "xs": 1,
@@ -68,6 +72,7 @@
   "status": "active",
   "price": 890,
   "category": "hoodies",
+  "sex": "man",
   "description": "Perfect sport and light hoodie",
   "numSizes": {
     "xs": 6,
@@ -84,6 +89,7 @@
   "status": "active",
   "price": 2300,
   "category": "hoodies",
+  "sex": "woman",
   "description": "Perfect sport and light hoodie",
   "numSizes": {
     "xs": 4,
@@ -97,9 +103,10 @@
 },
 {
   "title": "Adidas Hoodie",
-  "status": "active",
+  "status": "unavailable",
   "price": 1700,
   "category": "hoodies",
+  "sex": "man",
   "description": "Perfect sport and light hoodie",
   "numSizes": {
     "xs": 1,

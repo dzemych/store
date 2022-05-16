@@ -14,12 +14,14 @@ const productSchema = new Schema({
       type: String,
       default: function() {
          return slugify(this.title, { lower: true })
-      }
+      },
+      select: true
    },
    status: {
      type: String,
-     enum: ['active', 'nosizes ', 'unavailable'],
-     default: 'active'
+     enum: ['nosizes', 'active', 'unavailable'],
+     default: 'active',
+     required: true
    },
    price: {
       type: Number,
@@ -78,7 +80,10 @@ const productSchema = new Schema({
       required: true
    },
    photos: [String],
-   mainPhoto: String,
+   mainPhoto: {
+      type: String,
+      select: true
+   },
    createdAt: {
       type: Date,
       default: Date.now

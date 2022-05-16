@@ -14,7 +14,6 @@ exports.updateOneQuestion = (req, res, next) => {
 }
 
 exports.getMyQuestions = (req, res, next) => {
-   console.log(req.userId)
    handlerFactory.getAll(Question, {user: req.userId})(req, res, next)
 }
 

@@ -2,6 +2,7 @@
 
 .simple_container
   max-width: 100%
+  height: 100%
   background: #fff
   box-shadow: 1px 1px 8px 2px #b8b8b8
   border-radius: 4px
@@ -9,6 +10,7 @@
 
 .wrapper
   width: 100%
+  height: 100%
   display: flex
   flex-direction: column
   padding: 3vw 3vw 2vw
@@ -54,23 +56,40 @@
   display: flex
   flex-direction: row
   justify-content: flex-start
-  align-items: center
+  align-items: flex-end
   & > div
     margin-right: 1.8vw
-  & > span
-    transform: translateY(5%)
-    display: flex
-    color: colors.$darkBlue
-    font-size: 100%
-    line-height: 90%
+
+
+.rating_num
+  display: flex
+  color: colors.$darkBlue
+  font-size: 12px
+  line-height: 12px
+
+.leave_rating
+  cursor: pointer
+  font-size: 12px
+  line-height: 12px
+  margin-bottom: 3vw
+  color: colors.$darkBlue
+
+.price_container
+  width: 100%
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+  justify-self: flex-end
+  align-self: flex-end
+  margin-left: .5vh
+  margin-bottom: .1vh
 
 .price
   text-align: left
   font-size: 5vw
+  height: fit-content
   font-family: RobotoRegular, sans-serif
-  margin-top: auto
-  margin-left: .5vh
-  margin-bottom: .1vh
   color: #221f1f
 
 .currency
@@ -85,10 +104,6 @@
 
 .shoppingCart_icon
   cursor: pointer
-  position: absolute
-  bottom: 0
-  right: 0
-  margin: 3vw 2.5vw
   font-size: 3vh
   color: colors.$pink
   background: #ffffff
@@ -165,6 +180,11 @@
   font-family: RobotoMedium, sans-serif
   font-size: 6vw
 
+@media (min-width: 425px)
+  .rating_num, .leave_rating span
+    font-size: 16px
+    line-height: 16px
+
 @media (min-width: 678px)
   .img_container
     height: 170px
@@ -188,13 +208,10 @@
     margin-right: 10px
 
   .price
-    font-size: 30px
+    font-size: 20px
 
   .currency
     font-size: 27px
-
-  .shoppingCart_icon
-    margin: 20px 15px
 
   .basket_title
     font-size: 20px
@@ -204,3 +221,21 @@
 
   .basket_price
     font-size: 25px
+
+  .rating, .leave_rating
+    margin-bottom: 10px
+
+@media (min-width: 1024px)
+  .price
+    font-size: 25px
+
+@media (min-width: 1440px)
+  .price
+    font-size: 27px
+
+  .rating, .leave_rating
+    margin-bottom: 15px
+
+  .rating_num, .leave_rating span
+    font-size: 19px
+    line-height: 19px

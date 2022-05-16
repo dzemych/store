@@ -8,16 +8,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBars, faBasketShopping, faShirt, faUser} from "@fortawesome/free-solid-svg-icons"
 import {useNavigate} from "react-router-dom";
 import tanDem from '../../img/tan-dem-wide-logo.png'
-import MediaQuery from "react-responsive";
 import {Desktop, Laptop, Tablet} from "../../functions/mediaCheck";
 
 
 const Header = (props) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
-
-   // const isDesk = useMediaQuery({minWidth: 1024})
-   // const isDeskOrLap = useMediaQuery({minWidth: 520})
 
    const openSidebar = () => {
       dispatch(toggleSidebar())

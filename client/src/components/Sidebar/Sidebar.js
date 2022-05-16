@@ -23,14 +23,14 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {toggleAuth, toggleCatalog, toggleSidebar} from '../../redux/app/appReducer'
 import LinksList from "./LinksList";
-import RadioBox from "../../forms/RadioBox/RadioBox";
+// import RadioBox from "../../forms/RadioBox/RadioBox";
 
 
 const Sidebar = (props) => {
 
-   const allLanguages = ['ru', 'uk']
+   // const allLanguages = ['ru', 'uk']
 
-   const [curLang, setCurLang] = useState('ru')
+   // const [curLang, setCurLang] = useState('ru')
    const navigate = useNavigate()
    const dispatch = useDispatch()
 

@@ -16,7 +16,7 @@ const Slider = (props) => {
    const listRef = useRef(null)
    const maxOffset = useMemo(
       () => blockFullWidth.current * (pagesLength - slides),
-      [blockFullWidth.current, pagesLength, slides])
+      [pagesLength, slides])
 
    // 2) Event handlers
    const clickHandler = (e, type) => {
