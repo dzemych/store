@@ -6,6 +6,10 @@ const checkUpdate = require('../middleware/updateCheck.middleware')
 
 const router = Router()
 
+router.get('/getRatingsStats/:id', ratingController.getProductRatingStats)
+
+router.get('/productRatings/:id', ratingController.getProductRatings)
+
 // 1) Check if login
 router.use(authController.protectAndSetUserId)
 

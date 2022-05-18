@@ -1,13 +1,16 @@
 import {useCallback, useRef, useState} from "react";
+import {useSelector} from "react-redux";
 
 
 export const useHttp = () => {
    const [loading, setLoading] = useState(false)
    const [error, setError] = useState(null)
 
-   const dbUrl = useRef("http://localhost:5000/api")
+   const dbUrl = useSelector(state => state.app.dbUrl)
 
-   const getImg = useCallback
+   // const dbUrl = useRef("http://localhost:5000/api")
+
+   const requestImg = useCallback
    (async (
       url,
       method = 'GET',
@@ -19,7 +22,7 @@ export const useHttp = () => {
 
       try {
          const response = await fetch(
-            `${dbUrl.current}${url}`,
+            `${dbUrl}${url}`,
             {method, body, headers}
             )
 
@@ -40,10 +43,9 @@ export const useHttp = () => {
    const requestJson = useCallback
    (async (url, method = 'GET', body = null, headers = {}) => {
       setLoading(true)
-
       try {
          const response = await fetch(
-            `${dbUrl.current}${url}`,
+            `${dbUrl}${url}`,
             {method, body, headers}
          )
          const data = response.json()
@@ -58,9 +60,9 @@ export const useHttp = () => {
          setError(e)
          setLoading(true)
 
-         return e
+         throw e
       }
    }, [])
 
-   return {loading, error, requestJson, getImg}
+   return {loading, error, requestJson, requestImg}
 }

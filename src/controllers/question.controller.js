@@ -2,6 +2,7 @@ const handlerFactory = require('../controllers/handlerFactory')
 const Question = require('../modelsDB/question.model')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/AppError')
+const APIfeatures = require("../utils/APIfeatures");
 
 
 exports.getAllQuestions = handlerFactory.getAll(Question)
@@ -35,4 +36,29 @@ exports.deleteOneQuestion = catchAsync(async (req, res, next) => {
       .updateColls(question._id, question.user, question.product, 'remove')
 
    res.status(204).send()
+})
+
+exports.getProductQuestions = catchAsync(async (req, res, next) => {
+   const features = new APIfeatures(Question, {product: mongoose.Types.ObjectId(req.params.id)})
+   features
+      .filter()
+      .sort()
+      .select()
+      .paginate()
+
+   // 3) Get queried data
+   const data = await features.query.populate({
+      path: 'user',
+      select: '_id name'
+   }).lean()
+
+   if (!data)
+      next(new AppError('No questions found', 404))
+
+   res.json({
+      status: 'success',
+      message: `Data successfully received`,
+      results: data.length,
+      data
+   })
 })

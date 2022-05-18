@@ -15,6 +15,8 @@ router
       questionController.createOneQuestion
    )
 
+router.get('/productQuestions/:id', questionController.getProductQuestions)
+
 router.get(
    '/myQuestions',
    authController.protectAndSetUserId,

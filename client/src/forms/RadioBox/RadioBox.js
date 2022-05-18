@@ -3,18 +3,20 @@ import classes from './RadioBox.module.sass'
 
 
 const RadioBox = (props) => {
+   const cls = !props.available && classes.unAvailable
+
     return(
-        <div className={classes.container}>
+        <div className={classes.container + ' ' + cls}>
            <input
               type="radio"
-              onChange={props.onChange}
+              onChange={props.available ? props.onChange : () => {}}
               value={props.value}
               id={`radio_box_${props.value}`}
               checked={props.checked}
            />
            <label
               htmlFor={`radio_box_${props.value}`}
-              onClick={props.onChange}
+              onClick={props.available ? props.onChange : () => {}}
            >
               {props.value.toUpperCase()}
            </label>

@@ -61,6 +61,16 @@ const userSchema = new Schema({
       default: true,
       select: false
    },
+   wishList: {
+     type: [ObjectId],
+     ref: 'Product',
+     default: []
+   },
+   basket: {
+     type: [ObjectId],
+     ref: 'Product',
+     default: []
+   },
    role: {
       type: String,
       enum: ['user', 'admin'],

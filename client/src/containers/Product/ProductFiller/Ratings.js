@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import classes from './Ratings.module.sass'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeartCirclePlus, faStar, faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
@@ -6,67 +6,42 @@ import ReactStars from "react-rating-stars-component";
 import Button from "../../../forms/Button/Button";
 import {Tablet} from "../../../functions/mediaCheck";
 import tShirt from '../../../img/t-shirt.jpg'
+import {useHttp} from "../../../functions/http.hook";
+import {useSelector} from "react-redux";
+import {useMediaQuery} from "react-responsive";
 
 
 const Ratings = (props) => {
 
-   const ratingStars = {
-      size: 20,
-      count: 5,
-      edit: false,
-      color: "#D2D2D2",
-      activeColor: "#FFA900",
-      value: 3.5,
-      isHalf: true,
-      emptyIcon: <FontAwesomeIcon icon={faStar}/>,
-      halfIcon: <FontAwesomeIcon icon={faStarHalfAlt}/>,
-      filledIcon: <FontAwesomeIcon icon={faStar}/>,
-   }
+   const {requestJson} = useHttp()
+   const product = useSelector(state => state.product.product)
 
-   const ratings = [
-      {
-         userName: 'Irina',
-         date: '05.04.2022',
-         stars: 5,
-         text: 'Lorem ipsum dolor sit amet, ' +
-            'consectetur adipiscing elit, sed do ' +
-            'eiusmod tempor incididunt ut labore et' +
-            ' dolore magna aliqua. Ut enim ad minim ' +
-            'veniam, quis nostrud exercitation ullamco ' +
-            'laboris nisi ut aliquip ex ea commodo ' +
-            'consequat. Duis aute irure dolor in reprehenderit' +
-            ' in voluptate velit esse cillum dolore eu ' +
-            'fugiat nulla pariatur'
-      },
-      {
-         userName: 'Vadim',
-         date: '11.04.2022',
-         stars: 3.5,
-         text: 'Lorem ipsum dolor sit amet, ' +
-            'consectetur adipiscing elit, sed do ' +
-            'eiusmod tempor incididunt ut labore et' +
-            ' dolore magna aliqua. Ut enim ad minim ' +
-            'veniam, quis nostrud exercitation ullamco ' +
-            'laboris nisi ut aliquip ex ea commodo ' +
-            'consequat. Duis aute irure dolor in reprehenderit' +
-            ' in voluptate velit esse cillum dolore eu ' +
-            'fugiat nulla pariatur'
-      },
-      {
-         userName: 'Vlad',
-         date: '11.26.2021',
-         stars: 4,
-         text: 'Lorem ipsum dolor sit amet, ' +
-            'consectetur adipiscing elit, sed do ' +
-            'eiusmod tempor incididunt ut labore et'
+   const [stats, setStats] = useState([])
+   const [ratings, setRatings] = useState([])
 
+   const isTablet = useMediaQuery({ minWidth: 768 })
+
+   useEffect(() => {
+      if (product._id) {
+         (async () => {
+            try {
+               const stats = await requestJson(`/rating/getRatingsStats/${product._id}`)
+               const ratings = await requestJson(`/rating/productRatings/${product._id}`)
+
+               setStats(stats.ratings)
+               setRatings(ratings.data)
+               console.log(ratings.data)
+            } catch (e) {
+               console.log(e)
+            }
+         })()
       }
-   ]
+   }, [product._id])
 
    return (
       <div className={classes.container}>
          <span className={classes.title}>
-            Ratings about {props.title}
+            Ratings about {product.title}
          </span>
 
          <div className={classes.topBar_container}>
@@ -77,11 +52,22 @@ const Ratings = (props) => {
 
                <div className={classes.common_filler}>
                   <div className={classes.common_left}>
-                     <span className={classes.common_left_avg}>4,5</span>
+                     <span className={classes.common_left_avg}>{product.avgRating}</span>
 
-                     <ReactStars {...ratingStars} />
+                     <ReactStars
+                        size={isTablet ? 20 : 15}
+                        count={5}
+                        edit={false}
+                        color={"#D2D2D2"}
+                        activeColor={"#FFA900"}
+                        value={product.avgRating}
+                        isHalf={true}
+                        emptyIcon={<FontAwesomeIcon icon={faStar}/>}
+                        halfIcon={<FontAwesomeIcon icon={faStarHalfAlt}/>}
+                        filledIcon={<FontAwesomeIcon icon={faStar}/>}
+                     />
 
-                     <span className={classes.rating_amount}>15 ratings</span>
+                     <span className={classes.rating_amount}>{product.numRating} ratings</span>
                   </div>
 
                   <div className={classes.common_right}>
@@ -91,7 +77,9 @@ const Ratings = (props) => {
 
                            <FontAwesomeIcon icon={faStar}/>
 
-                           <span className={classes.count_amount}>{num * 12}</span>
+                           <span className={classes.count_amount}>
+                              {stats[num] ? stats[num] : 0}
+                           </span>
                         </div>
                      ))}
                   </div>
@@ -106,14 +94,14 @@ const Ratings = (props) => {
                      </div>
 
                      <div className={classes.product_title}>
-                        Amazing tshirt with beautiful logo
+                        {product.title}
                      </div>
                   </div>
 
                   <div className={classes.product_action_container}>
                      <div className={classes.action_top}>
                         <div className={classes.price}>
-                           755 ₴
+                           {product.price} ₴
                         </div>
 
                         <div className={classes.product_wish}>
@@ -136,37 +124,52 @@ const Ratings = (props) => {
                <span>All ratings <span>{ratings.length}</span></span>
             </div>
 
-            <div className={classes.ratings_list}>
-               {
-                  ratings.map((el, i) => (
-                     <div className={classes.rating_item} key={i}>
-                        <div className={classes.rating_topBar}>
+            {
+               ratings && ratings.length > 1
+               ? <div className={classes.ratings_list}>
+                  {
+                     ratings.map((el, i) => (
+                        <div className={classes.rating_item} key={i}>
+                           <div className={classes.rating_topBar}>
                         <span className={classes.rating_userName}>
-                           {el.userName}
+                           {el.user.name}
                         </span>
 
-                           <span className={classes.rating_date}>
-                           {el.date}
+                              <span className={classes.rating_date}>
+                           {new Date(el.createdAt).toLocaleDateString()}
                         </span>
-                        </div>
-
-                        <div className={classes.rating_main}>
-                           <div className={classes.stars_wrapper}>
-                              <ReactStars {...ratingStars} />
                            </div>
 
-                           <div className={classes.rating_text}>
-                              {el.text}
+                           <div className={classes.rating_main}>
+                              <div className={classes.stars_wrapper}>
+                                 <ReactStars
+                                    size={isTablet ? 18 : 15}
+                                    count={5}
+                                    edit={false}
+                                    color={"#D2D2D2"}
+                                    activeColor={"#FFA900"}
+                                    value={el.rating}
+                                    isHalf={true}
+                                    emptyIcon={<FontAwesomeIcon icon={faStar}/>}
+                                    halfIcon={<FontAwesomeIcon icon={faStarHalfAlt}/>}
+                                    filledIcon={<FontAwesomeIcon icon={faStar}/>}
+                                 />
+                              </div>
+
+                              <div className={classes.rating_text}>
+                                 {el.text}
+                              </div>
                            </div>
                         </div>
-                     </div>
-                  ))
-               }
-            </div>
+                     ))
+                  }
+               </div>
+               : <h1 className={classes.noRatings}>No ratings yet</h1>
 
-            <div className={classes.showMore_container}>
-               <Button type={'viewAll_button'}>Show more</Button>
-            </div>
+            }
+            {/*<div className={classes.showMore_container}>*/}
+            {/*   <Button type={'viewAll_button'}>Show more</Button>*/}
+            {/*</div>*/}
          </div>
       </div>
    )

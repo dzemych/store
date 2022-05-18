@@ -20,7 +20,7 @@ const ratingSchema = new Schema({
       type: Number,
       required: true,
       min: [1, 'Rating cannot be lower than 1'],
-      max: [6, 'Rating cannot be higher than 6']
+      max: [5, 'Rating cannot be higher than 6']
    },
    text: {
       type: String,
@@ -92,6 +92,5 @@ ratingSchema.post('save', async function(doc) {
 ratingSchema.post('remove', async function(doc) {
    await this.constructor.calcAvg(doc._id, doc.product, 'remove')
 })
-
 
 module.exports = model('Rating', ratingSchema)

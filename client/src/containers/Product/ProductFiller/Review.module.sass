@@ -49,12 +49,18 @@
 
 .sizes_items
   width: 90%
+  flex-wrap: wrap
   display: flex
   flex-direction: row
   justify-content: space-between
+  & > div
+    margin-bottom: 9vw
+
+.unAvailable
+  color: #b5baba !important
 
 .status_container
-  margin: 8vw auto 1vw 3.5vw
+  margin: 0 auto 1vw 3.5vw
   padding: 2vw 3vw
   display: flex
   justify-content: flex-start
@@ -118,9 +124,9 @@
 
 .features_table
   width: 80%
-  padding-left: 1vw
+  padding-left: 2vw
   display: flex
-  flex-direction: row
+  flex-direction: column
   justify-content: space-between
   font-size: 4.1vw
   font-family: RobotoRegular, sans-serif
@@ -132,6 +138,28 @@
     list-style: none
   & li:not(:last-child)
     margin-bottom: 5vw
+
+.table_row
+  display: flex
+  flex-direction: row
+  margin-bottom: 1.5vw
+  width: 100%
+
+.table_left, .table_right
+  width: 47%
+  display: flex
+  flex-direction: column
+
+.table_right
+  text-align: end
+
+//.table_left
+//  align-items: flex-start
+//  text-align: start
+//
+//.table_right
+//  align-items: flex-end
+//  text-align: end
 
 .description_container
   margin-top: 4.5vw
@@ -178,6 +206,8 @@
   .sizes_items
     width: fit-content
     justify-content: flex-start
+    & > div
+      margin: 0
     & label
       font-size: 15px !important
       padding: 14px 19px !important
@@ -219,6 +249,8 @@
     align-items: center
     & span
       margin-right: .5em
+    & svg
+      font-size: 1.2em
 
   .bottomData_wrapper
     width: 100%
@@ -241,8 +273,12 @@
     font-size: 1em
 
   .features_table
+    padding-left: 10px
     & li:not(:last-child)
       margin-bottom: .5em
+
+  .table_row
+    margin-bottom: 10px
 
   .description_container
     width: 48%

@@ -16,8 +16,7 @@
   display: flex
   flex-direction: row
   justify-content: flex-start
-  margin-top: 2em
-  padding-left: 3em
+  margin-top: 3vw
 
 .common_container, .rating_item
   width: 100%
@@ -107,6 +106,9 @@
 
 .rating_item
   padding: 2vw
+  display: flex
+  flex-direction: column
+  align-items: flex-start
 
 .rating_topBar
   width: 100% !important
@@ -193,6 +195,11 @@
     font-size: 2em
     padding: .5em
 
+.noRatings
+  align-self: center
+  margin: 1em 0
+  font-weight: 500
+
 @media (min-width: 768px)
   .container
     width: 95%
@@ -270,20 +277,20 @@
     padding: 0 .1em .1em
 
   .rating_userName
-    font-size: .25em
+    font-size: .3em
     margin-bottom: .1em
 
   .rating_date
-    font-size: .17em
+    font-size: .2em
 
   .stars_wrapper
     margin: 0
 
   .rating_main
-    padding: .6em .2em .4em
+    padding: .4em .2em .4em
 
   .rating_text
     margin-top: .6em
     padding: 0 .6em
-    font-size: 1em
-    line-height: 1.3em
+    font-size: 1.2em
+    line-height: 1.5em

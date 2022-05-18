@@ -11,23 +11,28 @@ import {useLocation} from "react-router-dom";
 const ProductsList = (props) => {
 
    const [products, setProducts] = useState([])
+   const [status, setStatus] = useState('idle')
 
    const {requestJson} = useHttp()
    const location = useLocation()
 
    useEffect(() => {
-      (async () => {
-         try {
-            const data = await requestJson(
-               `/product${location.search}&fields=price,title,slug,avgRating,numRating,mainPhoto`
-            )
+      if (status === 'idle'){
+         (async () => {
+            try {
+               const data = await requestJson(
+                  `/product${location.search}&fields=price,title,slug,avgRating,numRating,mainPhoto`
+               )
 
-            setProducts(data.resObj)
-         } catch (e) {
-            console.log(e)
-         }
-      })()
-   }, [location, requestJson])
+               setProducts(data.resObj)
+               setStatus('success')
+            } catch (e) {
+               console.log(e)
+               setStatus('error')
+            }
+         })()
+      }
+   }, [location, requestJson, status])
 
    const getProduct = useMemo(() => {
       if (!products || products.length === 0)

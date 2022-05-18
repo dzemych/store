@@ -12,9 +12,13 @@
       "m": 6,
       "l": 2
     },
-    "material": "cotton",
-    "photos": ["h&m-shirt-1", "h&m-shirt-2"],
-    "mainPhoto": "h&m-shirt-1"
+    "photos": ["handm-shirts-1.jpeg"],
+    "mainPhoto": "handm-shirts-1.jpeg",
+    "features": {
+      "material": "cotton",
+      "style": "Every day",
+      "season": "Summer"
+    }
   },
 {
     "title": "Adidas Shirts",
@@ -29,9 +33,13 @@
       "m": 6,
       "l": 2
     },
-    "material": "rubber",
     "photos": ["adidas-shirt-1", "adidas-shirt-2", "adidas-shirt-3"],
-    "mainPhoto": "adidas-shirt-1"
+    "mainPhoto": "adidas-shirt-1",
+    "features": {
+      "material": "rubber",
+      "style": "Every day",
+      "season": "Summer"
+    }
   },
 {
   "title": "Nike Shirts",
@@ -48,7 +56,12 @@
   },
   "material": "cotton",
   "photos": ["nike-shirt-1", "nike-shirt-2", "nike-shirt-3"],
-  "mainPhoto": "nike-shirt-1"
+  "mainPhoto": "nike-shirt-1",
+  "features": {
+    "material": "cotton",
+    "style": "Every day",
+    "season": "Summer"
+  }
 },
 {
   "title": "Puma Shirts",
@@ -65,7 +78,12 @@
   },
   "material": "cotton",
   "photos": ["puma-shirt-1", "puma-shirt-2", "puma-shirt-3"],
-  "mainPhoto": "puma-shirt-1"
+  "mainPhoto": "puma-shirt-1",
+  "features": {
+    "material": "cotton",
+    "style": "Every day",
+    "season": "Summer"
+  }
 },
 {
   "title": "Puma Hoodie",
@@ -82,7 +100,12 @@
   },
   "material": "cotton",
   "photos": ["puma-hoodie-1", "puma-hoodie-2", "puma-hoodie-3"],
-  "mainPhoto": "puma-hoodie-1"
+  "mainPhoto": "puma-hoodie-1",
+  "features": {
+    "material": "cotton",
+    "style": "Every day",
+    "season": "Summer"
+  }
 },
 {
   "title": "Nike Hoodie",
@@ -99,7 +122,12 @@
   },
   "material": "cotton",
   "photos": ["nike-hoodie-1", "nike-hoodie-2", "nike-hoodie-3"],
-  "mainPhoto": "nike-hoodie-1"
+  "mainPhoto": "nike-hoodie-1",
+  "features": {
+    "material": "cotton",
+    "style": "Every day",
+    "season": "Summer"
+  }
 },
 {
   "title": "Adidas Hoodie",
@@ -116,6 +144,11 @@
   },
   "material": "rubber",
   "photos": ["adidas-hoodie-1", "adidas-hoodie-2", "adidas-hoodie-3"],
-  "mainPhoto": "adidas-hoodie-1"
+  "mainPhoto": "adidas-hoodie-1",
+  "features": {
+    "material": "cotton",
+    "style": "Every day",
+    "season": "Summer"
+  }
 }
 ]

@@ -26,7 +26,11 @@ const Catalog = (props) => {
 
    const onClickHandler = (sex, category) => {
       dispatch(toggleCatalog())
-      navigate(`/products?sex=${sex}&category=${category}`)
+      if (category === 'all') {
+         navigate(`/products?sex=${sex}`)
+      } else {
+         navigate(`/products?sex=${sex}&category=${category}`)
+      }
    }
 
    return (

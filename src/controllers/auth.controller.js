@@ -23,7 +23,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
    res.status(201).json({
       status: 'success',
       message: 'User successfully created',
-      id: user._id, token
+      id: user._id, token, name: user.name
    })
 })
 

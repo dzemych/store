@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import classes from './Product.module.sass'
 import ReactStars from "react-rating-stars-component";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -7,25 +7,23 @@ import '../basicStyles.sass'
 import RecentlySlider from "../../components/Slider/RecentlySlider";
 import ProductFiller from "./ProductFiller";
 import {useMediaQuery} from "react-responsive";
+import {useParams} from "react-router-dom";
+import {fetchProduct} from "../../redux/product/productActions";
+import {useDispatch, useSelector} from "react-redux";
+import {setStatus} from '../../redux/product/productReducer'
 
 
 const Product = (props) => {
+
+   const params = useParams()
+   const dispatch = useDispatch()
+
+   const product = useSelector(state => state.product.product)
+   const status = useSelector(state => state.product.status)
+
    const [activePage, setPage] = useState('review')
 
    const isTablet = useMediaQuery({minWidth: 768})
-
-   const ratingStars = {
-      size: isTablet ? 20 : '',
-      count: 5,
-      edit: false,
-      color: "#D2D2D2",
-      activeColor: "#FFA900",
-      value: 3.5,
-      isHalf: true,
-      emptyIcon: <FontAwesomeIcon icon={faStar}/>,
-      halfIcon: <FontAwesomeIcon icon={faStarHalfAlt}/>,
-      filledIcon: <FontAwesomeIcon icon={faStar}/>,
-   }
 
    const pages = [
       {key: 'Review', value: 'review'},
@@ -35,20 +33,43 @@ const Product = (props) => {
       {key: 'Leave a review', value: 'leaveRating'}
    ]
 
+   useEffect(() => {
+      if (status === 'idle')
+      dispatch(fetchProduct(params.slug))
+
+      return () => {
+         dispatch(setStatus())
+      }
+   }, [])
+
    return (
       <div className={classes.container}>
          <div className={classes.wrapper}>
             <div className={classes.product_topBar}>
                <div className={classes.product_title_container}>
                   <h1 className={classes.product_title}>
-                     Product name for amazing good like t-shirt or jeans
+                     {product.title}
                   </h1>
 
                   <div className={classes.all_reviews}>
-                     <ReactStars {...ratingStars} />
+                     {
+                        status !== 'idle' &&
+                        <ReactStars
+                           size={isTablet ? 20 : ''}
+                           count={5}
+                           edit={false}
+                           color={"#D2D2D2"}
+                           activeColor={"#FFA900"}
+                           value={product ? product.avgRating : 0}
+                           isHalf={true}
+                           emptyIcon={<FontAwesomeIcon icon={faStar}/>}
+                           halfIcon={<FontAwesomeIcon icon={faStarHalfAlt}/>}
+                           filledIcon={<FontAwesomeIcon icon={faStar}/>}
+                        />
+                     }
 
                      <span className={classes.review_number}>
-                     731 review
+                     {product.numRating} review
                   </span>
                   </div>
                </div>

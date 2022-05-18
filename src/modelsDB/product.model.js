@@ -75,10 +75,6 @@ const productSchema = new Schema({
       },
       required: true
    },
-   material: {
-      type: String,
-      required: true
-   },
    photos: [String],
    mainPhoto: {
       type: String,
@@ -124,6 +120,21 @@ const productSchema = new Schema({
       type: Number,
       default: 0,
       min: 0
+   },
+   features: {
+      material: {
+         type: String,
+         required: true
+      },
+      season: {
+         type: String,
+         default: 'All season'
+      },
+      style: String,
+      warrant: {
+         type: String,
+         default: '14 days'
+      }
    }
 })
 

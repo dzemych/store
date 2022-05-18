@@ -8,11 +8,11 @@ import LeaveRecord from "./ProductFiller/LeaveRecord";
 const ProductFiller = (props) => {
    switch (props.page) {
       case 'review':
-         return <Review title={props.title}/>
+         return <Review/>
       case 'ratings':
-         return <Ratings title={props.title}/>
+         return <Ratings/>
       case 'questions':
-         return <Questions title={props.title}/>
+         return <Questions/>
       case 'leaveRating':
          return <LeaveRecord title={props.title} type={'rating'}/>
       case 'askQuestion':

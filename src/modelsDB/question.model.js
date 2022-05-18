@@ -28,7 +28,8 @@ const questionSchema = new Schema({
    updatedAt: {
       type: Date,
       default: 0
-   }
+   },
+   answer: String
 })
 
 questionSchema.index({product: 1})

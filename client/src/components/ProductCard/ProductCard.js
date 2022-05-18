@@ -11,14 +11,17 @@ import defaultPhoto from "../../img/no-image.png"
 import ReactStars from "react-rating-stars-component";
 import {useMediaQuery} from "react-responsive";
 import {useHttp} from "../../functions/http.hook";
+import {useNavigate} from "react-router-dom";
 
 
 const ProductCard = React.forwardRef((props, ref) => {
 
-   const {getImg} = useHttp()
+   const {requestImg} = useHttp()
+   const navigate = useNavigate()
 
    const [img, setImg] = useState(null)
    const [amount, setAmount] = useState(1)
+   const [status, setStatus] = useState('idle')
 
    const isTablet = useMediaQuery({ minWidth: 425 })
    const isBigScreen = useMediaQuery({minWidth: 1440})
@@ -61,23 +64,35 @@ const ProductCard = React.forwardRef((props, ref) => {
       filledIcon: <FontAwesomeIcon icon={faStar}/>,
    }
 
+   const openProductHandler = slug => {
+      navigate('/products/' + slug)
+   }
+
    useEffect(() => {
-      if (props.mainPhoto) {
-         (async () => {
-            const data = await getImg(
-               `/img/product/${props.slug}/${props.mainPhoto}`,
-               'GET', null, {
-                  referrerPolicy: 'no-referrer-when-downgrade',
-                  contentType: 'image/jpeg'
+      if (status === 'idle') {
+         if (props.mainPhoto) {
+            (async () => {
+               try {
+                  const data = await requestImg(
+                     `/img/product/${props.slug}/${props.mainPhoto}`,
+                     'GET', null, {
+                        referrerPolicy: 'no-referrer-when-downgrade',
+                        contentType: 'image/jpeg'
+                     }
+                  )
+
+                  setStatus('success')
+
+                  const blob = await data.blob()
+                  setImg(URL.createObjectURL(blob))
+               } catch (e) {
+                  console.log(e)
+                  setStatus('error')
                }
-            )
-
-            const blob = await data.blob()
-
-            setImg(URL.createObjectURL(blob))
-         })()
+            })()
+         }
       }
-   }, [props.mainPhoto, getImg, props.slug])
+   }, [props.mainPhoto, requestImg, props.slug])
 
    return (
       <div className={
@@ -92,13 +107,19 @@ const ProductCard = React.forwardRef((props, ref) => {
 
             {props.type !== 'basket'
                ? <>
-                  <div className={classes.img_container}>
+                  <div
+                     className={classes.img_container}
+                     onClick={() => openProductHandler(props.slug)}
+                  >
                      <img src={props.mainPhoto ? img : defaultPhoto}
                           alt='product img'
                      />
                   </div>
 
-                  <div className={classes.title}>{props.title}</div>
+                  <div
+                     className={classes.title}
+                     onClick={() => openProductHandler(props.slug)}
+                  >{props.title}</div>
 
                   {props.numRating > 0 && props.avgRating > 0
                      ? <div className={classes.rating}>
@@ -108,7 +129,10 @@ const ProductCard = React.forwardRef((props, ref) => {
                            {props.numRating}
                         </span>
                      </div>
-                     : <div className={classes.leave_rating}>
+                     : <div
+                        className={classes.leave_rating}
+                        onClick={() => openProductHandler(props.slug)}
+                     >
                         <span>Leave rating</span>
                      </div>
                   }
@@ -127,14 +151,18 @@ const ProductCard = React.forwardRef((props, ref) => {
                : <>
                   <div className={classes.topBar}>
                      <div className={classes.basket_img_container}>
-                        <img src={props.imgPath ? props.imgPath : defaultPhoto}
+                        <img src={props.mainPhoto ? img : defaultPhoto}
                              alt='img'
+                             onClick={() => openProductHandler(props.slug)}
                         />
                      </div>
 
-                     <span className={classes.basket_title}>
-                     {props.title}
-                  </span>
+                     <span
+                        className={classes.basket_title}
+                        onClick={() => openProductHandler(props.slug)}
+                     >
+                        {props.title}
+                     </span>
                   </div>
 
                   <div className={classes.bottomBar}>

@@ -47,12 +47,11 @@
   justify-content: center
   align-items: flex-start
   &:not(:last-child)
-    margin-bottom: 4vw
+    margin-bottom: 5vw
   & label
     color: colors.$grey
     font-size: 4vw
-    margin-bottom: .5vw
-
+    margin-bottom: 1vw
 
 .input_wrapper
   width: 100%
@@ -72,6 +71,11 @@
     width: 13%
     font-size: 6.5vw
     color: #333
+
+.errorMessage
+  color: #d65050
+  margin-top: 1.5vw
+  margin-left: 1vw
 
 .actions_container
   width: 100%
@@ -119,18 +123,24 @@
     & svg
       font-size: 30px
 
+  .errorMessage
+    font-size: .9em
+    margin-left: 5px
+    margin-top: 5px
+
   .form_item
     &:not(:last-child)
-      margin-bottom: 15px
+      margin-bottom: 20px
     & label
-      font-size: 12px
+      margin-bottom: 5px
+      font-size: 15px
 
   .input_wrapper
     & input
       padding: 10px 15px
-      font-size: 15px
+      font-size: 18px
     & svg
-      font-size: 35px
+      font-size: 30px
 
   .actions_container
     margin-top: 20px
