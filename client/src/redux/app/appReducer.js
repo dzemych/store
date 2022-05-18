@@ -6,7 +6,7 @@ const initialState = {
    sidebar: false,
    error: false,
    catalog: false,
-   auth: null
+   auth: false,
 }
 
 const reducer = createSlice({
@@ -16,26 +16,23 @@ const reducer = createSlice({
       toggleSidebar(state, action) {
          if (action.payload)
             state.sidebar = action.payload
-         else {state.sidebar = !state.sidebar}
+         else {
+            state.sidebar = !state.sidebar
+         }
       },
       toggleCatalog(state, action) {
-         if (action.payload)
+         if (action.payload) {
             state.catalog = action.payload
-         else {state.catalog = !state.catalog}
+         } else {
+            state.catalog = !state.catalog
+         }
       },
       toggleAuth: function (state, action) {
-         if (state.auth && !action.payload) {
-            state.auth = false
-            return
-         }
-
          if (action.payload) {
             state.auth = action.payload
-            return
+         } else {
+            state.auth = !state.auth
          }
-
-         if (!state.auth)
-            state.auth = 'signin'
       },
    }
 })

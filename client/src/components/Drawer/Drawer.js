@@ -10,10 +10,10 @@ const Drawer = (props) => {
    }, [props])
 
    useEffect(() => {
-      document.addEventListener('keydown', onEscape, false)
+      document.addEventListener('keyup', onEscape, false)
 
       return () => {
-         document.removeEventListener('keydown', onEscape, false)
+         document.removeEventListener('keyup', onEscape, false)
       }
    }, [onEscape])
 

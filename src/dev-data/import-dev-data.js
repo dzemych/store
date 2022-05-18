@@ -9,7 +9,7 @@ const User = require('../modelsDB/user.model')
 const Purchase = require('../modelsDB/purchase.model')
 
 
-dotenv.config({ path: path.join(__dirname, '../../.env') })
+dotenv.config({ path: path.join(__dirname, '../../config.env') })
 
 const dbUrl = process.env.DB_LOCAL
 const dbPassword = process.env.DB_PASSWORD

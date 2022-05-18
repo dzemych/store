@@ -6,6 +6,7 @@ import {toggleAuth, toggleCatalog, toggleSidebar} from '../redux/app/appReducer'
 import {Transition} from "react-transition-group";
 import Catalog from "../components/Catalog/Catalog";
 import Auth from "../components/Auth/Auth";
+import User from "../containers/User/User";
 
 
 const Layout = (props) => {
@@ -23,6 +24,8 @@ const Layout = (props) => {
          document.body.style.overflow = 'auto'
    }, [isSidebar, isCatalog, isAuth])
 
+   // TODO Global error handling
+
    return (
       <>
 
@@ -39,7 +42,7 @@ const Layout = (props) => {
                <Drawer
                   onClick={() => dispatch(toggleAuth())}
                >
-                  <Auth type={isAuth}/>
+                  <Auth/>
                </Drawer>
          }
 
@@ -50,7 +53,6 @@ const Layout = (props) => {
                enter: 350,
                exit: 350
             }}
-            mountOnEnter
             unmountOnExit
          >
             {state => (

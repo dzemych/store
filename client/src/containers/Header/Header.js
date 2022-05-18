@@ -3,9 +3,9 @@ import classes from './Header.module.sass'
 import tdLogo from '../../img/td-logo.png'
 import Search from "../../forms/Search/Search";
 import {toggleSidebar, toggleCatalog, toggleAuth} from '../../redux/app/appReducer'
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faBars, faBasketShopping, faShirt, faUser} from "@fortawesome/free-solid-svg-icons"
+import {faBars, faBasketShopping, faRightToBracket, faShirt, faUser} from "@fortawesome/free-solid-svg-icons"
 import {useNavigate} from "react-router-dom";
 import tanDem from '../../img/tan-dem-wide-logo.png'
 import {Desktop, Laptop, Tablet} from "../../functions/mediaCheck";
@@ -15,8 +15,18 @@ const Header = (props) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
+   const isAuth = useSelector(state => state.user.token)
+
    const openSidebar = () => {
       dispatch(toggleSidebar())
+   }
+
+   const authHandler = () => {
+      if (!isAuth) {
+         dispatch(toggleAuth())
+      } else {
+         navigate('/user')
+      }
    }
 
    return (
@@ -65,9 +75,9 @@ const Header = (props) => {
 
             <Desktop>
                <FontAwesomeIcon
-                  icon={faUser}
+                  icon={isAuth ? faUser : faRightToBracket}
                   className={classes.user_icon}
-                  onClick={() => dispatch(toggleAuth())}
+                  onClick={() => authHandler()}
                />
             </Desktop>
 

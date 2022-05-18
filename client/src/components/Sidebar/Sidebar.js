@@ -10,7 +10,7 @@ import {
    faSquarePhone,
    faPeopleGroup,
    faHeart,
-   faHouse
+   faHouse, faRightToBracket
 } from "@fortawesome/free-solid-svg-icons"
 import instagramImg from '../../img/instagram.png'
 import facebookImg from '../../img/facebook.png'
@@ -20,38 +20,13 @@ import smallLogo from '../../img/small-logo.png'
 import tdLogo from '../../img/tan-dem-wide-logo.png'
 import userPhoto from '../../img/user-photo.png'
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {toggleAuth, toggleCatalog, toggleSidebar} from '../../redux/app/appReducer'
 import LinksList from "./LinksList";
-// import RadioBox from "../../forms/RadioBox/RadioBox";
+import {logOut} from "../../redux/user/userReducer";
 
 
 const Sidebar = (props) => {
-
-   // const allLanguages = ['ru', 'uk']
-
-   // const [curLang, setCurLang] = useState('ru')
-   const navigate = useNavigate()
-   const dispatch = useDispatch()
-
-   const openPageHandler = (e, page) => {
-      dispatch(toggleSidebar())
-      if (page !== '/')
-         return navigate('/' + page)
-      navigate('/')
-   }
-
-   const openCatalog = e => {
-      e.preventDefault()
-      dispatch(toggleSidebar())
-      dispatch(toggleCatalog())
-   }
-
-   const openAuth = e => {
-      e.preventDefault()
-      dispatch(toggleSidebar())
-      dispatch(toggleAuth())
-   }
 
    const links = [
       {
@@ -96,6 +71,39 @@ const Sidebar = (props) => {
       },
    ]
 
+   // const allLanguages = ['ru', 'uk']
+
+   // const [curLang, setCurLang] = useState('ru')
+
+   const navigate = useNavigate()
+   const dispatch = useDispatch()
+
+   const isAuth = useSelector(state => state.user.token)
+   const {name, email} = useSelector(state => state.user)
+
+   const openPageHandler = (e, page) => {
+      dispatch(toggleSidebar())
+      if (page !== '/')
+         return navigate('/' + page)
+      navigate('/')
+   }
+
+   const openCatalog = e => {
+      e.preventDefault()
+      dispatch(toggleSidebar())
+      dispatch(toggleCatalog())
+   }
+
+   const authHandler = () => {
+      if (isAuth) {
+         dispatch(toggleSidebar())
+         dispatch(logOut())
+      } else {
+         dispatch(toggleSidebar())
+         dispatch(toggleAuth())
+      }
+   }
+
    return (
       <div
          className={[classes.container, classes[props.state]].join(' ')}
@@ -131,27 +139,37 @@ const Sidebar = (props) => {
 
             <div className={classes.userBar}>
                <div className={classes.userPhoto}>
-                  <img
-                     src={userPhoto}
-                     alt="user_photo"
-                     onClick={e => openAuth(e)}
-                  />
+                  {isAuth
+                     ? <img
+                        src={userPhoto}
+                        alt="user_photo"
+                        onClick={e => openPageHandler(e, 'user')}
+                     />
+                     : <FontAwesomeIcon
+                        icon={faRightToBracket}
+                        className={classes.logIn}
+                        onClick={() => authHandler()}
+                     />
+                  }
                </div>
 
-               <div className={classes.userInfo}>
-                  <span
-                     className={classes.userName}
-                     onClick={e => openAuth(e)}
-                  >
-                     Name
-                  </span>
-                  <span
-                     className={classes.userEmail}
-                     onClick={e => openAuth(e)}
-                  >
-                     test@gmail.com
-                  </span>
-               </div>
+               {isAuth &&
+                  <div className={classes.userInfo}>
+                     <span
+                        className={classes.userName}
+                        onClick={e => openPageHandler(e, 'user')}
+                     >
+                        {name}
+                     </span>
+                     <span
+                        className={classes.userEmail}
+                        onClick={e => openPageHandler(e, 'user')}
+                     >
+                        {email}
+                     </span>
+                  </div>
+               }
+
             </div>
 
             <LinksList links={links}/>
@@ -228,7 +246,12 @@ const Sidebar = (props) => {
 
             <hr className={classes.hr}/>
 
-            <div className={classes.logOut}>Log out</div>
+            <div
+               className={classes.logOut}
+               onClick={() => authHandler()}
+            >
+               {isAuth ? 'Log out' : 'Log in'}
+            </div>
          </div>
       </div>
    );

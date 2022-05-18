@@ -23,7 +23,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
    res.status(201).json({
       status: 'success',
       message: 'User successfully created',
-      id: user._id, token, name: user.name
+      id: user._id, token, name: user.name, email: user.email
    })
 })
 
@@ -33,7 +33,7 @@ exports.loginUser = catchAsync(async (req, res, next) => {
    if (!email || !password) return next(new AppError('Please provide email and password.', 400))
 
    // 2) Check if user exists
-   const user = await User.findOne({email: req.body.email}).select('+password +_id')
+   const user = await User.findOne({email: req.body.email}).select('+password +_id +name')
    if (!user) return next(new AppError('No user found with that email', 404))
 
    // 3) Check if password is correct
@@ -46,7 +46,7 @@ exports.loginUser = catchAsync(async (req, res, next) => {
    res.json({
       status: 'success',
       message: 'Logged in',
-      id: user._id, token
+      id: user._id, token, email, name: user.name
    })
 })
 

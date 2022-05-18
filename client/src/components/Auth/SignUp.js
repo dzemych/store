@@ -2,41 +2,46 @@ import React, {useState} from 'react'
 import classes from './Auth.module.sass'
 import validator from "validator/es";
 import Button from "../../forms/Button/Button";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {signUp} from "../../redux/user/userAction";
 import {faEye, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 const SignUp = (props) => {
+
+   const initialState = {
+      name: '',
+      email: '',
+      password: '',
+      passwordConfirm: ''
+   }
+
+   const emailError = useSelector(state => state.user.emailError)
+
    const dispatch = useDispatch()
 
    const [showPwd, setShowPwd] = useState(false)
    const [showConfirm, setShowConfirm] = useState(false)
 
-   const [form, setForm] = useState({
-      name: '',
-      email: '',
-      password: '',
-      passwordConfirm: ''
-   })
-
+   const [form, setForm] = useState(initialState)
    const [error, setError] = useState({})
+
 
    const fieldsValidity = () => {
       const newError = {}
 
       if (form.name.length < 2)
-         newError['name'] = 'Min length 2'
+         newError['name'] = 'Минимальная длина имени 2 символа'
 
       if (!validator.isEmail(form.email))
-         newError['email'] = 'Invalid email'
+         newError['email'] = 'Неверная электроная почта'
 
       if (form.password.length < 8)
-         newError['password'] = 'Min password length 8'
+         newError['password'] = 'Минимальная длина пароля 8 символов'
 
       if (!form.passwordConfirm || form.password !== form.passwordConfirm)
-         newError['passwordConfirm'] = 'Password and password confirm must be the same'
+         newError['passwordConfirm'] = 'Пароли не совпадают'
 
       return Object.keys(newError).length > 0 ? newError : false
    }
@@ -44,9 +49,9 @@ const SignUp = (props) => {
    const clickHandler = () => {
       const newError = fieldsValidity()
 
-      console.log(newError)
       if (!newError) {
          dispatch(signUp(form))
+         setError({})
       } else {
          setError(newError)
       }
@@ -60,14 +65,14 @@ const SignUp = (props) => {
       <div className={classes.auth_body}>
          <div className={classes.form_wrapper}>
             <div className={classes.form_item}>
-               <label htmlFor="email_input">Enter your name</label>
+               <label htmlFor="email_input">Введите ваше имя</label>
 
                <div className={classes.input_wrapper}>
                   <input
                      type="text"
                      value={form['name']}
                      id='email_input'
-                     placeholder={'Your name'}
+                     placeholder={'Ваше имя'}
                      onChange={e => changeHandler(e, 'name')}
                   />
                </div>
@@ -80,14 +85,14 @@ const SignUp = (props) => {
             </div>
 
             <div className={classes.form_item}>
-               <label htmlFor="phoneNumber_input">Enter your email</label>
+               <label htmlFor="phoneNumber_input">Введите вашу электроную почту</label>
 
                <div className={classes.input_wrapper}>
                   <input
                      type="text"
                      value={form['email']}
                      id='phoneNumber_input'
-                     placeholder={'Your email'}
+                     placeholder={'Ваш єлектроная почта'}
                      onChange={e => changeHandler(e, 'email')}
                   />
                </div>
@@ -97,17 +102,22 @@ const SignUp = (props) => {
                      {error.email}
                   </span>
                }
+               {emailError &&
+                  <span className={classes.errorMessage}>
+                     Эта ел. почта уже зарегистрирована
+                  </span>
+               }
             </div>
 
             <div className={classes.form_item}>
-               <label htmlFor="password_input">Create your password</label>
+               <label htmlFor="password_input">Создайте пароль</label>
 
                <div className={classes.input_wrapper}>
                   <input
                      type={showPwd ? 'text' : 'password'}
                      value={form['password']}
                      id='password_input'
-                     placeholder={'Your password'}
+                     placeholder={'Ваш пароль'}
                      onChange={e => changeHandler(e, 'password')}
                   />
 
@@ -125,14 +135,14 @@ const SignUp = (props) => {
             </div>
 
             <div className={classes.form_item}>
-               <label htmlFor="passwordConfirm_input">Password confirm</label>
+               <label htmlFor="passwordConfirm_input">Потвердите пароль</label>
 
                <div className={classes.input_wrapper}>
                   <input
                      type={showConfirm ? 'text' : 'password'}
                      value={form['passwordConfirm']}
                      id='passwordConfirm_input'
-                     placeholder={'Confirm password'}
+                     placeholder={'Потвердите пароль'}
                      onChange={e => changeHandler(e, 'passwordConfirm')}
                   />
 
@@ -156,7 +166,7 @@ const SignUp = (props) => {
                   type={'wideBlue_button'}
                   onClickHandler={() => clickHandler()}
                >
-                  Registration
+                  Регистрация
                </Button>
             </div>
 
@@ -165,7 +175,7 @@ const SignUp = (props) => {
                   type={'wideEmptyBlue_button'}
                   onClickHandler={props.changePage}
                >
-                  Sing in
+                  Войти
                </Button>
             </div>
          </div>

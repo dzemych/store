@@ -13,15 +13,16 @@
   opacity: 1
   transform: translateX(-100%)
   overflow-y: scroll
+  z-index: 1000
 
 .entering
-  animation: move 350ms ease-out
+  animation: move 400ms ease-out
 
 .entered
   transform: translateX(0%)
 
 .exiting
-  animation: move 350ms ease-in alternate-reverse
+  animation: move 400ms ease-in alternate-reverse
 
 .exited
   transform: translateX(0%)
@@ -61,8 +62,16 @@
 .userPhoto
   height: 100%
   margin-right: 4vw
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-self: center
   & img
     height: 100%
+
+.logIn
+  height: 80%
+  color: colors.$yellow
 
 .userInfo
   height: 70%

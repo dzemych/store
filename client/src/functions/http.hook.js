@@ -1,4 +1,4 @@
-import {useCallback, useRef, useState} from "react";
+import {useCallback, useState} from "react";
 import {useSelector} from "react-redux";
 
 
@@ -7,8 +7,6 @@ export const useHttp = () => {
    const [error, setError] = useState(null)
 
    const dbUrl = useSelector(state => state.app.dbUrl)
-
-   // const dbUrl = useRef("http://localhost:5000/api")
 
    const requestImg = useCallback
    (async (
@@ -38,7 +36,7 @@ export const useHttp = () => {
 
          return e
       }
-   }, [])
+   }, [dbUrl])
 
    const requestJson = useCallback
    (async (url, method = 'GET', body = null, headers = {}) => {
@@ -62,7 +60,7 @@ export const useHttp = () => {
 
          throw e
       }
-   }, [])
+   }, [dbUrl])
 
    return {loading, error, requestJson, requestImg}
 }

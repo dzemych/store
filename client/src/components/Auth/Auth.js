@@ -4,8 +4,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {toggleAuth} from "../../redux/app/appReducer";
 import {useDispatch} from "react-redux";
-import Signin from "./SignIn";
+import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import {clearErrors} from "../../redux/user/userReducer";
 
 
 const Auth = ({type = 'signin'}) => {
@@ -14,6 +15,7 @@ const Auth = ({type = 'signin'}) => {
    const dispatch = useDispatch()
 
    const changePage = () => {
+      dispatch(clearErrors())
       setPage(prev => prev === 'signin' ? 'signup' : 'signin')
    }
 
@@ -37,7 +39,7 @@ const Auth = ({type = 'signin'}) => {
 
             {
                page === 'signin' ?
-                  <Signin changePage={changePage}/> :
+                  <SignIn changePage={changePage}/> :
                   <SignUp changePage={changePage}/>
             }
          </div>
