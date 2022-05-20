@@ -51,13 +51,13 @@ exports.loginUser = catchAsync(async (req, res, next) => {
 })
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
+   console.log(req.body)
    // 1) Check if client sent email
    if (!req.body.email) return next(new AppError('Provide email address in request body'))
 
    // 2) Check if there is user with such email
    const user = await User.findOne({email: req.body.email})
    if (!user) return next(new AppError("No user with such email", 404))
-
 
    // 3) Create reset token and save it
    const token = user.createResetToken()
@@ -66,7 +66,8 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
    // 4) Try to send it to email via nodemailer
    try {
       // Create link
-      const resetUrl = `${req.protocol}://${req.get('host')}/api/auth/resetPassword/${token}`
+      // const resetUrl = `${req.protocol}://${req.get('host')}/api/auth/resetPassword/${token}`
+      const resetUrl = `http://localhost:3000/resetPassword/${token}`
 
       // Send email
       const newEmail = new Mail(user, resetUrl)
@@ -128,29 +129,34 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
    })
 })
 
-exports.updatePassword = catchAsync(async (req, res, next) => {
-   const {oldPassword, password, passwordConfirm} = req.body
+exports.updateUser = catchAsync(async (req, res, next) => {
+   const {oldPassword} = req.body
 
    // 1) Check if clint provide all necessary data
-   if (!password || !passwordConfirm || !oldPassword)
-      return next(new AppError('Please provide password and passwordConfirm and oldPassword', 400))
+   if (!oldPassword)
+      return next(new AppError('Please provide oldPassword', 400))
 
-   const user = await User.findById(req.userId).select('+password')
+   const user = await User.findById(req.userId).select('+password +name +email +_id')
 
-   // 2) Check if password is correct
+   // 3) Check if password is correct
    const isRight = await bcrypt.compare(oldPassword, user.password)
-   if (!isRight) return next(new AppError('Invalid password', 401))
+   if (!isRight)
+      return next(new AppError('Invalid password', 401))
 
    // 3) Change user
-   user.password = password
-   user.passwordConfirm = passwordConfirm
+   Object.keys(req.body).forEach(key => {
+      user[key] = req.body[key]
+   })
 
    await user.save()
 
+   const token = createJwtToken(user.id)
+
    res.json({
       status: 'success',
-      message: "User password updated",
-      user
+      message: "User updated",
+      user: {name: user.name, _id: user._id, email: user.email},
+      token
    })
 })
 

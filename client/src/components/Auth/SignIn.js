@@ -6,6 +6,9 @@ import Button from "../../forms/Button/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {signIn} from "../../redux/user/userAction";
 import validator from "validator/es";
+import Input from "../../forms/Input/Input";
+import {useNavigate} from "react-router-dom";
+import {toggleAuth} from "../../redux/app/appReducer";
 
 
 const SignIn = (props) => {
@@ -14,16 +17,16 @@ const SignIn = (props) => {
       password: '',
    }
 
+   const navigate = useNavigate()
+
    const emailError = useSelector(state => state.user.emailError)
    const pwdError = useSelector(state => state.user.pwdError)
+   const loading = useSelector(state => state.user.loading)
 
    const dispatch = useDispatch()
 
-   const [showPwd, setShowPwd] = useState(false)
-
    const [form, setForm] = useState(initialState)
    const [error, setError] = useState({})
-
 
    const fieldsValidity = () => {
       const newError = {}
@@ -37,7 +40,7 @@ const SignIn = (props) => {
       return Object.keys(newError).length > 0 ? newError : false
    }
 
-   const signInHandler = () => {
+   const submitHandler = () => {
       const newError = fieldsValidity()
 
       if (!newError) {
@@ -53,71 +56,68 @@ const SignIn = (props) => {
       setForm(prev => ({...prev, [type]: val}))
    }
 
+   const inputsArr = [
+      {
+         type: 'text',
+         title: 'Электроная почта',
+         placeholder: 'Электроная почта',
+         value: form.email,
+         onChange: (val) => {changeHandler(val, 'email')},
+         error: error.email
+            ? error.email
+            : emailError
+            ? 'Пользователя не найдено'
+            : false
+      },
+      {
+         type: 'password',
+         title: 'Пароль',
+         placeholder: 'Пароль',
+         value: form.password,
+         onChange: (val) => {changeHandler(val, 'password')},
+         error: error.password
+            ? error.password
+            : pwdError
+            ? 'Неверный пароль'
+            : false
+      }
+   ]
+
    return (
       <div className={classes.auth_body}>
          <div className={classes.form_wrapper}>
-            <div className={classes.form_item}>
-               <label htmlFor="phoneNumber_input">Электроная почта</label>
-
-               <div className={classes.input_wrapper}>
-                  <input
-                     type="text"
-                     value={form.email}
-                     id='phoneNumber_input'
-                     placeholder={'Электроная почта'}
-                     onChange={e => changeHandler(e.target.value, 'email')}
+            {
+               inputsArr.map((el, i) => (
+                  <Input
+                     key={i}
+                     type={el.type}
+                     title={el.title}
+                     placeholder={el.placeholder}
+                     value={el.value}
+                     error={el.error}
+                     onChange={el.onChange}
+                     onSubmit={() => submitHandler()}
                   />
-               </div>
-
-               {error.email &&
-                  <span className={classes.errorMessage}>
-                     {error.email}
-                  </span>
-               }
-               {emailError &&
-                  <span className={classes.errorMessage}>
-                     Пользователя не найдено
-                  </span>
-               }
-            </div>
-
-            <div className={classes.form_item}>
-               <label htmlFor="password_input">Пароль</label>
-
-               <div className={classes.input_wrapper}>
-                  <input
-                     type={showPwd ? 'text' : 'password'}
-                     value={form.password}
-                     id='password_input'
-                     placeholder={'Пароль'}
-                     onChange={e => changeHandler(e.target.value, 'password')}
-                  />
-
-                  <FontAwesomeIcon
-                     icon={showPwd ? faEye : faEyeSlash}
-                     onClick={() => setShowPwd(prev => !prev)}
-                  />
-               </div>
-
-               {error.password &&
-                  <span className={classes.errorMessage}>
-                     {error.password}
-                  </span>
-               }
-               {pwdError &&
-                  <span className={classes.errorMessage}>
-                     Неверный пароль
-                  </span>
-               }
-               <span className={classes.forgotPassword}>Забыл пароль</span>
-            </div>
+               ))
+            }
          </div>
+
+         <span
+            className={classes.forgotPassword}
+            onClick={() => {
+               dispatch(toggleAuth())
+               navigate('/resetPassword')
+            }}
+         >
+            Забыл пароль
+         </span>
 
          <div className={classes.actions_container}>
             <div className={classes.primaryAction}>
                <Button
+                  disabled={loading}
                   type={'wideBlue_button'}
-                  onClickHandler={() => signInHandler()}
+                  onClickHandler={() => submitHandler()}
                >
                   Войти
                </Button>

@@ -8,7 +8,7 @@
   padding: 3vw
 
 .basic_hr
-  margin: 2vw 0
+  margin: 2vw 0 4vw
   width: 100%
   height: 1px
   border: none
@@ -19,80 +19,33 @@
   display: flex
   flex-direction: column
   padding: 3vw 0 3vw 2vw
-
-.form_item
-  width: 100%
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: flex-start
-  &:not(:last-child)
+  & > div:not(:last-child)
     margin-bottom: 5vw
-  & label
-    color: colors.$grey
-    font-size: 4vw
-    margin-bottom: 1vw
-
-.input_wrapper
-  width: 100%
-  display: flex
-  flex-direction: row
-  align-items: center
-  & input
-    width: 87%
-    color: #333
-    font-size: 4.5vw
-    border-radius: 6px
-    border: 1px solid colors.$lightBlue
-    background: none
-    outline: none
-    padding: 3vw
-  & svg
-    cursor: pointer
-    width: 13%
-    font-size: 6.5vw
-    color: #333
-
-.errorMessage
-  color: #d65050
-  margin-top: 1.5vw
-  margin-left: 1vw
 
 @media (min-width: 768px)
   .container
-    position: absolute
-    width: 650px
+    width: 45%
     height: fit-content
     min-height: fit-content
     margin: 0 auto
-    top: 50%
-    right: 50%
-    transform: translate(50%, -50%)
     border-radius: 8px
-    & hr
-      margin: 15px 0
+
+  .basic_hr
+    margin: 15px 0 25px
 
   .wrapper
     padding: 15px 20px
 
+  .whiteSpace
+    width: 100%
+    height: 0
+    margin: 12px 0
+
   .form_wrapper
     padding: 0 0 0 15px
-
-  .errorMessage
-    font-size: .9em
-    margin-left: 5px
-    margin-top: 5px
-
-  .form_item
-    &:not(:last-child)
-      margin-bottom: 20px
-    & label
-      margin-bottom: 5px
-      font-size: 15px
-
-  .input_wrapper
-    & input
-      padding: 10px 15px
-      font-size: 18px
-    & svg
-      font-size: 30px
+    & button
+      margin: 0 auto 15px
+      width: 65%
+      font-size: 25px
+    & > div:not(:last-child)
+      margin-bottom: 17px

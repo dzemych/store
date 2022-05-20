@@ -2,6 +2,7 @@ const {ObjectId, Schema, model} = require('mongoose')
 const validator = require('validator')
 const bcryptjs = require('bcryptjs')
 const crypto = require('crypto')
+const AppError = require("../utils/AppError");
 
 
 const userSchema = new Schema({
@@ -21,20 +22,11 @@ const userSchema = new Schema({
       type: String,
       required: true,
       minlength: 8,
-      maxlength: 25,
       select: false,
    },
    passwordConfirm: {
       type: String,
-      required: true,
-      minlength: 8,
-      maxlength: 25,
-      validate: {
-         validator: function(val) {
-            return this.password === val
-         },
-         message: 'Password and passwordConfirm are not the same'
-      }
+      minlength: 8
    },
    passwordChanged: {
       type: Date,
@@ -44,7 +36,8 @@ const userSchema = new Schema({
    resetExpires: Date,
    createdAt: {
       type: Date,
-      default: Date.now
+      default: Date.now,
+      select: false
    },
    purchases: {
       type: [ObjectId],
@@ -74,7 +67,8 @@ const userSchema = new Schema({
    role: {
       type: String,
       enum: ['user', 'admin'],
-      default: 'user'
+      default: 'user',
+      select: false
    }
 })
 
@@ -95,6 +89,9 @@ userSchema.methods.createResetToken = function() {
 //// Modify pwd and pwdChanged
 userSchema.pre('save', async function(next) {
    if (this.isModified('password') || this.isNew) {
+      if (this.passwordConfirm !== this.password)
+         next(new AppError('Password and password confirm are not the same', 400))
+
       this.passwordChanged = Date.now() - 1000
       this.password = await bcryptjs.hash(this.password, 12)
 
