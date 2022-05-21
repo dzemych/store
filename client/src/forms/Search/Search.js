@@ -1,23 +1,20 @@
-import React, {useState} from 'react'
+import React from 'react'
 import classes from './Search.module.sass'
 
 
 const Search = (props) => {
-   const [value, setValue] = useState('')
-
-
-   const onChange = (e) => {
-      setValue(e.target.value)
-   }
-
    return (
       <div className={classes.container}>
-         <form className={classes.main_input}>
+         <form
+            className={classes.main_input}
+            onSubmit={e => props.onSubmit(e)}
+         >
             <input
                type="text"
                placeholder='Я ищу...'
-               onChange={onChange}
-               value={value}
+               onChange={props.onChange}
+               value={props.value}
+               onSubmit={e => props.onSubmit(e)}
             />
          </form>
       </div>

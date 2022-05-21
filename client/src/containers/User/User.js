@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import classes from './User.module.sass'
 import {useDispatch, useSelector} from "react-redux";
-import validator from "validator/es";
 import Button from "../../forms/Button/Button";
 import {updateUser} from "../../redux/user/userAction";
-import {clearErrors} from "../../redux/user/userReducer";
+import {clearErrors, setDataUpdate} from "../../redux/user/userReducer";
 import Input from "../../forms/Input/Input";
+import useForms from "../../functions/forms.hook";
 
 
 const User = (props) => {
@@ -14,54 +14,21 @@ const User = (props) => {
 
    const {name, email} = useSelector(state => state.user)
    const pwdError = useSelector(state => state.user.pwdError)
+   const isUpdated = useSelector(state => state.user.dataUpdate)
+
    const loading = useSelector(state => state.user.loading)
 
-   const [form, setForm] = useState(() => ( {
-      name, email, password: '', passwordConfirm: ''
-   } ))
-
-   const [error, setError] = useState({})
-
-   const changeHandler = (val, type) => {
-      setForm(prev => ({...prev, [type]: val}))
-   }
-
-   const fieldsValidity = () => {
-      const newError = {}
-
-      if (!validator.isEmail(form.email))
-         newError.email = 'Некореткная эл. почта'
-
-      if (form.name.length < 2)
-         newError.name = 'Минимальная длина имени 2 символа'
-
-      if (!form.name.match(/^[а-яА-ЯёЁ]+$/))
-         newError.name = 'Возможные символы: А-Я'
-
-      if (!form.oldPassword)
-         newError.oldPassword = 'Для сохранения данных введите пароль'
-
-      if (form.oldPassword && form.oldPassword.length < 8)
-         newError.oldPassword = 'Минимальная длина пароля 8 символов'
-
-      if (form.password && form.password.length < 8)
-         newError.password = 'Минимальная длина пароля 8 символов'
-
-      if (form.password && form.password === form.oldPassword)
-         newError.password = 'Вы пытаетесь установить старый пароль'
-
-      if (form.passwordConfirm !== form.password)
-         newError.passwordConfirm = 'Пароли не совпадают'
-
-      return Object.keys(newError).length > 0 ? newError : false
-   }
+   const {form, error, checkValidity, changeHandler, setInitial} = useForms({
+      email, name,
+      password: '',
+      passwordConfirm: '',
+      oldPassword: ''
+   })
 
    const submitHandler = () => {
-      const newError = fieldsValidity()
+      const error = checkValidity()
 
-      if (newError) {
-         setError(newError)
-      } else {
+      if (!error) {
          // 1) Make a request
          if (form.password)
             dispatch(updateUser({form}))
@@ -74,16 +41,20 @@ const User = (props) => {
             }))
 
          // 2) Reset error and form state
-         setError({})
-         setForm({
-            name, email, password: '', oldPassword: '', passwordConfirm: ''
-         })
+         if (isUpdated)
+            setInitial()
       }
    }
 
    useEffect(() => {
+      if (isUpdated)
+         setInitial()
+   }, [isUpdated])
+
+   useEffect(() => {
       return () => {
          dispatch(clearErrors())
+         dispatch(setDataUpdate(false))
       }
    }, [dispatch])
 
@@ -158,7 +129,6 @@ const User = (props) => {
                   ))
                }
 
-               {/*<hr className={classes.basic_hr}/>*/}
                <div className={classes.whiteSpace}/>
 
                <Input
@@ -178,7 +148,13 @@ const User = (props) => {
                >
                   Потвердить
                </Button>
+
             </div>
+
+            {isUpdated &&
+               <div className={classes.dataUpdate}>
+                  <span>Data has been successfully updated</span>
+               </div>}
 
             <hr className={classes.basic_hr}/>
 

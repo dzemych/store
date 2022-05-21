@@ -7,7 +7,9 @@ const setMyId = require('../middleware/setMyId.middleware')
 
 const router = Router()
 
-router.use(authController.protectAndSetUserId,)
+router.use(authController.protectAndSetUserId)
+
+router.patch('/pushToWishList', userController.pushToWishList)
 
 router.get(
    '/me',

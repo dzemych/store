@@ -35,6 +35,8 @@ const useForms = (fields) => {
       if (fields.hasOwnProperty('oldPassword')) {
          if (form.oldPassword.length < 8)
             newError.oldPassword = 'Минимальная длина пароля 8 символов'
+         if (form.oldPassword === form.password)
+            newError.password = 'Вы не можете поставить новый пароль такой же как новый'
       }
 
       setError(newError)
@@ -45,7 +47,17 @@ const useForms = (fields) => {
       setForm(prev => ({...prev, [type]: value}))
    }
 
-   return {changeHandler, form, error, checkValidity}
+   const setInitial = () => {
+      console.log(fields)
+      setForm(fields)
+      setError({})
+   }
+
+   const resetError = () => {
+      setError({})
+   }
+
+   return {changeHandler, form, error, checkValidity, setInitial, resetError}
 }
 
 export default useForms

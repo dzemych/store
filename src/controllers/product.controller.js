@@ -128,11 +128,13 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
       return product
    })
 
+   // 3) Get length of all products collection
+
    res.json({
       status: 'success',
       message: `Data successfully received`,
       results: resObj.length,
-      resObj
+      products: resObj,
    })
 })
 
@@ -156,14 +158,19 @@ exports.uploadPhotos = upload.array('photos', 12)
 exports.getAllCategories = catchAsync(async (req, res, next) => {
    const data = await Product.aggregate([
       {
-         $group: { _id: "$sex", categories: { $addToSet: '$category'} }
+         $group: {
+            _id: "$sex",
+            categories: { $addToSet: '$category' },
+         }
       }
    ])
 
    if (!data) return next(new AppError('No categories', 404))
 
    const categories = data.reduce((acc, el) => {
+      el.categories.sort((a, b) => a.length - b.length)
       acc[el._id] = el.categories
+
       return acc
    }, {})
 

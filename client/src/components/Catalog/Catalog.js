@@ -20,7 +20,6 @@ const Catalog = (props) => {
       (async () => {
          const data = await requestJson('/product/allCategories')
 
-         console.log(data)
          if (data.categories){
             setCategories(data.categories)
          }

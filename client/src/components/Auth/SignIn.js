@@ -9,14 +9,10 @@ import validator from "validator/es";
 import Input from "../../forms/Input/Input";
 import {useNavigate} from "react-router-dom";
 import {toggleAuth} from "../../redux/app/appReducer";
+import useForms from "../../functions/forms.hook";
 
 
 const SignIn = (props) => {
-   const initialState = {
-      email: '',
-      password: '',
-   }
-
    const navigate = useNavigate()
 
    const emailError = useSelector(state => state.user.emailError)
@@ -25,35 +21,17 @@ const SignIn = (props) => {
 
    const dispatch = useDispatch()
 
-   const [form, setForm] = useState(initialState)
-   const [error, setError] = useState({})
-
-   const fieldsValidity = () => {
-      const newError = {}
-
-      if (!validator.isEmail(form.email))
-         newError['email'] = 'Неверная электроная почта'
-
-      if (form.password.length < 8)
-         newError['password'] = 'Минимальная длина пароля 8 символов'
-
-      return Object.keys(newError).length > 0 ? newError : false
-   }
+   const {form, error, checkValidity, changeHandler, resetError} = useForms({
+      email: '', password: '',
+   })
 
    const submitHandler = () => {
-      const newError = fieldsValidity()
+      const error = checkValidity()
 
-      if (!newError) {
+      if (!error) {
          dispatch(signIn(form))
-         setError({})
-      } else {
-         setError(newError)
+         resetError({})
       }
-      dispatch(signIn())
-   }
-
-   const changeHandler = (val, type) => {
-      setForm(prev => ({...prev, [type]: val}))
    }
 
    const inputsArr = [
@@ -96,7 +74,7 @@ const SignIn = (props) => {
                      value={el.value}
                      error={el.error}
                      onChange={el.onChange}
-                     onSubmit={() => submitHandler()}
+                     onSubmit={submitHandler}
                   />
                ))
             }

@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import {toggleAuth} from "../app/appReducer";
-import {clearErrors, setLoading, toggleSent} from "./userReducer";
+import {addToWishList, clearErrors, setLoading, toggleSent} from "./userReducer";
 
 
 export const signUp = createAsyncThunk(
@@ -70,12 +70,11 @@ export const updateUser = createAsyncThunk(
       const token = thunkApi.getState().user.token
 
       try {
-         console.log(token)
          const response = await fetch(
             `${dbUrl}/auth/updateUser`,
             {
                method: "PATCH",
-               body: JSON.stringify(user),
+               body: JSON.stringify(user.form),
                headers: {
                   'Content-Type': 'application/json',
                   'Authorization': `Bearer ${token}`
@@ -167,6 +166,40 @@ export const resetPassword = createAsyncThunk(
             throw data
          }
 
+         return data
+      } catch (e) {
+         throw e
+      }
+   }
+)
+
+export const fetchPushWishList = createAsyncThunk(
+   'user/fetchPushWishList',
+   async (id, thunkApi) => {
+      const dbUrl = thunkApi.getState().app.dbUrl
+      const token = thunkApi.getState().user.token
+
+      console.log(id)
+      try {
+         const response = await fetch(
+            `${dbUrl}/user/pushToWishList`,
+            {
+               method: 'PATCH',
+               body: JSON.stringify({productId: id}),
+               headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+               }
+            }
+         )
+         const data = await response.json()
+
+         if (!response.ok) {
+            console.log(data)
+            throw data
+         }
+
+         console.log(data)
          return data
       } catch (e) {
          throw e

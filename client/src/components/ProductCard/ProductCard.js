@@ -12,12 +12,15 @@ import ReactStars from "react-rating-stars-component";
 import {useMediaQuery} from "react-responsive";
 import {useHttp} from "../../functions/http.hook";
 import {useNavigate} from "react-router-dom";
+import {fetchPushWishList} from "../../redux/user/userAction";
+import {useDispatch} from "react-redux";
 
 
 const ProductCard = React.forwardRef((props, ref) => {
 
    const {requestImg} = useHttp()
    const navigate = useNavigate()
+   const dispatch = useDispatch()
 
    const [img, setImg] = useState(null)
    const [amount, setAmount] = useState(1)
@@ -68,6 +71,10 @@ const ProductCard = React.forwardRef((props, ref) => {
       navigate('/products/' + slug)
    }
 
+   const wishListHandler = () => {
+      dispatch(fetchPushWishList(props.id))
+   }
+
    useEffect(() => {
       if (status === 'idle') {
          if (props.mainPhoto) {
@@ -86,7 +93,6 @@ const ProductCard = React.forwardRef((props, ref) => {
                   const blob = await data.blob()
                   setImg(URL.createObjectURL(blob))
                } catch (e) {
-                  console.log(e)
                   setStatus('error')
                }
             })()
@@ -103,6 +109,7 @@ const ProductCard = React.forwardRef((props, ref) => {
             <FontAwesomeIcon
                icon={icon}
                className={classes.heartIcon}
+               onClick={() => wishListHandler()}
             />
 
             {props.type !== 'basket'

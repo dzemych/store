@@ -134,7 +134,7 @@ exports.updateUser = catchAsync(async (req, res, next) => {
 
    // 1) Check if clint provide all necessary data
    if (!oldPassword)
-      return next(new AppError('Please provide oldPassword', 400))
+      return next(new AppError('Please provide and oldPassword', 400))
 
    const user = await User.findById(req.userId).select('+password +name +email +_id')
 

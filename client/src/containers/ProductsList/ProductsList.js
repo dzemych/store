@@ -12,6 +12,7 @@ const ProductsList = (props) => {
 
    const [products, setProducts] = useState([])
    const [status, setStatus] = useState('idle')
+   const [showMore, setShowMore] = useState(true)
 
    const {requestJson} = useHttp()
    const location = useLocation()
@@ -21,18 +22,25 @@ const ProductsList = (props) => {
          (async () => {
             try {
                const data = await requestJson(
-                  `/product${location.search}&fields=price,title,slug,avgRating,numRating,mainPhoto`
+                  `/product${location.search}&page=1&limit=2&
+                  fields=price,title,slug,avgRating,numRating,mainPhoto,_id`
                )
 
-               setProducts(data.resObj)
+               setProducts(data.products)
                setStatus('success')
+
+               if (data.results < 2)
+                  setShowMore(false)
             } catch (e) {
-               console.log(e)
                setStatus('error')
             }
          })()
       }
    }, [location, requestJson, status])
+
+   useEffect(() => {
+      setStatus('idle')
+   }, [location.search])
 
    const getProduct = useMemo(() => {
       if (!products || products.length === 0)
@@ -42,6 +50,7 @@ const ProductsList = (props) => {
          return (
             products.map((item, i) => (
                <ProductCard
+                  id={item._id}
                   slug={item.slug}
                   title={item.title}
                   price={item.price}
@@ -72,7 +81,13 @@ const ProductsList = (props) => {
                {getProduct}
             </div>
 
-            <Button type={'viewAll_button'}>Show more</Button>
+            {showMore &&
+               <Button
+                  type={'viewAll_button'}
+               >
+                  Show more
+               </Button>
+            }
 
             <hr className={classes.hr}/>
 

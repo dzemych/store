@@ -10,9 +10,17 @@ class APIfeatures {
       const excludedFields = ['sort', 'page', 'limit', 'skip', 'fields']
       excludedFields.forEach(field => delete queryObj[field])
 
+      // If regex set insensitivity to upper and lower cases
+      Object.keys(queryObj).forEach(query => {
+         if (queryObj[query].hasOwnProperty('regex')){
+            queryObj[query].options = 'i'
+         }
+      })
+
       if (Object.keys(queryObj).length > 0) {
          const queryStr = JSON.stringify(queryObj)
             .replace(/\b(gte|gt|lt|lte)\b/g, match => `$${match}`)
+            .replace(/\b(regex|options)\b/g, match => `$${match}`)
             .replace(/\s/g, '')
 
          this.query = this.query.find(JSON.parse(queryStr))

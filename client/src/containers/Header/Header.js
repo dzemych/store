@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import classes from './Header.module.sass'
 import tdLogo from '../../img/td-logo.png'
 import Search from "../../forms/Search/Search";
@@ -17,6 +17,8 @@ const Header = (props) => {
 
    const isAuth = useSelector(state => state.user.token)
 
+   const [value, setValue] = useState('')
+
    const openSidebar = () => {
       dispatch(toggleSidebar())
    }
@@ -27,6 +29,11 @@ const Header = (props) => {
       } else {
          navigate('/user')
       }
+   }
+
+   const searchHandler = e => {
+      e.preventDefault()
+      navigate(`/products?title[regex]=${value}`)
    }
 
    return (
@@ -58,10 +65,17 @@ const Header = (props) => {
                </div>
             </Laptop>
 
-            <Search/>
+            <Search
+               value={value}
+               onChange={e => setValue(e.target.value)}
+               onSubmit={e => searchHandler(e)}
+            />
 
             <Tablet>
-               <button className={classes.search_btn}>
+               <button
+                  className={classes.search_btn}
+                  onClick={e => searchHandler(e)}
+               >
                   Search
                </button>
             </Tablet>

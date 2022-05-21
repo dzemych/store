@@ -14,7 +14,6 @@ const ResetPassword = (props) => {
 
    const params = useParams()
    const isReset = useSelector(state => state.user.isReset)
-   const [isToken, setIsToken] = useState()
    const dispatch = useDispatch()
 
    const navigate = useNavigate()
@@ -25,7 +24,15 @@ const ResetPassword = (props) => {
    })
 
    const onSubmit = () => {
-      checkValidity()
+      const error = checkValidity()
+
+      if (!error) {
+         dispatch(resetPassword({
+            token: params.token,
+            password: form.password,
+            passwordConfirm: form.passwordConfirm
+         }))
+      }
    }
 
    const inputsArr = [
@@ -51,13 +58,7 @@ const ResetPassword = (props) => {
 
    useEffect(() => {
       console.log(params.token.length)
-      if (params.token.length === 64){
-         dispatch(resetPassword({
-            token: params.token,
-            password: form.password,
-            passwordConfirm: form.passwordConfirm
-         }))
-      } else {
+      if (params.token.length !== 64) {
          navigate('/resetPassword')
       }
    }, [])
@@ -76,7 +77,7 @@ const ResetPassword = (props) => {
             {isReset === 'rejected'
                ? <div className={classes.rejected_container}>
                   <div className={classes.rejected_text}>
-                     <span>Похоже ваш ваша сылка устарела или неверна</span>
+                     <span>Похоже ваша сылка устарела или неверна</span>
                   </div>
 
                   <Button
@@ -86,6 +87,23 @@ const ResetPassword = (props) => {
                      Попробывать заново
                   </Button>
                </div>
+               : isReset === 'success'
+               ? <div className={classes.sent_wrapper}>
+                  <span className={classes.sent_text}>
+                     Пароль успешно обновлен.
+                     Теперь войдите в аккаунт
+                  </span>
+
+                     <Button
+                        type={'wideBlue_button'}
+                        onClickHandler={() => {
+                           navigate('/')
+                           dispatch(toggleAuth())
+                        }}
+                     >
+                        Войти заново
+                     </Button>
+                  </div>
                : <>
                   <div className={classes.form_wrapper}>
                      {
@@ -102,8 +120,6 @@ const ResetPassword = (props) => {
                            />
                         ))
                      }
-
-
                   </div>
 
                   <div className={classes.button_container}>

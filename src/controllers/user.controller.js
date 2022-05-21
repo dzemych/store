@@ -39,6 +39,23 @@ exports.updateEmail = catchAsync(async (req, res, next) => {
 exports.getAllUsers = handlerFactory.getAll(User)
 exports.getOneUser = handlerFactory.getOne(User)
 
+exports.pushToWishList = catchAsync(async (req, res, next) => {
+   if (!req.body.productId)
+      return next(new AppError('Please provide product id', 400))
+
+   console.log(req.userId)
+   console.log(req.body.productId)
+   const user = await User.findOneAndUpdate({_id: req.userId}, {
+      $addToSet: {wishList: req.body.productId}
+   }, {new: true}).lean()
+
+   res.json({
+      status: 'success',
+      message: 'Wish list updated',
+      wishList: user.wishList
+   })
+})
+
 exports.updateOneUser = catchAsync(async (req, res, next) => {
    const user = await User.findById(req.params.id)
 

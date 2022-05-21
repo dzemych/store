@@ -22,6 +22,17 @@
   & > div:not(:last-child)
     margin-bottom: 5vw
 
+.dataUpdate
+  width: 80%
+  border: 2px solid #5a869b
+  padding: 3vw
+  margin: 3vw auto 4vw
+  text-align: center
+  border-radius: 11px
+  color: #fff7e0
+  font-size: 1.2em
+  background-color: rgba(154, 197, 208, 0.8)
+
 @media (min-width: 768px)
   .container
     width: 45%
@@ -49,3 +60,24 @@
       font-size: 25px
     & > div:not(:last-child)
       margin-bottom: 17px
+
+  .dataUpdate
+    padding: 17px
+    margin: 15px auto 15px
+    transform: translateX(15px)
+
+@media (min-width: 1024px)
+  .form_wrapper
+    & button
+      width: 60%
+
+  .dataUpdate
+    width: 70%
+
+@media (min-width: 1440px)
+  .form_wrapper
+    & button
+      width: 40%
+
+  .dataUpdate
+    width: 50%

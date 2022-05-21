@@ -13,7 +13,8 @@ const initialState = {
    emailError: false,
    sent: false,
    loading: false,
-   isReset: null
+   isReset: null,
+   dataUpdate: false
 }
 
 const userReducer = createSlice({
@@ -34,7 +35,10 @@ const userReducer = createSlice({
       },
       toggleReset(state, action) {
          state.isReset = action.payload
-      }
+      },
+      setDataUpdate(state, action) {
+         state.dataUpdate = action.payload
+      },
    },
    extraReducers(builder) {
       builder
@@ -46,7 +50,7 @@ const userReducer = createSlice({
          state.token = window.localStorage.getItem('token')
          state.loading = false
       })
-      .addCase('user/fetchUser/rejected', (state, action) => {
+      .addCase('user/fetchUser/rejected', () => {
          window.localStorage.removeItem('token')
          return initialState
       })
@@ -59,7 +63,7 @@ const userReducer = createSlice({
          window.localStorage.setItem('token', action.payload.data.token)
          state.loading = false
       })
-      .addCase('user/signUp/rejected', (state, action) => {
+      .addCase('user/signUp/rejected', (state) => {
          state.emailError = true
          state.loading = false
       })
@@ -95,9 +99,12 @@ const userReducer = createSlice({
          state.pwdError = false
          state.loading = false
 
+         state.dataUpdate = true
+
          window.localStorage.setItem('token', action.payload.data.token)
       })
       .addCase('user/updateUser/rejected', (state, action) => {
+         console.log(action)
          if (action.error.message.includes('Invalid password'))
             state.pwdError = true
 
@@ -120,10 +127,17 @@ const userReducer = createSlice({
       .addCase('user/resetPassword/fulfilled', (state, action) => {
          console.log(action)
          state.isReset = 'success'
+         state.loading = false
       })
       .addCase('user/resetPassword/rejected', (state, action) => {
          console.log(action)
          state.isReset = 'rejected'
+         state.loading = false
+      })
+
+      .addCase('user/fetchPushWishList/fulfilled', (state, action) => {
+         console.log(action)
+         state.wishList = action.payload.wishList
       })
 
       // 6) Set loading to true while pending
@@ -148,6 +162,12 @@ const userReducer = createSlice({
    }
 })
 
-export const {logOut, clearErrors, toggleSent, setLoading} = userReducer.actions
+export const {
+   logOut,
+   clearErrors,
+   toggleSent,
+   setLoading,
+   setDataUpdate
+} = userReducer.actions
 
 export default userReducer.reducer
