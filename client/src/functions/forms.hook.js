@@ -48,7 +48,6 @@ const useForms = (fields) => {
    }
 
    const setInitial = () => {
-      console.log(fields)
       setForm(fields)
       setError({})
    }

@@ -19,8 +19,7 @@ class APIfeatures {
 
       if (Object.keys(queryObj).length > 0) {
          const queryStr = JSON.stringify(queryObj)
-            .replace(/\b(gte|gt|lt|lte)\b/g, match => `$${match}`)
-            .replace(/\b(regex|options)\b/g, match => `$${match}`)
+            .replace(/\b(gte|gt|lt|lte|regex|options|in)\b/g, match => `$${match}`)
             .replace(/\s/g, '')
 
          this.query = this.query.find(JSON.parse(queryStr))

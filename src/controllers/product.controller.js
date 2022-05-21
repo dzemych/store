@@ -138,6 +138,27 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
    })
 })
 
+exports.getProductsFromArr = catchAsync(async (req, res, next) => {
+   const arr = req.body.products
+
+   console.log(req.body)
+   if (!arr)
+      return next(new AppError('Please provide products array', 400))
+
+   const features = new APIfeatures(Product, {
+      _id: {in: arr}
+   })
+
+   features.filter()
+
+   const data = await features.query.lean()
+   console.log(data)
+   res.json({
+      status: 'success',
+      products: data
+   })
+})
+
 exports.getOneProduct = catchAsync(async (req, res, next) => {
    const slug = req.params.slug
 

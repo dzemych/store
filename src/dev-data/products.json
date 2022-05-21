@@ -33,8 +33,6 @@
       "m": 6,
       "l": 2
     },
-    "photos": ["adidas-shirt-1", "adidas-shirt-2", "adidas-shirt-3"],
-    "mainPhoto": "adidas-shirt-1",
     "features": {
       "material": "rubber",
       "style": "Every day",
@@ -55,8 +53,6 @@
     "l": 2
   },
   "material": "cotton",
-  "photos": ["nike-shirt-1", "nike-shirt-2", "nike-shirt-3"],
-  "mainPhoto": "nike-shirt-1",
   "features": {
     "material": "cotton",
     "style": "Every day",

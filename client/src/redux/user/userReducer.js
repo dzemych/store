@@ -39,6 +39,23 @@ const userReducer = createSlice({
       setDataUpdate(state, action) {
          state.dataUpdate = action.payload
       },
+      pushToWishList(state, action) {
+         state.wishList.push(action.payload)
+      },
+      removeFromWishList(state, action) {
+         state.wishList = state.wishList.filter(el => {
+            return !action.payload.includes(el)
+         })
+      },
+      pushToBasket(state, action) {
+         state.basket.push(action.payload)
+      },
+      removeFromBasket(state, action) {
+         state.basket = state.basket.filter(el => {
+            return !action.payload.includes(el)
+         })
+      }
+
    },
    extraReducers(builder) {
       builder
@@ -70,9 +87,11 @@ const userReducer = createSlice({
 
       // 3) Sign in handlers
       .addCase('user/signIn/fulfilled', (state, action) => {
-         Object.keys(action.payload.data).forEach(key => {
-            state[key] = action.payload.data[key]
+         Object.keys(action.payload.data.user).forEach(key => {
+            state[key] = action.payload.data.user[key]
          })
+
+         state.token = action.payload.data.token
          window.localStorage.setItem('token', action.payload.data.token)
          state.loading = false
       })
@@ -124,6 +143,7 @@ const userReducer = createSlice({
          state.loading = false
       })
 
+      // 6) Reset password handlers
       .addCase('user/resetPassword/fulfilled', (state, action) => {
          console.log(action)
          state.isReset = 'success'
@@ -135,9 +155,14 @@ const userReducer = createSlice({
          state.loading = false
       })
 
-      .addCase('user/fetchPushWishList/fulfilled', (state, action) => {
+      // 7) Fetch basket and wish list
+      .addCase('user/fetchWishList/fulfilled', (state, action) => {
          console.log(action)
          state.wishList = action.payload.wishList
+      })
+      .addCase('user/fetchBasket/fulfilled', (state, action) => {
+         console.log(action)
+         state.basket = action.payload.basket
       })
 
       // 6) Set loading to true while pending
@@ -167,7 +192,11 @@ export const {
    clearErrors,
    toggleSent,
    setLoading,
-   setDataUpdate
+   setDataUpdate,
+   pushToWishList,
+   removeFromWishList,
+   pushToBasket,
+   removeFromBasket
 } = userReducer.actions
 
 export default userReducer.reducer

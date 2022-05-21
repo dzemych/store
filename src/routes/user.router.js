@@ -9,7 +9,8 @@ const router = Router()
 
 router.use(authController.protectAndSetUserId)
 
-router.patch('/pushToWishList', userController.pushToWishList)
+router.patch('/changeWishList', userController.fetchWishList)
+router.patch('/changeBasket', userController.fetchBasket)
 
 router.get(
    '/me',

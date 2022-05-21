@@ -5,15 +5,16 @@ import {
    faHeartCirclePlus,
    faTrash,
    faMinus,
-   faPlus, faStar, faStarHalfAlt, faShoppingCart, faHeartCircleMinus
+   faPlus, faStar, faStarHalfAlt, faShoppingCart, faHeartCircleMinus, faCheck
 } from "@fortawesome/free-solid-svg-icons";
 import defaultPhoto from "../../img/no-image.png"
 import ReactStars from "react-rating-stars-component";
 import {useMediaQuery} from "react-responsive";
 import {useHttp} from "../../functions/http.hook";
 import {useNavigate} from "react-router-dom";
-import {fetchPushWishList} from "../../redux/user/userAction";
-import {useDispatch} from "react-redux";
+import {fetchBasket, fetchWishList} from "../../redux/user/userAction";
+import {useDispatch, useSelector} from "react-redux";
+import {pushToBasket, pushToWishList, removeFromBasket, removeFromWishList} from "../../redux/user/userReducer";
 
 
 const ProductCard = React.forwardRef((props, ref) => {
@@ -22,6 +23,10 @@ const ProductCard = React.forwardRef((props, ref) => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
 
+   const wishList = useSelector(state => state.user.wishList)
+   const basket = useSelector(state => state.user.basket)
+
+   const isAuth = useSelector(state => state.user.token)
    const [img, setImg] = useState(null)
    const [amount, setAmount] = useState(1)
    const [status, setStatus] = useState('idle')
@@ -51,7 +56,12 @@ const ProductCard = React.forwardRef((props, ref) => {
          icon = faHeartCircleMinus
          break
 
-      default: icon = faHeartCirclePlus
+      default:
+         if (wishList.includes(props.id)) {
+            icon = faHeartCircleMinus
+            break
+         }
+         icon = faHeartCirclePlus
    }
 
    const ratingStars = {
@@ -72,7 +82,31 @@ const ProductCard = React.forwardRef((props, ref) => {
    }
 
    const wishListHandler = () => {
-      dispatch(fetchPushWishList(props.id))
+      if (isAuth) {
+         if (wishList.includes(props.id)) {
+            dispatch(fetchWishList({id: props.id, type: 'remove'}))
+         } else {
+            dispatch(fetchWishList({id: props.id, type: 'push'}))
+         }
+      } else {
+         if (wishList.includes(props.id)) {
+            dispatch(removeFromWishList(props.id))
+         } else {
+            dispatch(pushToWishList(props.id))
+         }
+      }
+   }
+
+   const basketHandler = () => {
+      if (!basket.includes(props.id)){
+         if (isAuth) {
+            dispatch(fetchBasket({id: props.id, type: 'push'}))
+         } else {
+            dispatch(pushToBasket(props.id))
+         }
+      } else {
+         navigate('/shopping-cart')
+      }
    }
 
    useEffect(() => {
@@ -150,8 +184,12 @@ const ProductCard = React.forwardRef((props, ref) => {
                      </div>
 
                      <FontAwesomeIcon
-                        icon={faShoppingCart}
+                        icon={basket.includes(props.id)
+                           ? faCheck
+                           : faShoppingCart
+                        }
                         className={classes.shoppingCart_icon}
+                        onClick={() => basketHandler()}
                      />
                   </div>
                </>

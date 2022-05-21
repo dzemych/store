@@ -30,7 +30,6 @@ const Ratings = (props) => {
 
                setStats(stats.ratings)
                setRatings(ratings.data)
-               console.log(ratings.data)
             } catch (e) {
                console.log(e)
             }

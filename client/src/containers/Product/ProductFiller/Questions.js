@@ -21,7 +21,6 @@ const Questions = (props) => {
                const questions = await requestJson(`/question/productQuestions/${product._id}`)
 
                setQuestions(questions.data)
-               console.log(questions.data)
             } catch (e) {
                console.log(e)
             }

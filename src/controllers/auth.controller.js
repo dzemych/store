@@ -33,7 +33,10 @@ exports.loginUser = catchAsync(async (req, res, next) => {
    if (!email || !password) return next(new AppError('Please provide email and password.', 400))
 
    // 2) Check if user exists
-   const user = await User.findOne({email: req.body.email}).select('+password +_id +name')
+   const user = await User
+      .findOne({email: req.body.email})
+      .select('password id email name wishList basket questions purchases')
+      .lean()
    if (!user) return next(new AppError('No user found with that email', 404))
 
    // 3) Check if password is correct
@@ -46,12 +49,20 @@ exports.loginUser = catchAsync(async (req, res, next) => {
    res.json({
       status: 'success',
       message: 'Logged in',
-      id: user._id, token, email, name: user.name
+      token,
+      user: {
+         _id: user._id,
+         name: user.name,
+         email: user.email,
+         wishList: user.wishList,
+         basket: user.basket,
+         questions: user.questions,
+         purchases: user.purchases
+      }
    })
 })
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
-   console.log(req.body)
    // 1) Check if client sent email
    if (!req.body.email) return next(new AppError('Provide email address in request body'))
 

@@ -173,19 +173,49 @@ export const resetPassword = createAsyncThunk(
    }
 )
 
-export const fetchPushWishList = createAsyncThunk(
-   'user/fetchPushWishList',
-   async (id, thunkApi) => {
+export const fetchWishList = createAsyncThunk(
+   'user/fetchWishList',
+   async (payload, thunkApi) => {
       const dbUrl = thunkApi.getState().app.dbUrl
       const token = thunkApi.getState().user.token
 
-      console.log(id)
       try {
          const response = await fetch(
-            `${dbUrl}/user/pushToWishList`,
+            `${dbUrl}/user/changeWishList`,
             {
                method: 'PATCH',
-               body: JSON.stringify({productId: id}),
+               body: JSON.stringify({productId: payload.id, type: payload.type}),
+               headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+               }
+            }
+         )
+         const data = await response.json()
+
+         if (!response.ok) {
+            throw data
+         }
+
+         return data
+      } catch (e) {
+         throw e
+      }
+   }
+)
+
+export const fetchBasket = createAsyncThunk(
+   'user/fetchBasket',
+   async (payload, thunkApi) => {
+      const dbUrl = thunkApi.getState().app.dbUrl
+      const token = thunkApi.getState().user.token
+
+      try {
+         const response = await fetch(
+            `${dbUrl}/user/changeBasket`,
+            {
+               method: 'PATCH',
+               body: JSON.stringify({productId: payload.id, type: payload.type}),
                headers: {
                   'Content-Type': 'application/json',
                   'Authorization': `Bearer ${token}`
@@ -199,7 +229,6 @@ export const fetchPushWishList = createAsyncThunk(
             throw data
          }
 
-         console.log(data)
          return data
       } catch (e) {
          throw e

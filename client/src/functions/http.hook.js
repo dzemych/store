@@ -32,7 +32,7 @@ export const useHttp = () => {
          return response
       } catch (e) {
          setError(e)
-         setLoading(true)
+         setLoading(false)
 
          return e
       }
@@ -56,7 +56,7 @@ export const useHttp = () => {
          return data
       } catch (e) {
          setError(e)
-         setLoading(true)
+         setLoading(false)
 
          throw e
       }

@@ -57,7 +57,6 @@ const ResetPassword = (props) => {
    ]
 
    useEffect(() => {
-      console.log(params.token.length)
       if (params.token.length !== 64) {
          navigate('/resetPassword')
       }

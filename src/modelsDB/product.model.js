@@ -166,7 +166,6 @@ productSchema.statics.updateSizes = async function(purchasesArr, action) {
 
 // Update sold property | method
 productSchema.statics.updateSold = async function(purchasesArr, action) {
-   // console.log(purchasesArr)
    const loopPurchasesArr = async () => {
       for (i in purchasesArr) {
          const {id, amount} = purchasesArr[i]

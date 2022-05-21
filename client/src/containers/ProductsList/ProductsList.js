@@ -22,14 +22,14 @@ const ProductsList = (props) => {
          (async () => {
             try {
                const data = await requestJson(
-                  `/product${location.search}&page=1&limit=2&
+                  `/product${location.search}&page=1&limit=10&
                   fields=price,title,slug,avgRating,numRating,mainPhoto,_id`
                )
 
                setProducts(data.products)
                setStatus('success')
 
-               if (data.results < 2)
+               if (data.results < 10)
                   setShowMore(false)
             } catch (e) {
                setStatus('error')
@@ -57,7 +57,7 @@ const ProductsList = (props) => {
                   mainPhoto={item.mainPhoto}
                   avgRating={item.avgRating}
                   numRating={item.numRating}
-                  key={i}
+                  key={item.slug}
                />
             ))
          )

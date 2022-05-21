@@ -6,6 +6,26 @@ const bcrypt = require('bcryptjs')
 const validator = require('validator')
 
 
+const changeUser = async (field, userId, productId, type) => {
+   const query = typeof productId === "string"
+      ? {[field]: productId}
+      : {[field]: {[[type] === 'push' ? '$each' : '$in']: productId}}
+
+   let user
+
+   if (type === 'push')
+      user = await User.findOneAndUpdate({_id: userId}, {
+         $addToSet: query
+      }, {new: true}).lean()
+
+   if (type === 'remove')
+      user = await User.findOneAndUpdate({_id: userId}, {
+         $pull: query
+      }, {new: true}).lean()
+
+   return user
+}
+
 exports.createUser = catchAsync(async (req, res) => {
    res.status(404).json({
       status: 'fail',
@@ -39,20 +59,29 @@ exports.updateEmail = catchAsync(async (req, res, next) => {
 exports.getAllUsers = handlerFactory.getAll(User)
 exports.getOneUser = handlerFactory.getOne(User)
 
-exports.pushToWishList = catchAsync(async (req, res, next) => {
+exports.fetchWishList = catchAsync(async (req, res, next) => {
    if (!req.body.productId)
       return next(new AppError('Please provide product id', 400))
 
-   console.log(req.userId)
-   console.log(req.body.productId)
-   const user = await User.findOneAndUpdate({_id: req.userId}, {
-      $addToSet: {wishList: req.body.productId}
-   }, {new: true}).lean()
+   const data = await changeUser('wishList', req.userId, req.body.productId, req.body.type)
 
    res.json({
       status: 'success',
       message: 'Wish list updated',
-      wishList: user.wishList
+      wishList: data.wishList
+   })
+})
+
+exports.fetchBasket = catchAsync(async (req, res, next) => {
+   if (!req.body.productId)
+      return next(new AppError('Please provide product id', 400))
+
+   const data = await changeUser('basket', req.userId, req.body.productId, req.body.type)
+
+   res.json({
+      status: 'success',
+      message: 'Basket updated',
+      basket: data.basket
    })
 })
 

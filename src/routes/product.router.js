@@ -7,6 +7,7 @@ const checkUpdate = require('../middleware/updateCheck.middleware')
 const router = Router()
 
 router.get('/topProducts', productController.getTopProducts)
+router.post('/getProducts', productController.getProductsFromArr)
 
 router
    .route('/')
