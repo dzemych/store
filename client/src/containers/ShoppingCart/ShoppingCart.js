@@ -1,57 +1,71 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import classes from './ShoppingCart.module.sass'
 import '../basicStyles.sass'
 import ProductCard from "../../components/ProductCard/ProductCard";
-import square from '../../img/square.jpg'
-import jeans from '../../img/jeans.jpg'
 import Button from "../../forms/Button/Button";
 import MediaQuery from "react-responsive";
+import {useDispatch, useSelector} from "react-redux";
+import {useHttp} from "../../functions/http.hook";
 
 
 const ShoppingCart = (props) => {
-   const products = [
-      {
-         type: 'basket',
-         title: "Amazing and cute jeans",
-         price: 850,
-         img: jeans
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-         img: square
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-      }
-   ]
+
+   const {requestJson} = useHttp()
+
+   const dispatch = useDispatch()
+   const basket = useSelector(state => state.user.basket)
+
+   const [products, setProducts] = useState([])
+
+   useEffect(() => {
+      console.log(basket)
+      if (basket.length > 0) {
+         (async () => {
+            const data = await requestJson(
+               '/product/getProducts',
+               'POST',
+               JSON.stringify({products: basket}),
+               {'Content-Type': 'application/json'}
+            )
+
+            setProducts(data.products)
+         })()
+      } else {setProducts([])}
+   }, [basket])
 
    return (
-      <div className={'container'}>
+      <div className={classes.container}>
          <div className={'wrapper'}>
             <h1 className={'title'}>Shopping cart</h1>
 
             <div className={classes.body}>
                <div className={classes.products_container}>
 
-                  {products.map((el, i, arr) => (
-                     <div
-                        key={i}
-                        className={classes.product_item}
-                     >
-                        <ProductCard
-                           type={el.type}
-                           title={el.title}
-                           price={el.price}
-                           img={el.img}
-
-                        />
-                        {i < arr.length - 1 && <hr className={classes.hr}/>}
+                  {products.length > 0
+                     ? products.map((el, i, arr) => (
+                        <div
+                           key={i}
+                           className={classes.product_item}
+                        >
+                           <ProductCard
+                              type={'basket'}
+                              key={el.slug}
+                              slug={el.slug}
+                              id={el._id}
+                              title={el.title}
+                              price={el.price}
+                              mainPhoto={el.mainPhoto}
+                              avgRarting={el.avgRating}
+                              numRating={el.numRating}
+                              numSizes={el.numSizes}
+                           />
+                           {i < arr.length - 1 && <hr className={classes.hr}/>}
+                        </div>
+                     ))
+                     : <div className={classes.noProducts}>
+                        <h1>No products</h1>
                      </div>
-                  ))}
+                  }
 
                </div>
 
@@ -62,15 +76,16 @@ const ShoppingCart = (props) => {
                      </MediaQuery>
 
                      <span className={classes.total_price}>
-                     {products.reduce((acc, el) => {
-                        acc += el.price
-                        return acc
-                     }, 0)}
+                        {products.reduce((acc, el) => {
+                           acc += el.price
+                           return acc
+                        }, 0)}
                         ₴
-                  </span>
+                     </span>
                   </div>
 
-                  <Button type={'bigGreen_button'}>Purchase</Button>
+                  {products.length > 0 &&
+                  <Button type={'bigGreen_button'}>Purchase</Button>}
                </div>
             </div>
          </div>

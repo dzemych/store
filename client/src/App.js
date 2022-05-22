@@ -7,6 +7,7 @@ import classes from './App.module.sass'
 import {Phone} from "./functions/mediaCheck";
 import {useDispatch} from "react-redux";
 import {fetchUser} from "./redux/user/userAction";
+import {loadLocalStorage} from "./redux/user/userReducer";
 
 
 function App() {
@@ -17,8 +18,11 @@ function App() {
    useEffect(() => {
       const token = localStorage.getItem('token')
 
-      if (token)
+      if (token) {
          dispatch(fetchUser(token))
+      } else {
+         dispatch(loadLocalStorage())
+      }
    }, [dispatch])
 
    return (

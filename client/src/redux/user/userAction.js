@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit'
 import {toggleAuth} from "../app/appReducer";
-import {addToWishList, clearErrors, setLoading, toggleSent} from "./userReducer";
+import {clearErrors, loadLocalStorage, toggleSent} from "./userReducer";
 
 
 export const signUp = createAsyncThunk(
@@ -111,7 +111,8 @@ export const fetchUser = createAsyncThunk(
 
          return {data}
       } catch (e) {
-       throw e
+         thunkApi.dispatch(loadLocalStorage())
+         throw e
       }
    }
 )

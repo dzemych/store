@@ -14,7 +14,13 @@ import {useHttp} from "../../functions/http.hook";
 import {useNavigate} from "react-router-dom";
 import {fetchBasket, fetchWishList} from "../../redux/user/userAction";
 import {useDispatch, useSelector} from "react-redux";
-import {pushToBasket, pushToWishList, removeFromBasket, removeFromWishList} from "../../redux/user/userReducer";
+import {
+   pushToBasket,
+   pushToWishList, removeFromBasket,
+   removeFromWishList,
+   updateLocalStorage
+} from "../../redux/user/userReducer";
+import RadioBox from "../../forms/RadioBox/RadioBox";
 
 
 const ProductCard = React.forwardRef((props, ref) => {
@@ -30,22 +36,11 @@ const ProductCard = React.forwardRef((props, ref) => {
    const [img, setImg] = useState(null)
    const [amount, setAmount] = useState(1)
    const [status, setStatus] = useState('idle')
+   const [curSize, setCurSize ] = useState('s')
+   const [sizeAmount, setSizeAmount] = useState(props.numSizes[curSize])
 
    const isTablet = useMediaQuery({ minWidth: 425 })
    const isBigScreen = useMediaQuery({minWidth: 1440})
-
-   const changeAmount = (e, type) => {
-      e.preventDefault()
-
-      if (type === 'plus')
-         setAmount(prev => prev + 1)
-
-      if (type === 'minus')
-         setAmount(prev => Math.max(1, prev - 1))
-
-      if (!type)
-         setAmount(Math.max(e.target.value, 1))
-   }
 
    let icon
    switch (props.type) {
@@ -77,24 +72,10 @@ const ProductCard = React.forwardRef((props, ref) => {
       filledIcon: <FontAwesomeIcon icon={faStar}/>,
    }
 
+   const allSizes = ['xs', 's', 'm', 'l', 'xl', 'xxl']
+
    const openProductHandler = slug => {
       navigate('/products/' + slug)
-   }
-
-   const wishListHandler = () => {
-      if (isAuth) {
-         if (wishList.includes(props.id)) {
-            dispatch(fetchWishList({id: props.id, type: 'remove'}))
-         } else {
-            dispatch(fetchWishList({id: props.id, type: 'push'}))
-         }
-      } else {
-         if (wishList.includes(props.id)) {
-            dispatch(removeFromWishList(props.id))
-         } else {
-            dispatch(pushToWishList(props.id))
-         }
-      }
    }
 
    const basketHandler = () => {
@@ -103,10 +84,62 @@ const ProductCard = React.forwardRef((props, ref) => {
             dispatch(fetchBasket({id: props.id, type: 'push'}))
          } else {
             dispatch(pushToBasket(props.id))
+            dispatch(updateLocalStorage('basket'))
          }
       } else {
          navigate('/shopping-cart')
       }
+   }
+
+   const iconClickHandler = () => {
+      if (isAuth) {
+         if (props.type === 'basket') {
+
+            dispatch(fetchBasket({id: props.id, type: 'remove'}))
+
+         } else {
+
+            if (wishList.includes(props.id)) {
+               dispatch(fetchWishList({id: props.id, type: 'remove'}))
+            } else {
+               dispatch(fetchWishList({id: props.id, type: 'push'}))
+            }
+
+         }
+      } else {
+         if (props.type === 'basket') {
+
+            dispatch(removeFromBasket(props.id))
+            dispatch(updateLocalStorage('basket'))
+
+         } else {
+
+            if (wishList.includes(props.id)) {
+               dispatch(removeFromWishList(props.id))
+            } else {
+               dispatch(pushToWishList(props.id))
+            }
+
+            dispatch(updateLocalStorage('wishList'))
+         }
+      }
+   }
+
+   const changeAmount = (value) => {
+      if (value === 'minus')
+         if (amount - 1 > 0)
+            setAmount(prev => prev - 1)
+
+      if (value === 'plus')
+         if (sizeAmount >= amount + 1)
+            setAmount(prev => prev + 1)
+
+      if (+value)
+         if (sizeAmount >= value && value > 0) {
+            setAmount(value)
+         } else {
+            setAmount(sizeAmount)
+         }
    }
 
    useEffect(() => {
@@ -134,6 +167,15 @@ const ProductCard = React.forwardRef((props, ref) => {
       }
    }, [props.mainPhoto, requestImg, props.slug])
 
+   useEffect(() => {
+      setSizeAmount(props.numSizes[curSize])
+   }, [curSize])
+
+   useEffect(() => {
+      if (amount > sizeAmount)
+         setAmount(sizeAmount)
+   }, [sizeAmount])
+
    return (
       <div className={
          props.type === 'basket'
@@ -143,7 +185,7 @@ const ProductCard = React.forwardRef((props, ref) => {
             <FontAwesomeIcon
                icon={icon}
                className={classes.heartIcon}
-               onClick={() => wishListHandler()}
+               onClick={() => iconClickHandler()}
             />
 
             {props.type !== 'basket'
@@ -202,12 +244,28 @@ const ProductCard = React.forwardRef((props, ref) => {
                         />
                      </div>
 
-                     <span
-                        className={classes.basket_title}
-                        onClick={() => openProductHandler(props.slug)}
-                     >
-                        {props.title}
-                     </span>
+                     <div className={classes.basket_main}>
+                        <span
+                           className={classes.basket_title}
+                           onClick={() => openProductHandler(props.slug)}
+                        >
+                           {props.title}
+                        </span>
+
+                        <div className={classes.basket_sizes}>
+                           {
+                              Object.keys(props.numSizes).map(el => (
+                                 <RadioBox
+                                    value={el}
+                                    checked={el === curSize}
+                                    onChange={() => setCurSize(el)}
+                                    available={props.numSizes[el]}
+                                    key={el}
+                                 />
+                              ))
+                           }
+                        </div>
+                     </div>
                   </div>
 
                   <div className={classes.bottomBar}>
@@ -218,21 +276,24 @@ const ProductCard = React.forwardRef((props, ref) => {
                               [classes.counter_minus,
                                amount < 2 && classes.counter_disabled].join(' ')
                            }
-                           aria-disabled={amount < 2}
-                           onClick={e => changeAmount(e, 'minus')}
+                           onClick={() => changeAmount('minus')}
                         />
 
                         <input
                            type="number"
                            className={classes.counter_input}
                            value={amount}
-                           onChange={e => changeAmount(e)}
+                           onChange={e => setAmount(e.target.value)}
+                           onBlur={e => changeAmount(e.target.value)}
                         />
 
                         <FontAwesomeIcon
                            icon={faPlus}
-                           className={classes.counter_plus}
-                           onClick={e => changeAmount(e, 'plus')}
+                           className={
+                              [classes.counter_minus,
+                               sizeAmount === amount && classes.counter_disabled].join(' ')
+                           }
+                           onClick={() => changeAmount('plus')}
                         />
                      </div>
 

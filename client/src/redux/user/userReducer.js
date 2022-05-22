@@ -40,22 +40,46 @@ const userReducer = createSlice({
          state.dataUpdate = action.payload
       },
       pushToWishList(state, action) {
-         state.wishList.push(action.payload)
+         if (typeof action.payload === 'string') {
+            state.wishList.push(action.payload)
+         } else {
+            state.wishList = [...state.wishList, ...action.payload]
+         }
       },
       removeFromWishList(state, action) {
          state.wishList = state.wishList.filter(el => {
+            console.log(action.payload)
+            console.log(el)
             return !action.payload.includes(el)
          })
       },
       pushToBasket(state, action) {
-         state.basket.push(action.payload)
+         if (typeof action.payload === 'string') {
+            state.basket.push(action.payload)
+         } else {
+            state.basket = [...state.basket, ...action.payload]
+         }
       },
       removeFromBasket(state, action) {
          state.basket = state.basket.filter(el => {
             return !action.payload.includes(el)
          })
-      }
+      },
+      updateLocalStorage(state, action) {
+         window.localStorage.setItem(action.payload, JSON.stringify(state[action.payload]))
+      },
+      loadLocalStorage(state, action) {
+         const wishList = JSON.parse(localStorage.getItem('wishList'))
+         const basket = JSON.parse(localStorage.getItem('basket'))
+         const purchases = JSON.parse(localStorage.getItem('purchases'))
 
+         if (wishList)
+            state.wishList = wishList
+         if (basket)
+            state.basket = basket
+         if (purchases)
+            state.purchases = purchases
+      }
    },
    extraReducers(builder) {
       builder
@@ -196,7 +220,9 @@ export const {
    pushToWishList,
    removeFromWishList,
    pushToBasket,
-   removeFromBasket
+   removeFromBasket,
+   updateLocalStorage,
+   loadLocalStorage
 } = userReducer.actions
 
 export default userReducer.reducer

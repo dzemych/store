@@ -2,11 +2,10 @@ import React, {useEffect, useState} from 'react'
 import classes from './WishList.module.sass'
 import ProductCard from "../../components/ProductCard/ProductCard";
 import Button from "../../forms/Button/Button";
-import '../basicStyles.sass'
 import {useDispatch, useSelector} from "react-redux";
 import {useHttp} from "../../functions/http.hook";
 import {fetchBasket, fetchWishList} from "../../redux/user/userAction";
-import {pushToBasket, removeFromWishList} from "../../redux/user/userReducer";
+import {pushToBasket, removeFromWishList, updateLocalStorage} from "../../redux/user/userReducer";
 
 
 const WishList = (props) => {
@@ -16,47 +15,60 @@ const WishList = (props) => {
 
    const dispatch = useDispatch()
 
-   const {requestJson, loading} = useHttp()
+   const {requestJson} = useHttp()
 
    const [products, setProducts] = useState([])
 
    const buyAll = () => {
-      if (isAuth) {
-         dispatch(fetchWishList({id: wishList, type: 'remove'}))
-         dispatch(fetchBasket({id: wishList, type: 'push'}))
-      } else {
+      if (wishList.length > 0) {
+         if (isAuth) {
+            dispatch(fetchBasket({id: wishList, type: 'push'}))
+            dispatch(fetchWishList({id: wishList, type: 'remove'}))
+         } else {
+            dispatch(pushToBasket(wishList))
+            dispatch(removeFromWishList(wishList))
+
+            dispatch(updateLocalStorage('wishList'))
+            dispatch(updateLocalStorage('basket'))
+         }
+      }
+   }
+
+   const deleteAll = () => {
+      if (wishList.length > 0) {
          dispatch(removeFromWishList(wishList))
-         dispatch(pushToBasket(wishList))
+         dispatch(updateLocalStorage('wishList'))
       }
    }
 
    useEffect(() => {
-      (async () => {
-         const data = await requestJson(
-            `/product/getProducts`,
-            'POST',
-            JSON.stringify({products: wishList}),
-            {'Content-Type': 'application/json'}
-         )
+      if (wishList.length > 0) {
+         (async () => {
+            const data = await requestJson(
+               `/product/getProducts`,
+               'POST',
+               JSON.stringify({products: wishList}),
+               {'Content-Type': 'application/json'}
+            )
 
-         console.log(data)
-         setProducts(data.products)
-      })()
+            setProducts(data.products)
+         })()
+      } else {setProducts([])}
    }, [wishList])
 
    return (
-      <div className={'container'}>
+      <div className={classes.container}>
          <div className={classes.wrapper}>
             <h1 className={'title'}>Your wish list</h1>
 
             <div className={classes.actions_container}>
                <span
                   className={classes.action_btn}
-                  onClick={() => buyAll()}
+                  onClick={buyAll}
                >Buy all</span>
                <span
                   className={classes.action_btn}
-                  onClick={() => dispatch(removeFromWishList(wishList))}
+                  onClick={deleteAll}
                >Delete all</span>
             </div>
 
@@ -97,9 +109,10 @@ const WishList = (props) => {
 
                <div
                   className={classes.sum_right}
-                  onClick={() => buyAll()}
+                  onClick={buyAll}
                >
-                  <Button type={'bigGreen_button'}>Buy all</Button>
+                  {products.length > 0 &&
+                  <Button type={'bigGreen_button'}>Buy all</Button>}
                </div>
             </div>
 

@@ -9,10 +9,11 @@ const validator = require('validator')
 const changeUser = async (field, userId, productId, type) => {
    const query = typeof productId === "string"
       ? {[field]: productId}
-      : {[field]: {[[type] === 'push' ? '$each' : '$in']: productId}}
+      : {[field]: {[type === 'push' ? '$each' : '$in']: productId}}
 
    let user
 
+   console.log(query)
    if (type === 'push')
       user = await User.findOneAndUpdate({_id: userId}, {
          $addToSet: query
@@ -23,6 +24,7 @@ const changeUser = async (field, userId, productId, type) => {
          $pull: query
       }, {new: true}).lean()
 
+   console.log(user)
    return user
 }
 
