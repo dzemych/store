@@ -11,9 +11,18 @@ import {useParams} from "react-router-dom";
 import {fetchProduct} from "../../redux/product/productActions";
 import {useDispatch, useSelector} from "react-redux";
 import {setStatus} from '../../redux/product/productReducer'
+import {pushToRecently} from "../../redux/recently/recentlyReducer";
+import useWishAndBasketList from "../../functions/useWishAndBasketList.hook";
 
 
 const Product = (props) => {
+   const pages = [
+      {key: 'Review', value: 'review'},
+      {key: 'Ratings', value: 'ratings'},
+      {key: 'Questions', value: 'questions'},
+      {key: 'Ask a question', value: 'askQuestion'},
+      {key: 'Leave a review', value: 'leaveRating'}
+   ]
 
    const params = useParams()
    const dispatch = useDispatch()
@@ -25,14 +34,6 @@ const Product = (props) => {
 
    const isTablet = useMediaQuery({minWidth: 768})
 
-   const pages = [
-      {key: 'Review', value: 'review'},
-      {key: 'Ratings', value: 'ratings'},
-      {key: 'Questions', value: 'questions'},
-      {key: 'Ask a question', value: 'askQuestion'},
-      {key: 'Leave a review', value: 'leaveRating'}
-   ]
-
    useEffect(() => {
       if (status === 'idle')
       dispatch(fetchProduct(params.slug))
@@ -40,7 +41,13 @@ const Product = (props) => {
       return () => {
          dispatch(setStatus())
       }
-   }, [])
+   }, [params.slug])
+
+   useEffect(() => {
+      if (product && product._id) {
+         dispatch(pushToRecently(product._id))
+      }
+   }, [product])
 
    return (
       <div className={classes.container}>

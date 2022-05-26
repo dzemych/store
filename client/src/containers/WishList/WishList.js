@@ -76,6 +76,7 @@ const WishList = (props) => {
                {wishList.length > 0
                   ? products.map((item, i) => (
                      <ProductCard
+                        key={props.slug}
                         id={item._id}
                         slug={item.slug}
                         title={item.title}
@@ -83,7 +84,6 @@ const WishList = (props) => {
                         mainPhoto={item.mainPhoto}
                         avgRating={item.avgRating}
                         numRating={item.numRating}
-                        key={props.slug}
                      />
                   ))
                   : <div className={classes.noProducts}>

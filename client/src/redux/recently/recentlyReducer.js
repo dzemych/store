@@ -1,17 +1,21 @@
 const {createSlice} = require("@reduxjs/toolkit");
+
+
 const initialState = {
    products: []
 }
 
 const recentlyReducer = createSlice({
    name: 'recently',
+   initialState,
    reducers: {
       pushToRecently(state, action) {
          const id = action.payload
          const products = state.products
 
          if (products.includes(id)) {
-            products.sort((x,y) => x === id ? -1 : y === id ? 1 : 0)
+            const i = products.indexOf(id)
+            state.products = products.sort((x,y) => x === id ? -1 : y === id ? 1 : 0)
          } else {
             if (products.length < 12) {
                products.unshift(id)

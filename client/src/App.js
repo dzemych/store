@@ -8,6 +8,7 @@ import {Phone} from "./functions/mediaCheck";
 import {useDispatch} from "react-redux";
 import {fetchUser} from "./redux/user/userAction";
 import {loadLocalStorage} from "./redux/user/userReducer";
+import {loadRecentlyFromStorage} from "./redux/recently/recentlyReducer";
 
 
 function App() {
@@ -24,6 +25,10 @@ function App() {
          dispatch(loadLocalStorage())
       }
    }, [dispatch])
+
+   useEffect(() => {
+      dispatch(loadRecentlyFromStorage())
+   }, [])
 
    return (
       <div className={classes.container}>

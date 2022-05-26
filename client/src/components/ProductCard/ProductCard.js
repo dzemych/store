@@ -12,32 +12,22 @@ import ReactStars from "react-rating-stars-component";
 import {useMediaQuery} from "react-responsive";
 import {useHttp} from "../../functions/http.hook";
 import {useNavigate} from "react-router-dom";
-import {fetchBasket, fetchWishList} from "../../redux/user/userAction";
 import {useDispatch, useSelector} from "react-redux";
-import {
-   pushToBasket,
-   pushToWishList, removeFromBasket,
-   removeFromWishList,
-   updateLocalStorage
-} from "../../redux/user/userReducer";
 import RadioBox from "../../forms/RadioBox/RadioBox";
+import useWishAndBasketList from "../../functions/useWishAndBasketList.hook";
 
 
 const ProductCard = React.forwardRef((props, ref) => {
 
    const {requestImg} = useHttp()
    const navigate = useNavigate()
-   const dispatch = useDispatch()
+   const {wishListHandler, basketHandler, isBasket, isWish} = useWishAndBasketList(props.id)
 
-   const wishList = useSelector(state => state.user.wishList)
-   const basket = useSelector(state => state.user.basket)
-
-   const isAuth = useSelector(state => state.user.token)
    const [img, setImg] = useState(null)
    const [amount, setAmount] = useState(1)
    const [status, setStatus] = useState('idle')
    const [curSize, setCurSize ] = useState('s')
-   const [sizeAmount, setSizeAmount] = useState(props.numSizes[curSize])
+   const [sizeAmount, setSizeAmount] = useState(0)
 
    const isTablet = useMediaQuery({ minWidth: 425 })
    const isBigScreen = useMediaQuery({minWidth: 1440})
@@ -52,7 +42,7 @@ const ProductCard = React.forwardRef((props, ref) => {
          break
 
       default:
-         if (wishList.includes(props.id)) {
+         if (isWish) {
             icon = faHeartCircleMinus
             break
          }
@@ -78,50 +68,11 @@ const ProductCard = React.forwardRef((props, ref) => {
       navigate('/products/' + slug)
    }
 
-   const basketHandler = () => {
-      if (!basket.includes(props.id)){
-         if (isAuth) {
-            dispatch(fetchBasket({id: props.id, type: 'push'}))
-         } else {
-            dispatch(pushToBasket(props.id))
-            dispatch(updateLocalStorage('basket'))
-         }
-      } else {
-         navigate('/shopping-cart')
-      }
-   }
-
    const iconClickHandler = () => {
-      if (isAuth) {
-         if (props.type === 'basket') {
-
-            dispatch(fetchBasket({id: props.id, type: 'remove'}))
-
-         } else {
-
-            if (wishList.includes(props.id)) {
-               dispatch(fetchWishList({id: props.id, type: 'remove'}))
-            } else {
-               dispatch(fetchWishList({id: props.id, type: 'push'}))
-            }
-
-         }
+      if (props.type === 'basket') {
+         basketHandler(props.id)
       } else {
-         if (props.type === 'basket') {
-
-            dispatch(removeFromBasket(props.id))
-            dispatch(updateLocalStorage('basket'))
-
-         } else {
-
-            if (wishList.includes(props.id)) {
-               dispatch(removeFromWishList(props.id))
-            } else {
-               dispatch(pushToWishList(props.id))
-            }
-
-            dispatch(updateLocalStorage('wishList'))
-         }
+         wishListHandler(props.id)
       }
    }
 
@@ -168,7 +119,9 @@ const ProductCard = React.forwardRef((props, ref) => {
    }, [props.mainPhoto, requestImg, props.slug])
 
    useEffect(() => {
-      setSizeAmount(props.numSizes[curSize])
+      if (props.numSizes)
+         setSizeAmount(props.numSizes[curSize])
+
    }, [curSize])
 
    useEffect(() => {
@@ -226,7 +179,7 @@ const ProductCard = React.forwardRef((props, ref) => {
                      </div>
 
                      <FontAwesomeIcon
-                        icon={basket.includes(props.id)
+                        icon={isBasket
                            ? faCheck
                            : faShoppingCart
                         }

@@ -4,14 +4,15 @@ import Slider, {SliderItem} from "../../../components/Slider/Slider";
 import RadioBox from "../../../forms/RadioBox/RadioBox";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-   faCartShopping,
-   faCircleCheck,
+   faCartShopping, faCheck,
+   faCircleCheck, faHeartCircleMinus,
    faHeartCirclePlus,
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../../forms/Button/Button";
 import MediaQuery from "react-responsive";
 import {useSelector} from "react-redux";
 import PhotoItem from "./PhotoItem";
+import useWishAndBasketList from "../../../functions/useWishAndBasketList.hook";
 
 
 const Review = (props) => {
@@ -19,6 +20,8 @@ const Review = (props) => {
 
    const product = useSelector(state => state.product.product)
    const status = useSelector(state => state.product.status)
+
+   const {wishListHandler, basketHandler, isWish, isBasket} = useWishAndBasketList(product._id)
 
    useEffect(() => {
       if (product.status === 'active') {
@@ -103,11 +106,19 @@ const Review = (props) => {
                <div className={classes.action_top}>
                   <span>{product.price} ₴</span>
 
-                  <FontAwesomeIcon icon={faHeartCirclePlus}/>
+                  <FontAwesomeIcon
+                     icon={isWish ? faHeartCircleMinus : faHeartCirclePlus}
+                     onClick={() => wishListHandler()}
+                  />
                </div>
 
-               <Button type={'wideBlue_button'}>
-                  <FontAwesomeIcon icon={faCartShopping} style={{
+               <Button
+                  type={'wideBlue_button'}
+                  onClickHandler={() => basketHandler()}
+               >
+                  <FontAwesomeIcon
+                     icon={isBasket ? faCheck : faCartShopping}
+                     style={{
                      fontSize: "5vw",
                      marginRight: "2vw"
                   }}/>

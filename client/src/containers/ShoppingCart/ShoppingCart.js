@@ -18,7 +18,6 @@ const ShoppingCart = (props) => {
    const [products, setProducts] = useState([])
 
    useEffect(() => {
-      console.log(basket)
       if (basket.length > 0) {
          (async () => {
             const data = await requestJson(

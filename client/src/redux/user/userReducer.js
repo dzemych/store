@@ -48,8 +48,6 @@ const userReducer = createSlice({
       },
       removeFromWishList(state, action) {
          state.wishList = state.wishList.filter(el => {
-            console.log(action.payload)
-            console.log(el)
             return !action.payload.includes(el)
          })
       },
@@ -133,7 +131,6 @@ const userReducer = createSlice({
 
       // 4) Update user handlers
       .addCase('user/updateUser/fulfilled', (state, action) => {
-         console.log(action)
          Object.keys(action.payload.data.user).forEach(key => {
             state[key] = action.payload.data.user[key]
          })
@@ -147,7 +144,6 @@ const userReducer = createSlice({
          window.localStorage.setItem('token', action.payload.data.token)
       })
       .addCase('user/updateUser/rejected', (state, action) => {
-         console.log(action)
          if (action.error.message.includes('Invalid password'))
             state.pwdError = true
 
@@ -169,23 +165,19 @@ const userReducer = createSlice({
 
       // 6) Reset password handlers
       .addCase('user/resetPassword/fulfilled', (state, action) => {
-         console.log(action)
          state.isReset = 'success'
          state.loading = false
       })
       .addCase('user/resetPassword/rejected', (state, action) => {
-         console.log(action)
          state.isReset = 'rejected'
          state.loading = false
       })
 
       // 7) Fetch basket and wish list
       .addCase('user/fetchWishList/fulfilled', (state, action) => {
-         console.log(action)
          state.wishList = action.payload.wishList
       })
       .addCase('user/fetchBasket/fulfilled', (state, action) => {
-         console.log(action)
          state.basket = action.payload.basket
       })
 

@@ -1,60 +1,18 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import classes from './Slider.module.sass'
 import Slider, {SliderItem} from "./Slider";
 import ProductCard from "../ProductCard/ProductCard";
-import jeans from "../../img/jeans.jpg";
-import square from "../../img/square.jpg";
-import tShirt from '../../img/t-shirt.jpg'
 import {useMediaQuery} from "react-responsive";
+import {useSelector} from "react-redux";
+import {useHttp} from "../../functions/http.hook";
 
 
 const RecentlySlider = (props) => {
-   const products = [
-      {
-         type: 'basket',
-         title: "Amazing and cute jeans",
-         price: 850,
-         img: jeans
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-         img: square
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-         img: tShirt
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-         img: tShirt
-      },
-      {
-         type: 'basket',
-         title: "Fancy T-shirt",
-         price: 500,
-      }
-   ]
+
+   const {requestJson} = useHttp()
+
+   const [products, setProducts] = useState([])
+   const recently = useSelector(state => state.recently.products)
 
    const isTablet = useMediaQuery({minWidth: 660})
    const isLaptop = useMediaQuery({minWidth: 836})
@@ -69,21 +27,49 @@ const RecentlySlider = (props) => {
       : isTablet ? 3
       : 2
 
+   useEffect(() => {
+      if (recently.length > 0)
+         (async () => {
+            const data = await requestJson(
+               `/product/getProducts`,
+               'POST',
+               JSON.stringify({products: recently}),
+               {'Content-Type': 'application/json'}
+            )
+
+            setProducts(() => (
+               data.products.reduce((acc, el) => {
+                  const {_id, ...product} = el
+                  acc[_id] = product
+
+                  return acc
+               }, {})
+            ))
+         })()
+   }, [recently])
+
    return (
       <div className={classes.recently_container}>
          <h2 className={classes.recently_title}>Recently watched</h2>
 
-         <Slider slides={slides}>
-            {products.map((el, i) => (
-               <SliderItem slides={slides} key={i}>
-                  <ProductCard
-                     title={el.title}
-                     price={el.price}
-                     img={el.img}
-                  />
-               </SliderItem>
-            ))}
-         </Slider>
+         {Object.keys(products).length > 0
+         && <Slider slides={slides}>
+               {recently.map((id, i) => (
+                  <SliderItem slides={slides} key={i}>
+                     <ProductCard
+                        key={products[id].slug}
+                        slug={products[id].slug}
+                        id={id}
+                        title={products[id].title}
+                        price={products[id].price}
+                        mainPhoto={products[id].mainPhoto}
+                        avgRarting={products[id].avgRating}
+                        numRating={products[id].numRating}
+                        numSizes={products[id].numSizes}
+                     />
+                  </SliderItem>
+               ))}
+            </Slider>}
       </div>
    )
 }

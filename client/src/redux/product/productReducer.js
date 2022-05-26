@@ -3,6 +3,7 @@ const {createSlice} = require("@reduxjs/toolkit");
 
 const initialState = {
    product: {
+      _id: null,
       title: '___',
       price: '___',
       description: '___',
