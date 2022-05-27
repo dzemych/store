@@ -37,6 +37,7 @@ const RecentlySlider = (props) => {
                {'Content-Type': 'application/json'}
             )
 
+            console.log(data.products)
             setProducts(() => (
                data.products.reduce((acc, el) => {
                   const {_id, ...product} = el
@@ -47,6 +48,8 @@ const RecentlySlider = (props) => {
             ))
          })()
    }, [recently])
+
+   useEffect(() => {console.log(products)}, [products])
 
    return (
       <div className={classes.recently_container}>

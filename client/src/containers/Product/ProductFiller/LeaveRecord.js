@@ -1,14 +1,26 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import classes from './LeaveRecord.module.sass'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import '../../basicStyles.sass'
 import {faStar} from "@fortawesome/free-solid-svg-icons";
 import Button from "../../../forms/Button/Button";
+import {useHttp} from "../../../functions/http.hook";
+import {useDispatch, useSelector} from "react-redux";
+import {toggleAuth} from "../../../redux/app/appReducer";
 
 
 const LeaveRecord = (props) => {
 
-   const [stars, setStars] = useState()
+   const {requestJson, error, setError} = useHttp()
+
+   const productId = useSelector(state => state.product.product._id)
+   const isAuth = useSelector(state => state.user.token)
+
+   const dispatch = useDispatch()
+
+   const [stars, setStars] = useState(0)
+   const [text, setText] = useState('')
+   const [success, setSuccess] = useState(false)
 
    const rates = [
       {text: 'Horrible', value: 1},
@@ -30,6 +42,57 @@ const LeaveRecord = (props) => {
       setStars(val)
    }
 
+   const postRecord = async (type) => {
+      const body = {
+         product: productId,
+         text: text,
+         rating: stars
+      }
+
+      const response = await requestJson(
+         `/${type}`,
+         'POST',
+         JSON.stringify(body),
+         {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${isAuth}`
+         }
+      )
+
+      if (response.status === 'success')
+         setSuccess(true)
+   }
+
+   useEffect(() => {
+      setSuccess(false)
+      setStars(0)
+      setText('')
+      setError('')
+   }, [props.type])
+
+   const getButton = () => {
+      if (props.type === 'rating')
+         return (
+            <Button
+               type={'wideBlue_button'}
+               disabled={(stars < 1 || text.length < 3 || text.length > 400)}
+               onClickHandler={() => postRecord('rating')}
+            >
+               Leave review
+            </Button>
+         )
+      if (props.type === 'question')
+         return (
+            <Button
+               type={'wideBlue_button'}
+               disabled={text.length < 3 || text.length > 400}
+               onClickHandler={() => postRecord('question')}
+            >
+               Ask a question
+            </Button>
+         )
+   }
+
    return (
       <div className={classes.container}>
          <div className={classes.wrapper}>
@@ -42,65 +105,64 @@ const LeaveRecord = (props) => {
 
             <hr className={'main_hr'}/>
 
-            {props.type === 'rating' &&
-               <div className={classes.rates_section}>
-                  {rates.map((el, i) => (
-                     <div className={classes.rate_item} key={i}>
-                        <FontAwesomeIcon
-                           icon={faStar}
-                           className={getStarClass(el.value)}
-                           onClick={() => changeStars(el.value)}
-                        />
+            {success
+            ? <div className={classes.success_container}>
+                 <h1>
+                    {props.type === 'rating'
+                    ? 'Rating successfully posted'
+                    : 'We will answer you within two days'
+                    }
+                 </h1>
+            </div>
+            : isAuth
+               ? <>
+                  {props.type === 'rating' &&
+                  <div className={classes.rates_section}>
+                     {rates.map((el, i) => (
+                        <div className={classes.rate_item} key={i}>
+                           <FontAwesomeIcon
+                              icon={faStar}
+                              className={getStarClass(el.value)}
+                              onClick={() => changeStars(el.value)}
+                           />
 
-                        <span>{el.text}</span>
-                     </div>
-                  ))}
+                           <span>{el.text}</span>
+                        </div>
+                     ))}
+                  </div>}
+
+                  <div className={classes.text_wrapper}>
+                     <textarea
+                        placeholder={
+                           props.type === 'rating' ?
+                              'Wrote your review':
+                              'Ask a question'
+                        }
+                        name="rating_text"
+                        id="rating_text"
+                        rows="8"
+                        value={text}
+                        onChange={e => setText(e.target.value)}
+                     />
+                  </div>
+
+                  {getButton()}
+
+                  {(error && error.message.includes('E11000')) &&
+                  <span className={classes.ratingDuplicate}>
+                     You cannot post more than one rating
+                  </span>}
+               </>
+               : <div className={classes.noAuth_container}>
+                  <h1>Please login</h1>
+                  <Button
+                     type={'wideBlue_button'}
+                     onClickHandler={() => dispatch(toggleAuth())}
+                  >
+                     Log in
+                  </Button>
                </div>
             }
-            
-            <div className={classes.text_wrapper}>
-               <textarea
-                  placeholder={
-                     props.type === 'rating' ?
-                        'Wrote your review':
-                        'Ask a question'
-                  }
-                  name="rating_text"
-                  id="rating_text"
-                  rows="8"
-               />
-            </div>
-
-            <div className={classes.owner_data}>
-               <div className={classes.data_input_container}>
-                  <label htmlFor="name_input">
-                     Your name
-                  </label>
-
-                  <input
-                     type="text"
-                     id={'name_input'}
-                     placeholder={'Your name'}
-                  />
-               </div>
-
-               <div className={classes.data_input_container}>
-                  <label htmlFor="name_input">
-                     Your email
-                  </label>
-
-                  <input
-                     type="text"
-                     id={'email_input'}
-                     placeholder={'Your email'}
-                  />
-               </div>
-            </div>
-
-            <Button type={'wideBlue_button'}>
-               {props.type === 'rating' ? 'Leave review'
-                  : 'Ask question'}
-            </Button>
          </div>
       </div>
    )

@@ -62,12 +62,6 @@ hr
     &::-webkit-resizer
       display: none
 
-.owner_data
-  margin-bottom: 5vw
-  width: 100%
-  display: flex
-  flex-direction: column
-
 .data_input_container
   padding: 2vw
   display: flex
@@ -83,6 +77,30 @@ hr
     margin: 0 0 1.5vw
     font-family: RobotoRegular, sans-serif
     color: #333
+
+.noAuth_container
+  width: 100%
+  padding: 1vw 3vw 2vw
+  display: flex
+  flex-direction: column
+  align-items: center
+  & h1
+    font-family: Satisfy, sans-serif
+    margin-bottom: 4vw
+
+.success_container
+  width: 100%
+  padding-top: 1.5em
+  display: flex
+  justify-content: center
+  & h1
+    font-family: Satisfy, sans-serif
+
+.ratingDuplicate
+  margin-top: 10px
+  margin-left: 5px
+  color: #be5555
+  font-size: 1.4em
 
 @media (min-width: 768px)
   .container
@@ -137,7 +155,11 @@ hr
 
 @media (min-width: 1024px)
   .container
-    width: 50%
+    width: 60%
 
   .rates_section
     width: 75%
+
+@media (min-width: 1440px)
+  .container
+    width: 45%

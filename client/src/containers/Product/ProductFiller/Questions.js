@@ -20,6 +20,7 @@ const Questions = (props) => {
             try {
                const questions = await requestJson(`/question/productQuestions/${product._id}`)
 
+               console.log(questions.data)
                setQuestions(questions.data)
             } catch (e) {
                console.log(e)
@@ -41,14 +42,10 @@ const Questions = (props) => {
                ? questions.map((el, i) => (
                   <QuestionItem
                      key={i}
-                     userName={el.userName}
-                     date={el.date}
+                     userName={el.user.name}
+                     date={el.createdAt}
                      text={el.text}
-                     answer={{
-                        date: el.answer.date,
-                        text: el.answer.text,
-                        nick: el.answer.nick ? el.answer : 'Jasmin'
-                     }}
+                     answer={el.answer}
                   />
                   ))
                : <h1 className={classes.noQuestions}>No questions</h1>

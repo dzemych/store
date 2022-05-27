@@ -18,8 +18,8 @@ const questionSchema = new Schema({
    text: {
       type: String,
       required: true,
-      minlength: 4,
-      maxlength: 300
+      minlength: 3,
+      maxlength: 400
    },
    createdAt: {
       type: Date,

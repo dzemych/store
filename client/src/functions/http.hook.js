@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 
 export const useHttp = () => {
    const [loading, setLoading] = useState(false)
-   const [error, setError] = useState(null)
+   const [error, setError] = useState('')
 
    const dbUrl = useSelector(state => state.app.dbUrl)
 
@@ -46,7 +46,7 @@ export const useHttp = () => {
             `${dbUrl}${url}`,
             {method, body, headers}
          )
-         const data = response.json()
+         const data = await response.json()
 
          if (!response.ok)
             throw new Error(data.message || 'Something went wrong')
@@ -57,10 +57,8 @@ export const useHttp = () => {
       } catch (e) {
          setError(e)
          setLoading(false)
-
-         throw e
       }
    }, [dbUrl])
 
-   return {loading, error, requestJson, requestImg}
+   return {loading, error, requestJson, requestImg, setError}
 }

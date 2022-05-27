@@ -3,7 +3,7 @@ import classes from './User.module.sass'
 import {useDispatch, useSelector} from "react-redux";
 import Button from "../../forms/Button/Button";
 import {updateUser} from "../../redux/user/userAction";
-import {clearErrors, setDataUpdate} from "../../redux/user/userReducer";
+import {clearErrors, logOut, setDataUpdate} from "../../redux/user/userReducer";
 import Input from "../../forms/Input/Input";
 import useForms from "../../functions/forms.hook";
 
@@ -157,6 +157,15 @@ const User = (props) => {
                </div>}
 
             <hr className={classes.basic_hr}/>
+
+            <div className={classes.logOut_container}>
+               <Button
+                  type={'wideEmptyBlue_button'}
+                  onClickHandler={() => dispatch(logOut())}
+               >
+                  Log out
+               </Button>
+            </div>
 
          </div>
       </div>

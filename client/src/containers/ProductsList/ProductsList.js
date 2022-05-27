@@ -11,36 +11,30 @@ import {useLocation} from "react-router-dom";
 const ProductsList = (props) => {
 
    const [products, setProducts] = useState([])
-   const [status, setStatus] = useState('idle')
    const [showMore, setShowMore] = useState(true)
+   const [sort, setSort] = useState('-avgRating')
 
    const {requestJson} = useHttp()
    const location = useLocation()
 
    useEffect(() => {
-      if (status === 'idle'){
          (async () => {
             try {
                const data = await requestJson(
-                  `/product${location.search}&page=1&limit=10&
-                  fields=price,title,slug,avgRating,numRating,mainPhoto,_id`
+                  `/product${location.search}&page=1&limit=10&` +
+                  `fields=price,title,slug,avgRating,numRating,mainPhoto,_id&` +
+                  `sort=${sort}`
                )
 
                setProducts(data.products)
-               setStatus('success')
 
                if (data.results < 10)
                   setShowMore(false)
             } catch (e) {
-               setStatus('error')
+               console.log(e)
             }
          })()
-      }
-   }, [location, requestJson, status])
-
-   useEffect(() => {
-      setStatus('idle')
-   }, [location.search])
+   }, [location.search, requestJson, sort])
 
    const getProduct = useMemo(() => {
       if (!products || products.length === 0)
@@ -69,10 +63,15 @@ const ProductsList = (props) => {
             <h2 className={classes.title}>Title</h2>
 
             <div className={classes.sort_panel}>
-               <select name="sort" id="sort" className={classes.select}>
-                  <option value="price_h_to_l">Price from high to low</option>
-                  <option value="price_l_to_h">Price from low to high</option>
-                  <option value="most_popular">Most popular</option>
+               <select
+                  name="sort"
+                  id="sort"
+                  className={classes.select}
+                  onChange={e => setSort(e.target.value)}
+               >
+                  <option value="-avgRating">Most popular</option>
+                  <option value="-price">Price from high to low</option>
+                  <option value="price">Price from low to high</option>
                   <option value="newest">Newest</option>
                </select>
             </div>

@@ -166,9 +166,6 @@ const Ratings = (props) => {
                : <h1 className={classes.noRatings}>No ratings yet</h1>
 
             }
-            {/*<div className={classes.showMore_container}>*/}
-            {/*   <Button type={'viewAll_button'}>Show more</Button>*/}
-            {/*</div>*/}
          </div>
       </div>
    )

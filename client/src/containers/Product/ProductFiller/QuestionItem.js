@@ -15,7 +15,7 @@ const QuestionItem = (props) => {
             </span>
 
             <span className={classes.question_date}>
-               {props.date}
+               {new Date(props.date).toLocaleDateString()}
             </span>
          </div>
 
@@ -56,7 +56,7 @@ const QuestionItem = (props) => {
 
                      <div className={classes.question_topBar}>
                         <span className={classes.question_userName}>
-                           {props.answer.nick}
+                           {props.answer.nick ? props.answer.nick : 'Jasmin'}
                         </span>
 
                         <span className={classes.question_date}>

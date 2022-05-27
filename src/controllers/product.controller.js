@@ -108,6 +108,7 @@ exports.updateOneProduct = catchAsync(async (req, res, next) => {
 exports.getAllProducts = catchAsync(async (req, res, next) => {
    // 1) Create queryObj and query it throw filter obj
    const features = new APIfeatures(Product, {...req.query})
+   console.log(req.query)
 
    features
       .filter()
@@ -145,7 +146,6 @@ exports.getProductsFromArr = catchAsync(async (req, res, next) => {
    if (req.body.type === 'slug')
       queryObj
 
-   console.log(req.body)
    if (!arr)
       return next(new AppError('Please provide products array', 400))
 
