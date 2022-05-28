@@ -1,25 +1,40 @@
 import React, {useEffect, useState} from 'react'
 import classes from './Ratings.module.sass'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHeartCirclePlus, faStar, faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
+import {faHeartCircleMinus, faHeartCirclePlus, faStar, faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
 import ReactStars from "react-rating-stars-component";
 import Button from "../../../forms/Button/Button";
 import {Tablet} from "../../../functions/mediaCheck";
-import tShirt from '../../../img/t-shirt.jpg'
 import {useHttp} from "../../../functions/http.hook";
 import {useSelector} from "react-redux";
 import {useMediaQuery} from "react-responsive";
+import useWishAndBasketList from "../../../functions/useWishAndBasketList.hook";
+import defaultPhoto from '../../../img/no-image.png'
 
 
 const Ratings = (props) => {
 
-   const {requestJson} = useHttp()
+   const {requestJson, requestImg} = useHttp()
+
+   const [photo, setPhoto] = useState(null)
+
    const product = useSelector(state => state.product.product)
+
+   const {wishListHandler, basketHandler, isWish} = useWishAndBasketList(product._id)
 
    const [stats, setStats] = useState([])
    const [ratings, setRatings] = useState([])
 
    const isTablet = useMediaQuery({ minWidth: 768 })
+
+   const basketClick = () => {
+      if (product.status === 'active')
+         basketHandler()
+   }
+
+   const wishClick = () => {
+      wishListHandler()
+   }
 
    useEffect(() => {
       if (product._id) {
@@ -36,6 +51,24 @@ const Ratings = (props) => {
          })()
       }
    }, [product._id])
+
+   useEffect(() => {
+      if (product.slug) {
+         try {
+            (async () => {
+               const response = await requestImg(
+                  `/img/product/${product.slug}/${product.mainPhoto}`
+               )
+               const blob = await response.blob()
+
+               setPhoto(URL.createObjectURL(blob))
+            })()
+         } catch(e) {
+            console.log(e)
+         }
+      }
+
+   }, [product.slug])
 
    return (
       <div className={classes.container}>
@@ -89,7 +122,7 @@ const Ratings = (props) => {
                <div className={classes.product_container}>
                   <div className={classes.product_header}>
                      <div className={classes.product_img_container}>
-                        <img src={tShirt} alt=""/>
+                        <img src={product.mainPhoto ? photo : defaultPhoto} alt=""/>
                      </div>
 
                      <div className={classes.product_title}>
@@ -104,12 +137,19 @@ const Ratings = (props) => {
                         </div>
 
                         <div className={classes.product_wish}>
-                           <FontAwesomeIcon icon={faHeartCirclePlus}/>
+                           <FontAwesomeIcon
+                              icon={isWish ? faHeartCircleMinus : faHeartCirclePlus}
+                              onClick={wishClick}
+                           />
                         </div>
                      </div>
 
                      <div className={classes.action_bottom}>
-                        <Button type={'wideBlue_button'}>
+                        <Button
+                           type={'wideBlue_button'}
+                           onClickHandler={basketClick}
+                           disabled={product.status !== 'active'}
+                        >
                            Purchase
                         </Button>
                      </div>
@@ -130,13 +170,13 @@ const Ratings = (props) => {
                      ratings.map((el, i) => (
                         <div className={classes.rating_item} key={i}>
                            <div className={classes.rating_topBar}>
-                        <span className={classes.rating_userName}>
-                           {el.user.name}
-                        </span>
+                              <span className={classes.rating_userName}>
+                                 {el.user.name}
+                              </span>
 
                               <span className={classes.rating_date}>
-                           {new Date(el.createdAt).toLocaleDateString()}
-                        </span>
+                                 {new Date(el.createdAt).toLocaleDateString()}
+                              </span>
                            </div>
 
                            <div className={classes.rating_main}>

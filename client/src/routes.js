@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {toggleAuth} from "./redux/app/appReducer";
 import ForgotPassword from "./containers/ForgotPassword/ForgotPassword";
 import ResetPassword from "./containers/ForgotPassword/ResetPassword";
+import Checkout from "./containers/Purchase/Checkout";
 
 
 const useRoutes = (props) => {
@@ -47,6 +48,7 @@ const useRoutes = (props) => {
              ? <Route path={'/orders'} exact element={ <Orders/> } />
              : <Route path={'/orders'} exact element={ <Home/> } />
           }
+          <Route path={'/checkout'} exact element={ <Checkout/> }/>
           <Route path={'/resetPassword'} exact element={ <ForgotPassword/> }/>
           <Route path={'/resetPassword/:token'} exact element={ <ResetPassword/> }/>
           <Route path={'/products/:slug'} exact element={ <Product/> } />

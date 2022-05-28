@@ -37,7 +37,6 @@ const RecentlySlider = (props) => {
                {'Content-Type': 'application/json'}
             )
 
-            console.log(data.products)
             setProducts(() => (
                data.products.reduce((acc, el) => {
                   const {_id, ...product} = el
@@ -49,8 +48,6 @@ const RecentlySlider = (props) => {
          })()
    }, [recently])
 
-   useEffect(() => {console.log(products)}, [products])
-
    return (
       <div className={classes.recently_container}>
          <h2 className={classes.recently_title}>Recently watched</h2>
@@ -60,10 +57,11 @@ const RecentlySlider = (props) => {
                {recently.map((id, i) => (
                   <SliderItem slides={slides} key={i}>
                      <ProductCard
+                        id={id}
                         key={products[id].slug}
                         slug={products[id].slug}
-                        id={id}
                         title={products[id].title}
+                        status={products[id].status}
                         price={products[id].price}
                         mainPhoto={products[id].mainPhoto}
                         avgRarting={products[id].avgRating}

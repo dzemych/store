@@ -1,21 +1,31 @@
 import React, {useEffect, useState} from 'react'
 import classes from './ShoppingCart.module.sass'
 import '../basicStyles.sass'
-import ProductCard from "../../components/ProductCard/ProductCard";
 import Button from "../../forms/Button/Button";
 import MediaQuery from "react-responsive";
 import {useDispatch, useSelector} from "react-redux";
 import {useHttp} from "../../functions/http.hook";
+import {useNavigate} from "react-router-dom";
+import ShoppingCard from "../../components/ProductCard/ShoppingCard";
+import {addCheckout} from "../../redux/purchase/purchaseReducer";
 
 
 const ShoppingCart = (props) => {
 
    const {requestJson} = useHttp()
-
+   const navigate = useNavigate()
    const dispatch = useDispatch()
+
    const basket = useSelector(state => state.user.basket)
+   const [items, setItems] = useState({})
 
    const [products, setProducts] = useState([])
+
+   const onPurchase = () => {
+      console.log(items)
+      dispatch(addCheckout(items))
+      navigate('/checkout')
+   }
 
    useEffect(() => {
       if (basket.length > 0) {
@@ -46,8 +56,8 @@ const ShoppingCart = (props) => {
                            key={i}
                            className={classes.product_item}
                         >
-                           <ProductCard
-                              type={'basket'}
+                           <ShoppingCard
+                              setSize={setItems}
                               key={el.slug}
                               slug={el.slug}
                               id={el._id}
@@ -84,7 +94,12 @@ const ShoppingCart = (props) => {
                   </div>
 
                   {products.length > 0 &&
-                  <Button type={'bigGreen_button'}>Purchase</Button>}
+                  <Button
+                     type={'bigGreen_button'}
+                     onClickHandler={onPurchase}
+                  >
+                     Purchase
+                  </Button>}
                </div>
             </div>
          </div>

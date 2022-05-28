@@ -11,11 +11,11 @@ const RadioBox = (props) => {
               type="radio"
               onChange={props.available ? props.onChange : () => {}}
               value={props.value}
-              id={`radio_box_${props.value}`}
+              id={`radio_box_${props.id}`}
               checked={props.checked}
            />
            <label
-              htmlFor={`radio_box_${props.value}`}
+              htmlFor={`radio_box_${props.id}`}
               onClick={props.available ? props.onChange : () => {}}
            >
               {props.value.toUpperCase()}

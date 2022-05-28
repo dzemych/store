@@ -79,6 +79,7 @@ const WishList = (props) => {
                         key={props.slug}
                         id={item._id}
                         slug={item.slug}
+                        status={item.status}
                         title={item.title}
                         price={item.price}
                         mainPhoto={item.mainPhoto}

@@ -37,6 +37,11 @@ const Review = (props) => {
       }
    }, [product])
 
+   const basketClick = () => {
+      if (product.status === 'active')
+         basketHandler()
+   }
+
    return (
       <div className={classes.container}>
          <MediaQuery maxWidth={768}>
@@ -74,6 +79,7 @@ const Review = (props) => {
                         return (
                            <RadioBox
                               value={el}
+                              id={el}
                               checked={el === curSize}
                               onChange={() => setCurSize(el)}
                               available={product.numSizes[el]}
@@ -114,14 +120,16 @@ const Review = (props) => {
 
                <Button
                   type={'wideBlue_button'}
-                  onClickHandler={() => basketHandler()}
+                  onClickHandler={() => basketClick()}
+                  disabled={product.status !== 'active'}
                >
                   <FontAwesomeIcon
                      icon={isBasket ? faCheck : faCartShopping}
                      style={{
-                     fontSize: "5vw",
-                     marginRight: "2vw"
-                  }}/>
+                        fontSize: "5vw",
+                        marginRight: "2vw"
+                     }}/>
+
                   Purchase
                </Button>
             </div>

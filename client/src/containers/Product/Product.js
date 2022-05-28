@@ -12,7 +12,6 @@ import {fetchProduct} from "../../redux/product/productActions";
 import {useDispatch, useSelector} from "react-redux";
 import {setStatus} from '../../redux/product/productReducer'
 import {pushToRecently} from "../../redux/recently/recentlyReducer";
-import useWishAndBasketList from "../../functions/useWishAndBasketList.hook";
 
 
 const Product = (props) => {

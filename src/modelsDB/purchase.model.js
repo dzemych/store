@@ -161,4 +161,4 @@ purchaseSchema.post('save', async function(doc) {
    }
 })
 
-module.exports = model('Purchase', purchaseSchema)
+module.exports = model('Checkout', purchaseSchema)
