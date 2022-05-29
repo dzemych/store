@@ -11,10 +11,18 @@ const useForms = (fields) => {
 
       if (fields.hasOwnProperty('name')) {
          if (form.name.length < 2)
-            newError['name'] = 'Минимальная длина имени 2 символа'
+            newError.name = 'Минимальная длина имени 2 символа'
 
          if (!form.name.match(/^[а-яА-ЯёЁ]+$/))
             newError.name = 'Возможные символы: А-Я'
+      }
+
+      if (fields.hasOwnProperty('surname')) {
+         if (form.surname.length < 2)
+            newError.surname = 'Минимальная длина фамилии 2 символа'
+
+         if (!form.surname.match(/^[а-яА-ЯёЁ]+$/))
+            newError.surname = 'Возможные символы: А-Я'
       }
 
       if (fields.hasOwnProperty('email')) {
@@ -37,6 +45,11 @@ const useForms = (fields) => {
             newError.oldPassword = 'Минимальная длина пароля 8 символов'
          if (form.oldPassword === form.password)
             newError.password = 'Вы не можете поставить новый пароль такой же как новый'
+      }
+
+      if (fields.hasOwnProperty('tel')){
+         if (validator.isMobilePhone(form.tel, 'uk-UA'))
+            newError.tel = 'Некоректный номер телефона'
       }
 
       setError(newError)

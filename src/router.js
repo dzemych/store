@@ -12,6 +12,8 @@ const imgRouter = require('./routes/img.router')
 
 const router = Router()
 
+console.log('Yee request')
+
 router.use('/api/product', productRouter)
 router.use('/api/user', userRouter)
 router.use('/api/auth', authRouter)

@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {toggleAuth} from "./redux/app/appReducer";
 import ForgotPassword from "./containers/ForgotPassword/ForgotPassword";
 import ResetPassword from "./containers/ForgotPassword/ResetPassword";
-import Checkout from "./containers/Purchase/Checkout";
+import Checkout from "./containers/Checkout/Checkout";
 
 
 const useRoutes = (props) => {

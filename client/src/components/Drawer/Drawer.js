@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import classes from './Drawer.module.sass'
 
 
@@ -19,7 +19,10 @@ const Drawer = (props) => {
 
    return (
       <div
-         className={[classes.container, classes[props.state]].join(' ')}
+         className={
+            [classes.container, classes[props.state]]
+               .join(' ')
+         }
          onClick={() => props.onClick()}
       >
          {props.children}

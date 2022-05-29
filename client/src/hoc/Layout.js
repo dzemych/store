@@ -6,7 +6,6 @@ import {toggleAuth, toggleCatalog, toggleSidebar} from '../redux/app/appReducer'
 import {Transition} from "react-transition-group";
 import Catalog from "../components/Catalog/Catalog";
 import Auth from "../components/Auth/Auth";
-import User from "../containers/User/User";
 
 
 const Layout = (props) => {
@@ -46,24 +45,42 @@ const Layout = (props) => {
                </Drawer>
          }
 
-         <Transition
-            in={isSidebar}
-            timeout={{
-               appear: 0,
-               enter: 350,
-               exit: 350
-            }}
-            unmountOnExit
+         {/*<Transition*/}
+         {/*   in={isSidebar}*/}
+         {/*   timeout={{*/}
+         {/*      appear: 350,*/}
+         {/*      enter: 350,*/}
+         {/*      exit: 350*/}
+         {/*   }}*/}
+         {/*   unmountOnExit*/}
+         {/*>*/}
+         {/*   {state => (*/}
+         {/*      <Drawer*/}
+         {/*         state={state}*/}
+         {/*         onClick={() => dispatch(toggleSidebar())}*/}
+         {/*      >*/}
+         {/*         <Sidebar state={state}/>*/}
+         {/*      </Drawer>*/}
+         {/*   )}*/}
+         {/*</Transition>*/}
+
+
+
+         {isSidebar &&
+         <Drawer
+            onClick={() => dispatch(toggleSidebar())}
          >
-            {state => (
-               <Drawer
-                  state={state}
-                  onClick={() => dispatch(toggleSidebar())}
-               >
+            <Transition
+               in={isSidebar}
+               timeout={350}
+               unmountOnExit
+            >
+               {state => (
                   <Sidebar state={state}/>
-               </Drawer>
-            )}
-         </Transition>
+               )}
+            </Transition>
+         </Drawer>
+         }
 
          <main>
             {props.children}

@@ -22,7 +22,6 @@ const ShoppingCart = (props) => {
    const [products, setProducts] = useState([])
 
    const onPurchase = () => {
-      console.log(items)
       dispatch(addCheckout(items))
       navigate('/checkout')
    }
