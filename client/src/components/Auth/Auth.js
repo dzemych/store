@@ -7,10 +7,13 @@ import {useDispatch} from "react-redux";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import {clearErrors} from "../../redux/user/userReducer";
+import {Desktop} from "../../functions/mediaCheck";
+import Backdrop from "../Backdrop/Backdrop";
+import useEsc from "../../functions/useEsc";
 
 
-const Auth = ({type = 'signin'}) => {
-   const [page, setPage] = useState(() => type)
+const Auth = (props) => {
+   const [page, setPage] = useState('signin')
 
    const dispatch = useDispatch()
 
@@ -19,31 +22,46 @@ const Auth = ({type = 'signin'}) => {
       setPage(prev => prev === 'signin' ? 'signup' : 'signin')
    }
 
+   const authHandler = () => {
+      dispatch(toggleAuth())
+   }
+
+   useEsc(authHandler)
+
    return (
-      <div className={classes.container}
-           onClick={e => e.stopPropagation()}
-      >
-         <div className={classes.wrapper}>
-            <div className={classes.topBar}>
+      <>
+         <div className={classes.container}
+              onClick={e => e.stopPropagation()}
+         >
+            <div className={classes.wrapper}>
+               <div className={classes.topBar}>
                <span>
                   {page === 'signin' ? 'Log in': 'Registration'}
                </span>
 
-               <FontAwesomeIcon
-                  icon={faTimes}
-                  onClick={() => dispatch(toggleAuth())}
-               />
+                  <FontAwesomeIcon
+                     icon={faTimes}
+                     onClick={authHandler}
+                  />
+               </div>
+
+               <hr/>
+
+               {
+                  page === 'signin' ?
+                     <SignIn changePage={changePage}/> :
+                     <SignUp changePage={changePage}/>
+               }
             </div>
-
-            <hr/>
-
-            {
-               page === 'signin' ?
-                  <SignIn changePage={changePage}/> :
-                  <SignUp changePage={changePage}/>
-            }
          </div>
-      </div>
+
+         <Desktop>
+            {props.isOpen &&
+               <Backdrop
+                  onClick={authHandler}
+               />}
+         </Desktop>
+      </>
    )
 }
 

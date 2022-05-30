@@ -4,17 +4,34 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import '../../containers/basicStyles.sass'
 import {useDispatch} from "react-redux";
-import {toggleCatalog} from "../../redux/app/appReducer";
+import {toggleCatalog, toggleSidebar} from "../../redux/app/appReducer";
 import {useHttp} from "../../functions/http.hook";
 import {useNavigate} from "react-router-dom";
+import useEsc from "../../functions/useEsc";
 
 
 const Catalog = (props) => {
+
+   useEsc(() => dispatch(toggleCatalog()))
+
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
    const [categories, setCategories] = useState({man: ['all'], woman: ['all']})
    const {requestJson} = useHttp()
+
+   const onClickHandler = (sex, category) => {
+      dispatch(toggleCatalog())
+      if (category === 'all') {
+         navigate(`/products?sex=${sex}`)
+      } else {
+         navigate(`/products?sex=${sex}&category=${category}`)
+      }
+   }
+
+   const catalogHandler = () => {
+      dispatch(toggleCatalog())
+   }
 
    useEffect(() => {
       (async () => {
@@ -26,14 +43,7 @@ const Catalog = (props) => {
       })()
    }, [requestJson])
 
-   const onClickHandler = (sex, category) => {
-      dispatch(toggleCatalog())
-      if (category === 'all') {
-         navigate(`/products?sex=${sex}`)
-      } else {
-         navigate(`/products?sex=${sex}&category=${category}`)
-      }
-   }
+   useEsc(catalogHandler)
 
    return (
       <div
@@ -44,7 +54,7 @@ const Catalog = (props) => {
             <FontAwesomeIcon
                icon={faTimes}
                className={classes.close_icon}
-               onClick={() => dispatch(toggleCatalog())}
+               onClick={catalogHandler}
             />
 
             <h1 className={'title'}>Catalog</h1>

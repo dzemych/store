@@ -16,6 +16,7 @@ const Header = (props) => {
    const navigate = useNavigate()
 
    const isAuth = useSelector(state => state.user.token)
+   const isSidebar = useSelector(state => state.app.isSidebar)
 
    const [value, setValue] = useState('')
 
@@ -71,14 +72,14 @@ const Header = (props) => {
                onSubmit={e => searchHandler(e)}
             />
 
-            <Tablet>
+            <Laptop>
                <button
                   className={classes.search_btn}
                   onClick={e => searchHandler(e)}
                >
                   Search
                </button>
-            </Tablet>
+            </Laptop>
 
             <img
                className={classes.logo}

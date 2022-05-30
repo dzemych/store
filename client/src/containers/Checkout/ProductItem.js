@@ -1,9 +1,12 @@
 import React from 'react'
 import classes from './Checkout.module.sass'
 import defaultPhoto from '../../img/no-image.png'
+import {useNavigate} from "react-router-dom";
 
 
 const ProductItem = (props) => {
+
+   const navigate = useNavigate()
 
     const productData = [
         {
@@ -20,14 +23,25 @@ const ProductItem = (props) => {
         }
     ]
 
+   const openProduct = () => {
+      navigate('/products/' + props.slug)
+   }
+
     return(
         <div className={classes.product_item}>
             <div className={classes.product_topBar}>
                 <div className={classes.product_img_container}>
-                    <img src={defaultPhoto} alt=""/>
+                    <img
+                       src={defaultPhoto}
+                       alt=""
+                       onClick={openProduct}
+                    />
                 </div>
 
-                <div className={classes.product_title_container}>
+                <div
+                   className={classes.product_title_container}
+                   onClick={openProduct}
+                >
                     <span>
                         {props.title} ({props.size.toUpperCase()})
                     </span>

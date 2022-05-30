@@ -36,16 +36,29 @@
 .logOut_container
   margin-top: 10px
   & button
-    padding: 0
+    font-size: 10vw
     font-family: Satisfy, sans-serif
     color: #6695a4
 
+@media (min-width: 425px)
+  .container
+    width: 80%
+    margin: 0 auto
+
+  .form_wrapper
+    font-size: 18px
+    & svg
+      font-size: 35px !important
+
+  .logOut_container button
+    padding: 0
+    font-size: 40px
+
 @media (min-width: 768px)
   .container
-    width: 45%
+    width: 60%
     height: fit-content
     min-height: fit-content
-    margin: 0 auto
     border-radius: 8px
 
   .basic_hr
@@ -82,6 +95,9 @@
     width: 70%
 
 @media (min-width: 1440px)
+  .container
+    width: 40%
+
   .form_wrapper
     & button
       width: 40%

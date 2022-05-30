@@ -7,7 +7,6 @@ export const useHttp = () => {
    const [error, setError] = useState('')
 
    const dbUrl = useSelector(state => state.app.dbUrl)
-   console.log(window.location.href)
 
    const requestImg = useCallback
    (async (

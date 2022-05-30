@@ -167,6 +167,7 @@ const User = (props) => {
                </Button>
             </div>
 
+            <hr className={classes.basic_hr}/>
          </div>
       </div>
    )

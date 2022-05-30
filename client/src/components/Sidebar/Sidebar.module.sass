@@ -7,31 +7,19 @@
   margin-right: 8vw
 
 .container
+  position: absolute
   width: 75%
   height: 100%
   background: rgb(255, 255, 255)
   opacity: 1
   transform: translateX(-100%)
+  transition: 300ms ease-in
   overflow-y: scroll
-  z-index: 1000
+  z-index: 200
 
-.entering
-  animation: move 350ms ease-out
-
-.entered
-  transform: translateX(0%)
-
-.exiting
-  animation: move 350ms ease-in alternate-reverse
-
-.exited
-  transform: translateX(0%)
-
-@keyframes move
-  0%
-    transform: translateX(-100%)
-  100%
-    transform: translateX(0%)
+.active
+  transform: translateX(0)
+  transition: 300ms ease-out
 
 .topBar
   background: colors.$blue
