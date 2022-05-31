@@ -9,6 +9,8 @@ import {useNavigate} from "react-router-dom";
 import {useHttp} from "../../functions/http.hook";
 import ProductItem from "./ProductItem";
 import useNewPay from "../../functions/useNewPay.hook";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 
 
 const Checkout = (props) => {
@@ -17,14 +19,11 @@ const Checkout = (props) => {
    const checkout = useSelector(state => state.purchase.checkout)
 
    const {requestJson} = useHttp()
-   const {loadRegions, regions} = useNewPay()
+   const {loadCities, cities, setCities, loadBranches, branches} = useNewPay()
 
+   const [delivery, setDelivery] = useState('pickup')
    const [products, setProducts] = useState([])
-   const [location, setLocation] = useState({
-      region: '',
-      city: '',
-      branch: ''
-   })
+   const [location, setLocation] = useState('')
 
    const {form, changeHandler, error, checkValidity} = useForms({
       name: '',
@@ -38,6 +37,14 @@ const Checkout = (props) => {
 
       if (!newError)
          console.log(form)
+   }
+
+   const methodHandler = val => {
+      setDelivery(val)
+   }
+
+   const locationHandler = e => {
+      setLocation(e.target.value)
    }
 
    const inputsArr = [
@@ -92,13 +99,29 @@ const Checkout = (props) => {
          setProducts(data.products)
 
          // 2) Get all regions
-         await loadRegions()
+         // await loadRegions()
       })()
    }, [])
 
    useEffect(() => {
-      console.log(location)
-   }, [location.region])
+      if (location.length > 1)
+         (async () => {
+            await loadCities(location)
+         })()
+      if (location.length < 2)
+         setCities([])
+   }, [location])
+
+   useEffect(() => {
+
+      if (cities.find(city => city.name === location))
+         (async () => {
+            await loadBranches(location)
+         })()
+      // if (cities.length === 1)
+      //    if (cities[0].name === location)
+
+   }, [cities, location])
 
    return (
       <div className={classes.container}>
@@ -151,6 +174,7 @@ const Checkout = (props) => {
                         key={el.slug + '_' + i}
                         img={el.mainPhoto}
                         slug={el.slug}
+                        mainPhoto={el.mainPhoto}
                         title={el.title}
                         id={el._id}
                         price={el.price}
@@ -174,22 +198,159 @@ const Checkout = (props) => {
             <hr className={classes.delivery_hr}/>
 
             <div className={classes.delivery_container}>
-               <h2 className={classes.section_title}>Delivery</h2>
+               <h2 className={classes.section_title}>
+                  Choose delivery method
+               </h2>
 
-               <div className={classes.delivery_forms}>
-                  <label htmlFor="region">
-                     Choose your region
-                  </label>
+               <div className={classes.delivery_method_container}>
+                  <div
+                     className={classes.delivery_option_container}
+                     onClick={() => methodHandler('pickup')}
+                  >
+                     <input
+                        type="radio"
+                        value={'pickup'}
+                        checked={delivery === 'pickup'}
+                        onChange={e => methodHandler(e.target.value)}
+                     />
 
-                  <select name="region" id="region">
-                     {regions.map((el, i) => (
-                        <option value={el} key={i}>
-                           {el}
-                        </option>
-                     ))}
-                  </select>
+                     <div className={classes.method_text}>
+                        <span className={classes.method_name}>
+                           Pickup
+                        </span>
+
+                        <span className={classes.method_info}>
+                           Khmelnitsky, Zarechanskaya 8
+                        </span>
+
+                        <span className={classes.method_price}>
+                           Free
+                        </span>
+                     </div>
+                  </div>
+
+                  <div
+                     className={classes.delivery_option_container}
+                     onClick={() => methodHandler('delivery')}
+                  >
+                     <input
+                        type="radio"
+                        checked={delivery === 'delivery'}
+                        value={'delivery'}
+                        onChange={e => methodHandler(e.target.value)}
+                     />
+
+                     <div className={classes.method_text}>
+                        <span className={classes.method_name}>
+                           Delivery by NewPay
+                        </span>
+
+                        <span className={classes.method_info}>
+                           To any city of Ukraine
+                        </span>
+
+                        <span className={classes.method_price}>
+                           At the rates of NewPay
+                        </span>
+                     </div>
+
+                     <FontAwesomeIcon
+                        icon={faChevronUp}
+                        className={classes.showMore_button}
+                        aria-checked={delivery === 'delivery'}
+                     />
+                  </div>
+
+                  <div className={classes.delivery_forms}>
+                     <div className={classes.form_item}>
+                        <label htmlFor='cities'>
+                           Start typing and select your city
+                        </label>
+
+                        <input
+                           type="text"
+                           name='cities'
+                           list="cities"
+                           autoComplete={'false'}
+                           value={location}
+                           onChange={locationHandler}
+                           placeholder='Start typing'
+                        />
+                        <datalist
+                           id='cities'
+                           role='listbox'
+                        >
+                           {cities.length > 0 &&
+                              cities.map((selectEl, i) => (
+                                 <option
+                                    value={selectEl.name}
+                                    key={i}
+                                 >
+                                    {selectEl.name}
+                                 </option>
+                              ))
+                           }
+                        </datalist>
+                        
+                        {/*<select*/}
+                        {/*   name={formEl.one}*/}
+                        {/*   id={formEl.one}*/}
+                        {/*   value={location[formEl.one]}*/}
+                        {/*   onChange={e => locationHandler(formEl.one, e.target.value)}*/}
+                        {/*   disabled={formEl.list.length < 1}*/}
+                        {/*>*/}
+                        {/*   <option*/}
+                        {/*      value='select'*/}
+                        {/*   >*/}
+                        {/*      select an option*/}
+                        {/*   </option>*/}
+
+                        {/*   {formEl.list.map((selectEl, i) => (*/}
+                        {/*      <option value={selectEl.ref} key={i}>*/}
+                        {/*         {selectEl.name}*/}
+                        {/*      </option>*/}
+                        {/*   ))}*/}
+                        {/*</select>*/}
+                     </div>
+                  </div>
+
+                  {/*{delivery === 'delivery' &&*/}
+                  {/*   <div className={classes.delivery_forms}>*/}
+
+                        {/*{selectArr.map((formEl, i) => (*/}
+                        {/*   <div className={classes.form_item} key={i}>*/}
+                        {/*      <label htmlFor={formEl.one}>*/}
+                        {/*         Choose your {formEl.one}*/}
+                        {/*      </label>*/}
+
+                        {/*      <select*/}
+                        {/*         name={formEl.one}*/}
+                        {/*         id={formEl.one}*/}
+                        {/*         value={location[formEl.one]}*/}
+                        {/*         onChange={e => locationHandler(formEl.one, e.target.value)}*/}
+                        {/*         disabled={formEl.list.length < 1}*/}
+                        {/*      >*/}
+                        {/*         <option*/}
+                        {/*            value='select'*/}
+                        {/*         >*/}
+                        {/*            select an option*/}
+                        {/*         </option>*/}
+
+                        {/*         {formEl.list.map((selectEl, i) => (*/}
+                        {/*            <option value={selectEl.ref} key={i}>*/}
+                        {/*               {selectEl.name}*/}
+                        {/*            </option>*/}
+                        {/*         ))}*/}
+                        {/*      </select>*/}
+                        {/*   </div>*/}
+                        {/*))}*/}
+
+                  {/*   </div>*/}
+                  {/*}*/}
                </div>
             </div>
+
+            <hr className={classes.last_hr}/>
          </div>
       </div>
    )

@@ -1,12 +1,16 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import classes from './Checkout.module.sass'
 import defaultPhoto from '../../img/no-image.png'
 import {useNavigate} from "react-router-dom";
+import {useHttp} from "../../functions/http.hook";
 
 
 const ProductItem = (props) => {
 
    const navigate = useNavigate()
+   const [photo, setPhoto] = useState(defaultPhoto)
+
+   const {requestImg} = useHttp()
 
     const productData = [
         {
@@ -27,12 +31,24 @@ const ProductItem = (props) => {
       navigate('/products/' + props.slug)
    }
 
+   useEffect(() => {
+      if (props.mainPhoto){
+         (async () => {
+            const img = await requestImg(
+               `/img/product/${props.slug}/${props.mainPhoto}`
+            )
+
+            setPhoto(img)
+         })()
+      }
+   }, [])
+
     return(
         <div className={classes.product_item}>
             <div className={classes.product_topBar}>
                 <div className={classes.product_img_container}>
                     <img
-                       src={defaultPhoto}
+                       src={photo}
                        alt=""
                        onClick={openProduct}
                     />

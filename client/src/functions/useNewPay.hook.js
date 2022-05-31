@@ -1,8 +1,11 @@
-import React, {useCallback, useMemo, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useState} from 'react'
 
 const useNewPay = (props) => {
    const [error, setError] = useState('')
-   const [regions, setRegions] = useState([])
+
+   const [cities, setCities] = useState([])
+   const [branches, setBranches] = useState([])
+   // const [types, setTypes] = useState()
 
    const makeRequest = async params => {
       const response = await fetch(
@@ -25,21 +28,61 @@ const useNewPay = (props) => {
       return data
    }
 
-   const loadRegions = useCallback(async () => {
+   const loadCities = useCallback(async name => {
       try {
          const data = await makeRequest({
-            calledMethod: "getAreas",
-            methodProperties: {}
+            calledMethod: "getCities",
+            methodProperties: {
+               FindByString: name
+            }
          })
 
-         const regions = data.data.map(el => el.DescriptionRu)
-         setRegions(regions)
+         const cities = data.data.reduce((acc, el) => {
+            acc.push({name: el.Description, isBranch: el.IsBranch})
+            return acc
+         }, [])
+
+         setCities(cities)
       } catch (e) {
          setError(e)
       }
    }, [])
 
-   return {error, loadRegions, regions}
+   const loadBranches = useCallback(async name => {
+      try {
+         console.log(name)
+         const data = await makeRequest({
+            calledMethod: "getWarehouses",
+            methodProperties: {
+               CityName: name
+            }
+         })
+
+         console.log(data)
+         const branches = data.data.reduce((acc, el) => {
+            acc.push({name: el.Description, ref: el.Ref})
+            return acc
+         }, [])
+
+         setBranches(branches)
+      } catch (e) {
+         setError(e)
+      }
+   }, [])
+
+   // useEffect(() => {
+   //    (async () => {
+   //       const data = await makeRequest({
+   //          calledMethod: "getWarehouseTypes",
+   //          methodProperties: {}
+   //       })
+   //
+   //       console.log(data)
+   //       await setTypes(data)
+   //    })()
+   // }, [])
+
+   return {loadCities, cities, setCities, loadBranches, branches}
 }
 
 export default useNewPay

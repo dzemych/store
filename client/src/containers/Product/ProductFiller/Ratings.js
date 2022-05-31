@@ -56,12 +56,11 @@ const Ratings = (props) => {
       if (product.slug) {
          try {
             (async () => {
-               const response = await requestImg(
+               const img = await requestImg(
                   `/img/product/${product.slug}/${product.mainPhoto}`
                )
-               const blob = await response.blob()
 
-               setPhoto(URL.createObjectURL(blob))
+               setPhoto(img)
             })()
          } catch(e) {
             console.log(e)

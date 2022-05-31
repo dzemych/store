@@ -14,10 +14,9 @@ const PhotoItem = ({el, slug}) => {
       if (slug && el) {
          try {
             (async () => {
-               const response = await requestImg(`/img/product/${slug}/${el}`)
-               const blob = await response.blob()
+               const img = await requestImg(`/img/product/${slug}/${el}`)
 
-               setPhoto(URL.createObjectURL(blob))
+               setPhoto(img)
             })()
          } catch(e) {
             console.log(e)

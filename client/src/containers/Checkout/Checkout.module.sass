@@ -148,19 +148,93 @@
   flex-direction: column
   align-items: flex-start
 
-.delivery_forms
-  margin-top: 5vw
-  padding: 0 3vw
+.delivery_method_container
+  width: 100%
+  margin-top: 15px
+
+.delivery_option_container
+  position: relative
+  width: 100%
+  display: flex
+  flex-direction: row
+  align-items: center
+  border: 1px solid #7c9dae
+  border-radius: 4px
+  padding: 14px 17px
+  & input
+    font-size: 1.3em
+    margin-right: 15px
+  &:not(:first-child)
+    margin-top: 10px
+
+.method_text
   display: flex
   flex-direction: column
   align-items: flex-start
+  justify-content: center
+
+.method_name
+  margin-bottom: 5px
+
+.method_info
+  font-size: .9em
+  margin-bottom: 5px
+  color: #8a8888
+
+.method_price
+  color: #5294c3
+  font-weight: 500
+
+.showMore_button
+  position: absolute
+  right: 0
+  margin-right: 25px
+  color: #3f5566
+  font-size: 1.4em
+  transition: 300ms
+
+.showMore_button[aria-checked='true']
+  transform: scale(1, -1)
+
+.delivery_forms
+  width: 100%
+  margin-top: 17px
+  padding-left: 4vw
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+
+.form_item
+  width: 90%
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  &:not(:first-child)
+    margin-top: 15px
   & label
     font-size: 1.05em
     margin-bottom: 1vw
-    color: #333
-  & select
-    font-size: 1.2em
-    padding: 1.7vw 2vw
+    color: #727272
+  & input
+    width: 100%
+    margin-left: 5px
+    padding: 2vw 2.4vw
+    font-size: 1.1rem
     border: 1px solid #c8c5c5
     background: #fff
     border-radius: 3px
+    outline: none
+  & datalist
+    width: 100%
+    position: absolute
+    background-color: white
+    border: 1px solid #c8c5c5
+    border-radius: 0 0 5px 5px
+    border-top: none
+    padding: 5px
+    max-height: 5rem
+    overflow-y: auto
+
+.last_hr
+  width: 100%
+  margin: 35px 0 15px

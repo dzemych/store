@@ -64,16 +64,11 @@ const ShoppingCart = (props) => {
       if (props.mainPhoto) {
          (async () => {
             try {
-               const data = await requestImg(
+               const img = await requestImg(
                   `/img/product/${props.slug}/${props.mainPhoto}`,
-                  'GET', null, {
-                     referrerPolicy: 'no-referrer-when-downgrade',
-                     contentType: 'image/jpeg'
-                  }
                )
 
-               const blob = await data.blob()
-               setImg(URL.createObjectURL(blob))
+               setImg(img)
             } catch (e) {
                console.log(e)
             }

@@ -62,18 +62,12 @@ const ProductCard = React.forwardRef((props, ref) => {
          if (props.mainPhoto) {
             (async () => {
                try {
-                  const data = await requestImg(
-                     `/img/product/${props.slug}/${props.mainPhoto}`,
-                     'GET', null, {
-                        referrerPolicy: 'no-referrer-when-downgrade',
-                        contentType: 'image/jpeg'
-                     }
+                  const img = await requestImg(
+                     `/img/product/${props.slug}/${props.mainPhoto}`
                   )
 
+                  setImg(img)
                   setStatus('success')
-
-                  const blob = await data.blob()
-                  setImg(URL.createObjectURL(blob))
                } catch (e) {
                   setStatus('error')
                }

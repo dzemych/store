@@ -3,44 +3,39 @@ import {useSelector} from "react-redux";
 
 
 export const useHttp = () => {
-   const [loading, setLoading] = useState(false)
    const [error, setError] = useState('')
 
    const dbUrl = useSelector(state => state.app.dbUrl)
 
    const requestImg = useCallback
-   (async (
-      url,
-      method = 'GET',
-      body = null,
-      headers = {}
-      ) => {
-
-      setLoading(true)
-
+   (async (url,method = 'GET',body = null) => {
       try {
          const response = await fetch(
             `${dbUrl}${url}`,
-            {method, body, headers}
+            {
+               method,
+               body,
+               headers: {
+                  referrerPolicy: 'no-referrer-when-downgrade',
+                  contentType: 'image/jpeg'
+               }}
             )
 
          if (!response.ok)
             throw new Error(response.message || 'Something went wrong')
 
-         setLoading(false)
+         const blob = await response.blob()
+         const img = URL.createObjectURL(blob)
 
-         return response
+         return img
       } catch (e) {
          setError(e)
-         setLoading(false)
-
          return e
       }
    }, [dbUrl])
 
    const requestJson = useCallback
    (async (url, method = 'GET', body = null, headers = {}) => {
-      setLoading(true)
       try {
          const response = await fetch(
             `${dbUrl}${url}`,
@@ -51,14 +46,11 @@ export const useHttp = () => {
          if (!response.ok)
             throw new Error(data.message || 'Something went wrong')
 
-         setLoading(false)
-
          return data
       } catch (e) {
          setError(e)
-         setLoading(false)
       }
    }, [dbUrl])
 
-   return {loading, error, requestJson, requestImg, setError}
+   return {error, requestJson, requestImg, setError}
 }
