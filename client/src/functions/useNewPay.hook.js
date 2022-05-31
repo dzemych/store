@@ -5,7 +5,6 @@ const useNewPay = (props) => {
 
    const [cities, setCities] = useState([])
    const [branches, setBranches] = useState([])
-   // const [types, setTypes] = useState()
 
    const makeRequest = async params => {
       const response = await fetch(
@@ -50,7 +49,6 @@ const useNewPay = (props) => {
 
    const loadBranches = useCallback(async name => {
       try {
-         console.log(name)
          const data = await makeRequest({
             calledMethod: "getWarehouses",
             methodProperties: {
@@ -58,9 +56,10 @@ const useNewPay = (props) => {
             }
          })
 
-         console.log(data)
          const branches = data.data.reduce((acc, el) => {
-            acc.push({name: el.Description, ref: el.Ref})
+            if (!(/Поштомат/i.test(el.Description)))
+               acc.push({address: el.Description, ref: el.Ref})
+
             return acc
          }, [])
 
@@ -69,18 +68,6 @@ const useNewPay = (props) => {
          setError(e)
       }
    }, [])
-
-   // useEffect(() => {
-   //    (async () => {
-   //       const data = await makeRequest({
-   //          calledMethod: "getWarehouseTypes",
-   //          methodProperties: {}
-   //       })
-   //
-   //       console.log(data)
-   //       await setTypes(data)
-   //    })()
-   // }, [])
 
    return {loadCities, cities, setCities, loadBranches, branches}
 }
