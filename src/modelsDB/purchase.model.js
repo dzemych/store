@@ -28,10 +28,32 @@ const purchaseSchema = new Schema({
       ref: 'Product',
       required: true
    },
-   user: {
-      type: ObjectId,
-      ref: 'User',
+   deliveryType: {
+      type: String,
+      enum: ['delivery', 'pickup', 'courier'],
       required: true
+   },
+   deliveryAddress: {
+      city: String,
+      address: String
+   },
+   user: {
+      name: {
+         type: String,
+         required: true
+      },
+      surname: {
+         type: String,
+         required: true,
+      },
+      email: {
+         type: String,
+         required: true
+      },
+      tel: {
+         type: Number,
+         required: true
+      },
    },
    createdAt: {
       type: Date,
@@ -56,8 +78,7 @@ const purchaseSchema = new Schema({
             'delivered',
             'payment',
             'processing',
-            'return',
-            'warranty'
+            'return'
          ],
       default: 'processing'
    },
@@ -69,27 +90,25 @@ const purchaseSchema = new Schema({
 })
 
 // Add purchases to user | method
-purchaseSchema.statics.updateUser = async function(id, userId, type) {
-   const user = await User.findById(userId)
-
-   // Add new purchase to user
-   if (type === 'save') {
-      user.purchases.push(id)
-   } else {
-      const ids = [...user.purchases]
-
-      user.purchases = ids.filter(value => value.toString() !== id.toString())
-   }
-
-   // Save user
-   await user.save({validateBeforeSave: false})
-}
+// purchaseSchema.statics.updateUser = async function(id, userId, type) {
+//    const user = await User.findById(userId)
+//
+//    // Add new purchase to user
+//    if (type === 'save') {
+//       user.purchases.push(id)
+//    } else {
+//       const ids = [...user.purchases]
+//
+//       user.purchases = ids.filter(value => value.toString() !== id.toString())
+//    }
+//
+//    // Save user
+//    await user.save({validateBeforeSave: false})
+// }
 
 // 1) Get total price and amount of products and check product availability
 purchaseSchema.pre('save', async function(next) {
    if (this.isNew) {
-      const user = await User.exists({user: this.user})
-
       // 1) Embed price field and await it
       const products = await Promise.all(this.products.map(async el => {
          const product = await Product.findById(el.id).select('price numSizes').lean()
@@ -104,9 +123,9 @@ purchaseSchema.pre('save', async function(next) {
          return {price: product.price, amount: el.amount}
       }))
 
-      // 2) Check if such product and user exists
-      if (products.includes(undefined) || !user)
-         return next(new AppError('User or product id is deprecated or invalid'))
+      // 2) Check if such product exists
+      if (products.includes(undefined))
+         return next(new AppError('Product id is deprecated or invalid'))
 
       // 3) Calc totals
       const totals = products.reduce((acc, el) => {
@@ -133,14 +152,14 @@ purchaseSchema.pre('save', async function(next) {
 })
 
 // 3) Add purchases to user
-purchaseSchema.pre('save', async function(next) {
-   // Do it only on new creation
-   if (this.isNew) {
-      await this.constructor.updateUser(this._id, this.user, 'save')
-   }
-
-   next()
-})
+// purchaseSchema.pre('save', async function(next) {
+   ////    Do it only on new creation
+   // if (this.isNew) {
+   //    await this.constructor.updateUser(this._id, this.user, 'save')
+   // }
+   //
+   // next()
+// })
 
 // 4) Update products sold or numSizes on update status
 purchaseSchema.post('save', async function(doc) {
@@ -153,12 +172,6 @@ purchaseSchema.post('save', async function(doc) {
    if (doc.status === 'canceled' || doc.status === 'return') {
       await Product.updateSizes(doc.products, 'plus')
    }
-
-   // If return under warranty update sizes and sold
-   if (doc.status === 'warranty') {
-      await Product.updateSizes(doc.products, 'plus')
-      await Product.updateSold(doc.products, 'minus')
-   }
 })
 
-module.exports = model('Checkout', purchaseSchema)
+module.exports = model('Purchase', purchaseSchema)

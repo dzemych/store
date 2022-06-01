@@ -7,26 +7,21 @@ const checkUpdate = require('../middleware/updateCheck.middleware')
 const router = Router()
 
 
-router.use(authController.protectAndSetUserId)
-
 router
-   .route('/')
+   .route('')
    .get(
+      authController.protectAndSetUserId,
       authController.restrictTo(['admin']),
       purchaseController.getAllPurchases
    )
    .post(
-      authController.restrictTo(['user', 'admin']),
       purchaseController.createOnePurchase
    )
-
-// Routes accessible to user and admin
-
-router.use(authController.restrictTo(['admin', 'user']))
 
 router
    .get(
       '/myPurchases',
+      authController.protectAndSetUserId,
       purchaseController.getMyPurchases
    )
 

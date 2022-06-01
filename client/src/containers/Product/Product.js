@@ -34,7 +34,6 @@ const Product = (props) => {
    const isTablet = useMediaQuery({minWidth: 768})
 
    useEffect(() => {
-      if (status === 'idle')
       dispatch(fetchProduct(params.slug))
 
       return () => {

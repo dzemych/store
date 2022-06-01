@@ -15,7 +15,8 @@ const OrderItem = (props) => {
    return (
       <div className={classes.container}>
          <div style={{
-            padding: isLaptop ? '20px 25px' : '5vw 6vw',
+            position: 'relative',
+            padding: isLaptop ? '15px 20px' : '5vw 6vw',
             display: 'flex',
             flexDirection: 'column',
             borderRadius: '6px',
@@ -26,8 +27,8 @@ const OrderItem = (props) => {
                   <span className={classes.status_date}>{props.date}</span>
 
                   <span className={classes.status_status}>
-                  {props.status.charAt(0).toUpperCase() + props.status.slice(1)}
-               </span>
+                     {props.status.charAt(0).toUpperCase() + props.status.slice(1)}
+                  </span>
                </div>
 
                <div className={classes.order_sum_wrapper}>
@@ -53,8 +54,6 @@ const OrderItem = (props) => {
                   <span>Cancel</span>
                </div>
             </div>
-
-            {/*<hr/>*/}
 
             <div className={classes.products_list}>
                {

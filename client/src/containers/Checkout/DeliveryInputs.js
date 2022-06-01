@@ -6,7 +6,8 @@ import {faChevronUp} from "@fortawesome/free-solid-svg-icons";
 
 
 const DeliveryInputs = (props) => {
-   const {loadCities, cities, setCities, loadBranches, branches} = useNewPay()
+   // const {loadCities, cities, setCities, loadBranches, branches} = useNewPay()
+   const cities = props.cities
 
    const renderBranch = () => {
       const el = cities.find(city => city.name === props.location)
@@ -25,12 +26,11 @@ const DeliveryInputs = (props) => {
                   onChange={props.branchHandler}
                >
                   <option value=""/>
-                  {branches.length > 0 &&
-                     branches.map((selectEl, i) => (
+                  {props.branches.length > 0 &&
+                     props.branches.map((selectEl, i) => (
                         <option value={selectEl.address} key={i}>
                            {selectEl.address}
-                        </option>
-                     ))
+                        </option>))
                   }
                </select>
 
@@ -40,7 +40,6 @@ const DeliveryInputs = (props) => {
                   type="text"
                   name='branches'
                   list="branches"
-                  autoComplete={'false'}
                   value={props.branch}
                   onChange={props.branchHandler}
                   placeholder='Your address'
@@ -68,112 +67,119 @@ const DeliveryInputs = (props) => {
    useEffect(() => {
       if (cities.find(city => city.name === props.location))
          (async () => {
-            await loadBranches(props.location)
+            await props.loadBranches(props.location)
          })()
    }, [cities, props.location])
 
    useEffect(() => {
       if (props.location.length > 1)
          (async () => {
-            await loadCities(props.location)
+            await props.loadCities(props.location)
          })()
       if (props.location.length < 2)
-         setCities([])
+         props.setCities([])
    }, [props.location])
 
-    return(
-         <div className={classes.delivery_method_container}>
-            <div
-               className={classes.delivery_option_container}
-               onClick={() => props.methodHandler('pickup')}
-            >
-               <input
-                  type="radio"
-                  value={'pickup'}
-                  checked={props.delivery === 'pickup'}
-                  onChange={e => props.methodHandler(e.target.value)}
-               />
+   return(
+      <div className={classes.delivery_method_container}>
+         <div
+            className={classes.delivery_option_container}
+            onClick={() => props.methodHandler('pickup')}
+         >
+            <input
+               type="radio"
+               value={'pickup'}
+               checked={props.delivery === 'pickup'}
+               onChange={e => props.methodHandler(e.target.value)}
+            />
 
-               <div className={classes.method_text}>
-                  <span className={classes.method_name}>
-                     Pickup
-                  </span>
+            <div className={classes.method_text}>
+               <span className={classes.method_name}>
+                  Pickup
+               </span>
 
-                  <span className={classes.method_info}>
-                     Khmelnitsky, Zarechanskaya 8
-                  </span>
+               <span className={classes.method_info}>
+                  Khmelnitsky, Zarechanskaya 8
+               </span>
 
-                  <span className={classes.method_price}>
-                     Free
-                  </span>
-               </div>
+               <span className={classes.method_price}>
+                  Free
+               </span>
             </div>
-
-            <div
-               className={classes.delivery_option_container}
-               onClick={() => props.methodHandler('delivery')}
-            >
-               <input
-                  type="radio"
-                  checked={props.delivery === 'delivery'}
-                  value={'delivery'}
-                  onChange={e => props.methodHandler(e.target.value)}
-               />
-
-               <div className={classes.method_text}>
-                  <span className={classes.method_name}>
-                     Delivery by NewPay
-                  </span>
-
-                  <span className={classes.method_info}>
-                     To any city of Ukraine
-                  </span>
-
-                  <span className={classes.method_price}>
-                     At the rates of NewPay
-                  </span>
-               </div>
-
-               <FontAwesomeIcon
-                  icon={faChevronUp}
-                  className={classes.showMore_button}
-                  aria-checked={props.delivery === 'delivery'}
-               />
-            </div>
-
-            {props.delivery === 'delivery' &&
-               <div className={classes.delivery_forms}>
-                  <div className={classes.form_item}>
-                     <label htmlFor='cities'>
-                        Start typing and select your city
-                     </label>
-
-                     <input
-                        autoComplete="off"
-                        type="text"
-                        name='cities'
-                        list="cities"
-                        value={props.location}
-                        onChange={props.locationHandler}
-                        placeholder='Start typing'
-                     />
-
-                     <datalist id='cities' role='listbox'>
-                        {cities.length > 0 &&
-                           cities.map((selectEl, i) => (
-                              <option value={selectEl.name} key={i}>
-                                 {selectEl.name}
-                              </option>
-                           ))
-                        }
-                     </datalist>
-                  </div>
-
-                  {renderBranch()}
-               </div>
-            }
          </div>
-    )
+
+         <div
+            className={classes.delivery_option_container}
+            onClick={() => props.methodHandler('delivery')}
+         >
+            <input
+               type="radio"
+               checked={props.delivery === 'delivery'}
+               value={'delivery'}
+               onChange={e => props.methodHandler(e.target.value)}
+            />
+
+            <div className={classes.method_text}>
+               <span className={classes.method_name}>
+                  Delivery by NewPay
+               </span>
+
+               <span className={classes.method_info}>
+                  To any city of Ukraine
+               </span>
+
+               <span className={classes.method_price}>
+                  At the rates of NewPay
+               </span>
+            </div>
+
+            <FontAwesomeIcon
+               icon={faChevronUp}
+               className={classes.showMore_button}
+               aria-checked={props.delivery === 'delivery'}
+            />
+         </div>
+
+         {props.delivery === 'delivery' &&
+            <div className={classes.delivery_forms}>
+               <div className={classes.form_item}>
+                  <label htmlFor='cities_input'>
+                     Start typing and select your city
+                  </label>
+
+                  <input
+                     type="text"
+                     id='cities_input'
+                     name='cities_input'
+                     list="cities_list"
+                     role='combobox'
+                     value={props.location}
+                     onChange={props.locationHandler}
+                     placeholder='Start typing'
+                  />
+
+                  <datalist id='cities_list' role='listbox'>
+                     {cities.length > 0 &&
+                        cities.map((selectEl, i) => (
+                           <option value={selectEl.name} key={i}>
+                              {selectEl.name}
+                           </option>
+                        ))
+                     }
+                  </datalist>
+               </div>
+
+               {renderBranch()}
+
+               {props.error &&
+                  <span className={classes.delivery_error}>
+                     {props.error}
+                  </span>
+               }
+            </div>
+         }
+      </div>
+   )
 }
 
 export default DeliveryInputs

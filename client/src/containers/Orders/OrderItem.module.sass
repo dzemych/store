@@ -3,6 +3,7 @@
 .container
   font-family: RobotoRegular, sans-serif !important
   width: 98%
+  max-width: 1028px
   &:not(:last-child)
     margin-bottom: 6vw
   & hr
@@ -43,9 +44,12 @@
   flex-direction: column
 
 .action_wrapper
+  position: absolute
+  top: 0
+  right: 0
   cursor: pointer
-  margin-top: 4vw
-  color: colors.$lightBlue
+  margin: 5vw
+  color: #f85656
   font-size: 3.8vw
 
 .data_wrapper
@@ -63,6 +67,7 @@
 
 @media (min-width: 768px)
   .container
+    width: 85%
     &:not(:last-child)
       margin-bottom: 25px
 
@@ -86,21 +91,24 @@
     align-items: center
 
   .status_date, .sum_title
-    font-size: 17px
+    font-size: 16px
 
   .status_status, .sum_price
     padding-left: 0
-    font-size: 22px
+    font-size: 19px
 
   .data_wrapper
     width: fit-content
-    font-size: 25px
+    font-size: 20px
     margin: 16px 15px 20px
     & span:not(:last-child)
       margin-bottom: 10px
       padding-bottom: 10px
 
   .action_wrapper
+    position: relative
+    top: auto
+    right: auto
     color: #f85656
-    margin-top: 20px
+    margin: 15px 0 0
     font-size: 20px

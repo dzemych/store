@@ -26,6 +26,7 @@ const ShoppingCart = (props) => {
       navigate('/checkout')
    }
 
+   // TODO total price
    useEffect(() => {
       if (basket.length > 0) {
          (async () => {

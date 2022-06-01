@@ -7,9 +7,11 @@
 
 .wrapper
   width: 100%
+  padding: 2vw 3vw
   max-width: 1280px
   margin: 0 auto
-  padding: 2vw 3vw
+
+.order_body
   display: flex
   flex-direction: column
   align-items: center
@@ -177,6 +179,7 @@
   margin-top: 15px
 
 .delivery_option_container
+  cursor: pointer
   position: relative
   width: 100%
   display: flex
@@ -239,6 +242,8 @@
     font-size: 1.05em
     margin-bottom: 1vw
     color: #727272
+  & select
+    cursor: pointer
   & input, & select
     width: 100%
     margin-left: 5px
@@ -251,6 +256,7 @@
   & datalist
     width: 100%
     position: absolute
+    top: 0
     background-color: white
     border: 1px solid #c8c5c5
     border-radius: 0 0 5px 5px
@@ -262,14 +268,78 @@
 .submit_container
   width: 100%
   margin-top: 8vw
+  padding: 15px 13px
+  border: 1px solid #E9E9E9
+  border-radius: 4px
+  background: #F5F5F5
+  & h2
+    font-family: RobotoMedium, sans-serif
+
+.submit_data
+  margin-top: 20px
+  & > div:not(:first-child)
+    margin-top: 10px
+
+.toPay_container
+  width: 100%
+  margin-top: 15px
+  display: flex
+  justify-content: space-between
+
+.payPrice
+  font-size: 1.4em
+
+.total_container
+  width: 100%
+  display: flex
+  justify-content: space-between
+
+.total_left
+  color: #8a8888
+
+.submit_btn_container
+  margin-top: 15px
+  width: 100%
+  text-align: center
+  & button
+    width: 100%
 
 .last_hr
-  width: 100%
+  width: 96%
   margin: 35px 0 15px
+
+.delivery_error
+  margin-top: 10px
+  margin-left: 10px
+  font-size: 1.2em
+  color: #b85252
+  font-family: RobotoMedium, sans-serif
+
+.success_container
+  width: 85%
+  margin: 30px auto
+  padding: 25px 25px
+  display: flex
+  flex-direction: column
+  justify-content: center
+  border: 1px solid #E9E9E9
+  border-radius: 7px
+  background: #F5F5F5
+  & svg
+    font-size: 3em
+    color: #82b4cf
+  & span
+    margin-top: 15px
+    font-family: RobotoRegular, sans-serif
+    font-size: 1.2em
+    text-align: center
+
+.success_btn_container
+  margin-top: 13px
 
 @media (min-width: 480px)
   .wrapper
-    width: 80%
+    width: 90%
 
   .contact_form
     margin: 20px 10px 0
@@ -294,8 +364,16 @@
     margin-bottom: 7px
     font-size: .8em
 
+  .submit_container
+    margin-top: 25px
+
+  .submit_btn_container
+    & button
+      font-size: 28px
+      width: 90%
+
 @media (min-width: 768px)
-  .wrapper
+  .order_body
     padding: 15px 20px
 
   .topBar_logo_container
@@ -368,6 +446,9 @@
   .totalPrice_container
     margin-top: 25px
 
+  .delivery_forms
+    padding-left: 15px
+
   .delivery_hr
     margin-top: 20px
 
@@ -378,7 +459,8 @@
     & label
       margin-bottom: 5px
     & input, & select
-      padding: 15px 14px
+      font-size: 1.15em
+      padding: 13px 11px
 
   .submit_container
     margin-top: 35px
@@ -387,3 +469,27 @@
       padding: 18px 12px
       width: 65%
       font-size: 1.3em
+
+@media (min-width: 1024px)
+  .wrapper
+    width: 100%
+
+  .data_wrapper
+    width: 100%
+    display: flex
+    flex-direction: row
+
+  .order_body
+    width: 60%
+    padding: 0
+
+  .submit_container
+    position: sticky
+    top: 90px
+    width: 38%
+    height: fit-content
+    & hr
+      margin: 22px 0
+    & button
+      margin-top: 14px
+      width: 80%

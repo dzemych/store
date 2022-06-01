@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react'
+import React, {useCallback, useState} from 'react'
 
 const useNewPay = (props) => {
    const [error, setError] = useState('')
@@ -69,7 +69,7 @@ const useNewPay = (props) => {
       }
    }, [])
 
-   return {loadCities, cities, setCities, loadBranches, branches}
+   return {loadCities, cities, setCities, loadBranches, branches, error}
 }
 
 export default useNewPay

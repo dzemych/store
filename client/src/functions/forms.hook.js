@@ -48,7 +48,7 @@ const useForms = (fields) => {
       }
 
       if (fields.hasOwnProperty('tel')){
-         if (validator.isMobilePhone(form.tel, 'uk-UA'))
+         if (!validator.isMobilePhone(`${form.tel}`, 'uk-UA'))
             newError.tel = 'Некоректный номер телефона'
       }
 

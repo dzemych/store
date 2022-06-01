@@ -29,7 +29,6 @@ export const signUp = createAsyncThunk(
          return {data}
       } catch (e) {
          throw e
-      } finally {
       }
    }
 )

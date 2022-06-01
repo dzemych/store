@@ -1,6 +1,5 @@
 @use 'src/colors' as colors
 
-
 .container
   width: 100%
   border-top: 1px solid colors.$lightBlue
@@ -87,8 +86,11 @@
   font-size: 5vw
 
 @media (min-width: 768px)
+  .wrapper
+    padding: 10px 8px
+
   .topBar_wrapper
-    padding: 13px 10px
+    padding: 0
 
   .img_container
     height: 110px
@@ -100,24 +102,24 @@
     font-size: 20px
 
   .sum_wrapper
-    margin-left: 15px
-    margin-top: 18px
+    margin-left: 10px
+    margin-top: 13px
     justify-content: flex-start
 
   .sum_item
     width: fit-content
     margin-right: 22px
     & span
-      font-size: 23px
+      font-size: 19px
 
   .item_title
     margin-bottom: 10px
 
   .totals_wrapper
-    margin-top: 10px
-    padding-top: 10px
+    margin-top: 8px
+    padding-top: 8px
     & span
-      font-size: 25px
+      font-size: 20px
 
   .totals_item:not(:last-child)
     margin-bottom: 12px

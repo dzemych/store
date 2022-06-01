@@ -23,7 +23,6 @@ const WishList = (props) => {
       if (wishList.length > 0) {
          if (isAuth) {
             dispatch(fetchBasket({id: wishList, type: 'push'}))
-            dispatch(fetchWishList({id: wishList, type: 'remove'}))
          } else {
             dispatch(pushToBasket(wishList))
             dispatch(removeFromWishList(wishList))
@@ -35,9 +34,15 @@ const WishList = (props) => {
    }
 
    const deleteAll = () => {
-      if (wishList.length > 0) {
-         dispatch(removeFromWishList(wishList))
-         dispatch(updateLocalStorage('wishList'))
+      if (isAuth) {
+         if (wishList.length > 0) {
+            dispatch(fetchWishList({id: wishList, type: 'remove'}))
+         }
+      } else {
+         if (wishList.length > 0) {
+            dispatch(removeFromWishList(wishList))
+            dispatch(updateLocalStorage('wishList'))
+         }
       }
    }
 

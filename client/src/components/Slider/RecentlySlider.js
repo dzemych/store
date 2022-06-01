@@ -52,7 +52,7 @@ const RecentlySlider = (props) => {
       <div className={classes.recently_container}>
          <h2 className={classes.recently_title}>Recently watched</h2>
 
-         {Object.keys(products).length > 0
+         {Object.keys(products).length > 0 && Object.keys(products).length === recently.length
          && <Slider slides={slides}>
                {recently.map((id, i) => (
                   <SliderItem slides={slides} key={i}>
