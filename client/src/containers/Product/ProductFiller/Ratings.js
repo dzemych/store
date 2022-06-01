@@ -16,7 +16,7 @@ const Ratings = (props) => {
 
    const {requestJson, requestImg} = useHttp()
 
-   const [photo, setPhoto] = useState(null)
+   const [photo, setPhoto] = useState(defaultPhoto)
 
    const product = useSelector(state => state.product.product)
 
@@ -121,7 +121,7 @@ const Ratings = (props) => {
                <div className={classes.product_container}>
                   <div className={classes.product_header}>
                      <div className={classes.product_img_container}>
-                        <img src={product.mainPhoto ? photo : defaultPhoto} alt=""/>
+                        <img src={photo} alt=""/>
                      </div>
 
                      <div className={classes.product_title}>
@@ -163,7 +163,7 @@ const Ratings = (props) => {
             </div>
 
             {
-               ratings && ratings.length > 1
+               ratings && ratings.length > 0
                ? <div className={classes.ratings_list}>
                   {
                      ratings.map((el, i) => (

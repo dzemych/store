@@ -10,6 +10,7 @@ import {useHttp} from "../../functions/http.hook";
 import ProductItem from "./ProductItem";
 import DeliveryInputs from "./DeliveryInputs";
 import Button from "../../forms/Button/Button";
+import MediaQuery from "react-responsive";
 
 
 const Checkout = (props) => {
@@ -28,7 +29,6 @@ const Checkout = (props) => {
    const {form, changeHandler, error, checkValidity} = useForms({
       name: '',
       surname: '',
-      email: '',
       tel: ''
    })
 
@@ -79,14 +79,6 @@ const Checkout = (props) => {
          onChange: (val) => {changeHandler(val, 'tel')},
          error: error.tel
       },
-      {
-         type: 'text',
-         title: 'Электроная почта',
-         placeholder: '',
-         value: form.email,
-         onChange: (val) => {changeHandler(val, 'email')},
-         error: error.email
-      }
    ]
 
    useEffect(() => {
@@ -133,7 +125,21 @@ const Checkout = (props) => {
                   </h2>
 
                   <div className={classes.contact_form}>
-                     {inputsArr.map((el, i) => (
+                     <div className={classes.userNames_container}>
+                        {inputsArr.slice(0, -1).map((el, i) => (
+                           <Input
+                              key={`${el.type}_${i}`}
+                              type={el.type}
+                              title={el.title}
+                              placeholder={el.placeholder}
+                              value={el.value}
+                              error={el.error}
+                              onChange={el.onChange}
+                           />
+                        ))}
+                     </div>
+
+                     {inputsArr.slice(-1).map((el, i) => (
                         <Input
                            key={`${el.type}_${i}`}
                            type={el.type}
@@ -149,7 +155,15 @@ const Checkout = (props) => {
             </div>
 
             <div className={classes.products_container}>
-               <h2 className={classes.section_title}>Your orders</h2>
+               <div className={classes.products_title}>
+                  <h2 className={classes.section_title}>
+                     Your orders
+                  </h2>
+
+                  <span onClick={() => navigate('/shopping-cart')}>
+                     Edit
+                  </span>
+               </div>
 
                <div className={classes.products_list}>
                   {products.map((el, i) => (
@@ -196,14 +210,16 @@ const Checkout = (props) => {
                />
             </div>
 
-            <div className={classes.submit_container}>
-               <Button
-                  type={'wideBlue_button'}
-                  onClickHandler={submitHandler}
-               >
-                  Order
-               </Button>
-            </div>
+            <MediaQuery maxWidth={1024}>
+               <div className={classes.submit_container}>
+                  <Button
+                     type={'wideBlue_button'}
+                     onClickHandler={submitHandler}
+                  >
+                     Order
+                  </Button>
+               </div>
+            </MediaQuery>
 
             <hr className={classes.last_hr}/>
          </div>

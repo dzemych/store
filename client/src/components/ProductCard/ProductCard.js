@@ -23,7 +23,7 @@ const ProductCard = React.forwardRef((props, ref) => {
    const navigate = useNavigate()
    const {wishListHandler, basketHandler, isBasket, isWish} = useWishAndBasketList(props.id)
 
-   const [img, setImg] = useState(null)
+   const [img, setImg] = useState(defaultPhoto)
    const [status, setStatus] = useState('idle')
 
    const isTablet = useMediaQuery({ minWidth: 425 })
@@ -66,6 +66,7 @@ const ProductCard = React.forwardRef((props, ref) => {
                      `/img/product/${props.slug}/${props.mainPhoto}`
                   )
 
+                  console.log(img)
                   setImg(img)
                   setStatus('success')
                } catch (e) {
@@ -89,7 +90,7 @@ const ProductCard = React.forwardRef((props, ref) => {
                className={classes.img_container}
                onClick={() => openProductHandler(props.slug)}
             >
-               <img src={props.mainPhoto ? img : defaultPhoto}
+               <img src={img}
                     alt='product img'
                />
             </div>

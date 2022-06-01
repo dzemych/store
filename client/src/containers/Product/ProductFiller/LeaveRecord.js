@@ -75,7 +75,7 @@ const LeaveRecord = (props) => {
          return (
             <Button
                type={'wideBlue_button'}
-               disabled={(stars < 1 || text.length < 3 || text.length > 400)}
+               disabled={(stars < 1 || text.length < 2 || text.length > 700)}
                onClickHandler={() => postRecord('rating')}
             >
                Leave review
@@ -85,7 +85,7 @@ const LeaveRecord = (props) => {
          return (
             <Button
                type={'wideBlue_button'}
-               disabled={text.length < 3 || text.length > 400}
+               disabled={text.length < 2 || text.length > 700}
                onClickHandler={() => postRecord('question')}
             >
                Ask a question

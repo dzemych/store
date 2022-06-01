@@ -6,10 +6,13 @@
     background: rgba(172, 177, 190, 0.6)
 
 .wrapper
+  width: 100%
+  max-width: 1280px
+  margin: 0 auto
+  padding: 2vw 3vw
   display: flex
   flex-direction: column
   align-items: center
-  padding: 2vw 3vw
 
 .topBar_logo_container
   width: 100%
@@ -53,11 +56,15 @@
   margin: 4vw auto 0
   display: flex
   flex-direction: column
-  & > div:not(:first-child)
-    margin-top: 4.5vw
   & input
     width: 100%
     padding: 2vw 3vw
+  & > div:not(:first-child)
+    margin-top: 4.5vw
+
+.userNames_container
+  & > div:not(:first-child)
+    margin-top: 4.5vw
 
 .products_container
   width: 100%
@@ -68,6 +75,21 @@
   align-items: center
   & h2
     align-self: flex-start
+
+.products_title
+  width: 100%
+  display: flex
+  flex-wrap: wrap
+  flex-direction: row
+  align-items: flex-end
+  justify-content: space-between
+  & span
+    cursor: pointer
+    font-family: RobotoMedium, sans-serif
+    font-size: 1em
+    line-height: 1em
+    margin-right: 2vw
+    color: #6d8094
 
 .products_list
   width: 95%
@@ -99,6 +121,7 @@
   height: 100%
   margin-right: 4vw
   & img
+    cursor: pointer
     height: 100%
 
 .product_title_container
@@ -106,6 +129,7 @@
   display: flex
   align-items: center
   & span
+    cursor: pointer
     margin-bottom: 1.5vw
     color: #3e597c
 
@@ -242,3 +266,124 @@
 .last_hr
   width: 100%
   margin: 35px 0 15px
+
+@media (min-width: 480px)
+  .wrapper
+    width: 80%
+
+  .contact_form
+    margin: 20px 10px 0
+    width: 90%
+    & input
+      padding: 10px 13px
+    & > div:not(:first-child)
+      margin-top: 15px
+
+  .userNames_container
+    & > div:not(:first-child)
+      margin-top: 15px
+
+  .product_topBar
+    height: 80px
+    font-size: 1.15em
+
+  .product_bottomBar
+    font-size: 1.3em
+
+  .product_data_title
+    margin-bottom: 7px
+    font-size: .8em
+
+@media (min-width: 768px)
+  .wrapper
+    padding: 15px 20px
+
+  .topBar_logo_container
+    height: 42px
+
+  .topBar_hr
+    margin: 15px 0 0
+
+  .details_container
+    padding: 0 11px
+
+  .orderDetails_title
+    margin-top: 25px
+
+  .contact_data_container
+    margin-top: 20px
+
+  .contact_form
+    margin: 18px 0 0 10px
+
+  .userNames_container
+    width: 100%
+    display: flex
+    flex-direction: row
+    & > div:not(:first-child)
+      margin-top: 0
+    & > div:not(:last-child)
+      margin-right: 10px
+
+  .products_container
+    margin-top: 30px
+    padding: 0 10px
+
+  .products_title span
+    margin-right: 35px
+
+  .products_list
+    margin-top: 20px
+
+  .product_item
+    flex-direction: row
+    align-items: center
+    padding: 15px 12px
+
+  .product_topBar
+    max-width: 50%
+
+  .product_img_container
+    display: flex
+    align-items: center
+    justify-content: center
+    margin-right: 20px !important
+    width: 60px
+    & img
+      max-height: 100%
+      max-width: 100%
+      width: auto
+      height: auto
+
+  .product_title_container span
+    margin-bottom: 5px
+
+  .product_bottomBar
+    margin-top: 0
+    width: 50%
+
+  .product_data_container
+    width: 33%
+
+  .totalPrice_container
+    margin-top: 25px
+
+  .delivery_hr
+    margin-top: 20px
+
+  .delivery_container
+    margin-top: 20px
+
+  .form_item
+    & label
+      margin-bottom: 5px
+    & input, & select
+      padding: 15px 14px
+
+  .submit_container
+    margin-top: 35px
+    text-align: center
+    & button
+      padding: 18px 12px
+      width: 65%
+      font-size: 1.3em

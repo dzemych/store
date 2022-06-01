@@ -8,7 +8,7 @@ const PhotoItem = ({el, slug}) => {
 
    const {requestImg} = useHttp()
 
-   const [photo, setPhoto] = useState(null)
+   const [photo, setPhoto] = useState(defaultPhoto)
 
    useEffect(() => {
       if (slug && el) {
@@ -27,7 +27,7 @@ const PhotoItem = ({el, slug}) => {
 
    return (
       <div className={classes.photo_wrapper}>
-         <img src={photo ? photo : defaultPhoto} alt=""/>
+         <img src={photo} alt=""/>
       </div>
    )
 }

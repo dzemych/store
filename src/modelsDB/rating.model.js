@@ -25,8 +25,8 @@ const ratingSchema = new Schema({
    text: {
       type: String,
       required: true,
-      minlength: 3,
-      maxlength: 400
+      minlength: 2,
+      maxlength: 700
    },
    createdAt: {
       type: Date,

@@ -30,7 +30,7 @@ export const useHttp = () => {
          return img
       } catch (e) {
          setError(e)
-         return e
+         throw e
       }
    }, [dbUrl])
 
@@ -49,6 +49,7 @@ export const useHttp = () => {
          return data
       } catch (e) {
          setError(e)
+         throw e
       }
    }, [dbUrl])
 

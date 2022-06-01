@@ -14,7 +14,7 @@ const ShoppingCart = (props) => {
    const {requestImg} = useHttp()
    const navigate = useNavigate()
 
-   const [img, setImg] = useState(null)
+   const [img, setImg] = useState(defaultPhoto)
    const [amount, setAmount] = useState(1)
    const [curSize, setCurSize ] = useState(() => (
       Object.keys(props.numSizes).find(key => props.numSizes[key] > 0)
@@ -100,7 +100,7 @@ const ShoppingCart = (props) => {
 
             <div className={classes.topBar}>
                <div className={classes.basket_img_container}>
-                  <img src={props.mainPhoto ? img : defaultPhoto}
+                  <img src={img}
                        alt='img'
                        onClick={() => openProductHandler(props.slug)}
                   />

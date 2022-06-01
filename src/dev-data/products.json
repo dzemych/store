@@ -73,8 +73,6 @@
     "l": 1
   },
   "material": "cotton",
-  "photos": ["puma-shirt-1", "puma-shirt-2", "puma-shirt-3"],
-  "mainPhoto": "puma-shirt-1",
   "features": {
     "material": "cotton",
     "style": "Every day",
@@ -95,8 +93,6 @@
     "l": 6
   },
   "material": "cotton",
-  "photos": ["puma-hoodie-1", "puma-hoodie-2", "puma-hoodie-3"],
-  "mainPhoto": "puma-hoodie-1",
   "features": {
     "material": "cotton",
     "style": "Every day",

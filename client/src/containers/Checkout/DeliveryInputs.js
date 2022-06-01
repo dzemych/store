@@ -17,6 +17,7 @@ const DeliveryInputs = (props) => {
 
       const selectForm =
                <select
+                  autoComplete="off"
                   name='branch'
                   id='branch'
                   disabled={!el}
@@ -35,6 +36,7 @@ const DeliveryInputs = (props) => {
 
       const inputForm =
                <input
+                  autoComplete="off"
                   type="text"
                   name='branches'
                   list="branches"
@@ -147,10 +149,10 @@ const DeliveryInputs = (props) => {
                      </label>
 
                      <input
+                        autoComplete="off"
                         type="text"
                         name='cities'
                         list="cities"
-                        autoComplete={'false'}
                         value={props.location}
                         onChange={props.locationHandler}
                         placeholder='Start typing'
