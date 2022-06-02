@@ -13,13 +13,13 @@ const About = (props) => {
    return (
       <div className={'container'}>
          <div className={'wrapper'}>
-            <h1 className={'title'}>About us</h1>
+            <h1 className={'title'}>Про нас</h1>
             <div className={classes.title_img}>
                <img src={aboutUs} alt="About us"/>
             </div>
 
             <div className={classes.article}>
-               <h2 className={classes.article_title}>Our history</h2>
+               <h2 className={classes.article_title}>Наша история</h2>
 
                <span className={classes.article_text}>
                   Lorem ipsum dolor sit amet, consectetur
@@ -37,14 +37,14 @@ const About = (props) => {
 
             <hr className={classes.hr}/>
 
-            <h2 className={classes.add_title}>View our catalog</h2>
+            <h2 className={classes.add_title}>Просмотрите каталог</h2>
 
             <div className={classes.catalogBtn_container}>
                <Button
                   type={'big_orange_button'}
                   onClickHandler={() => dispatch(toggleCatalog())}
                >
-                  Catalog
+                  Каталог
                </Button>
             </div>
 

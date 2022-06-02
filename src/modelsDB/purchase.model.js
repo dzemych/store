@@ -89,23 +89,6 @@ const purchaseSchema = new Schema({
    }
 })
 
-// Add purchases to user | method
-// purchaseSchema.statics.updateUser = async function(id, userId, type) {
-//    const user = await User.findById(userId)
-//
-//    // Add new purchase to user
-//    if (type === 'save') {
-//       user.purchases.push(id)
-//    } else {
-//       const ids = [...user.purchases]
-//
-//       user.purchases = ids.filter(value => value.toString() !== id.toString())
-//    }
-//
-//    // Save user
-//    await user.save({validateBeforeSave: false})
-// }
-
 // 1) Get total price and amount of products and check product availability
 purchaseSchema.pre('save', async function(next) {
    if (this.isNew) {
@@ -151,17 +134,7 @@ purchaseSchema.pre('save', async function(next) {
    next()
 })
 
-// 3) Add purchases to user
-// purchaseSchema.pre('save', async function(next) {
-   ////    Do it only on new creation
-   // if (this.isNew) {
-   //    await this.constructor.updateUser(this._id, this.user, 'save')
-   // }
-   //
-   // next()
-// })
-
-// 4) Update products sold or numSizes on update status
+// 3) Update products sold or numSizes on update status
 purchaseSchema.post('save', async function(doc) {
    // If success update sold property on product
    if (doc.status === 'success') {

@@ -22,11 +22,26 @@ const OrderItem = (props) => {
    })
    const [products, setProducts] = useState([])
 
-   const statusColor = purchase.status === 'success' ?
-      '#00A046' : props.purchase === 'fail' ? '#D2D2D2'
-         : '#FFA900'
+   const statusColor = purchase.status === 'success'
+      ? '#00A046'
+      : purchase.status === 'return'
+         ? '#D2D2D2'
+         : purchase.status === 'canceled'
+            ? '#f66767'
+            :'#FFA900'
 
    const isLaptop = useMediaQuery({minWidth: 768})
+
+   const changeStatus = async () => {
+      await requestJson(
+         `/purchase/${purchase._id}`,
+         'PATCH',
+         JSON.stringify({status: 'canceled'}),
+         {'Content-Type': 'application/json'}
+      )
+
+      setPurchase(prev => ({...prev, status: 'canceled'}))
+   }
 
    useEffect(() => {
       (async () => {
@@ -60,7 +75,6 @@ const OrderItem = (props) => {
       if (products.length > 0) {
          return purchase.products.map((el, i) => {
             const product = products.find(productEl => productEl._id === el.id)
-            console.log(product)
 
             return (
                <ProductItem
@@ -76,7 +90,7 @@ const OrderItem = (props) => {
             )
          })
       }
-   }, [products])
+   }, [products, purchase.products])
 
    return (
       <div className={classes.container}>
@@ -115,12 +129,20 @@ const OrderItem = (props) => {
                      {purchase.user.name}&nbsp;
                      {purchase.user.surname}
                   </span>
+
                   <span className={classes.data_item}>{purchase.user.tel}</span>
+
                   <span className={classes.data_item}>{purchase.user.email}</span>
                </div>
 
                <div className={classes.action_wrapper}>
-                  <span>Cancel</span>
+                  {purchase.status === 'processing' &&
+                     <span
+                        onClick={changeStatus}
+                     >
+                        Cancel
+                     </span>
+                  }
                </div>
             </div>
 

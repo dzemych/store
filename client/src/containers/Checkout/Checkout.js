@@ -82,13 +82,13 @@ const Checkout = (props) => {
       let error = ''
 
       if (!cities) {
-         error = 'Something went wrong...'
+         error = 'Что то пошло не так...'
       } else {
          const curCity = cities.find(city => city.name === location)
 
          // If no correct city
          if (!curCity && !error) {
-            error = 'Please select your city'
+            error = 'Выберете ваш город'
          } else {
             const curBranch = branches.find(el => el.address === branch)
 
@@ -97,12 +97,12 @@ const Checkout = (props) => {
 
                // If city has a branch but invalid
                if ((+curCity.isBranch) && !error) {
-                  error = 'Please select branch'
+                  error = 'Выберете отделение'
                } else {
 
                   // If city has no branch
                   if (branch.length < 5 && !error)
-                     error = 'Invalid address'
+                     error = 'Напишите свой адрес'
                }
 
             }
@@ -243,9 +243,8 @@ const Checkout = (props) => {
             <FontAwesomeIcon icon={faCircleCheck}/>
 
             <span>
-               You have successfully purchased the item!
-               During the day, the manager will contact you
-               to clarify the date of dispatch
+               Ваша покупка успешно совершена. В течении дня
+               менеджер свяжиться с вами для уточнение деталей.
             </span>
 
             <div className={classes.success_btn_container}>
@@ -253,7 +252,7 @@ const Checkout = (props) => {
                   type={'wideBlue_button'}
                   onClickHandler={() => navigate('/')}
                >
-                  Continue shopping
+                  Продолжить покупки
                </Button>
             </div>
          </div>
@@ -275,7 +274,7 @@ const Checkout = (props) => {
                <hr className={classes.topBar_hr}/>
 
                <h1 className={classes.orderDetails_title}>
-                  Order details
+                  Оформление заказа
                </h1>
 
                <div className={classes.data_wrapper}>
@@ -283,7 +282,7 @@ const Checkout = (props) => {
                      <div className={classes.details_container}>
                         <div className={classes.contact_data_container}>
                            <h2 className={classes.section_title}>
-                              Contact details
+                              Ваши контактные данные
                            </h2>
 
                            <div className={classes.contact_form}>
@@ -319,12 +318,12 @@ const Checkout = (props) => {
                      <div className={classes.products_container}>
                         <div className={classes.products_title}>
                            <h2 className={classes.section_title}>
-                              Your orders
+                              Вашы заказы
                            </h2>
 
                            <span onClick={() => navigate('/shopping-cart')}>
-                           Edit
-                        </span>
+                              Редактировать
+                           </span>
                         </div>
 
                         <div className={classes.products_list}>
@@ -345,7 +344,7 @@ const Checkout = (props) => {
 
                         <div className={classes.totalPrice_container}>
                         <span>
-                           Total price: {totalPrice} ₴
+                           Итого: {totalPrice} ₴
                         </span>
                         </div>
                      </div>
@@ -354,7 +353,7 @@ const Checkout = (props) => {
 
                      <div className={classes.delivery_container}>
                         <h2 className={classes.section_title}>
-                           Choose delivery method
+                           Выберете способ доставки
                         </h2>
 
                         <DeliveryInputs
@@ -376,43 +375,43 @@ const Checkout = (props) => {
                   </div>
 
                   <div className={classes.submit_container}>
-                     <h2>Total</h2>
+                     <h2>Итого</h2>
 
                      <div className={classes.submit_data}>
                         <div className={classes.total_container}>
-                        <span className={classes.total_left}>
-                           {totalAmount} goods on sum
-                        </span>
+                           <span className={classes.total_left}>
+                              {totalAmount} товара на сумму
+                           </span>
 
                            <span className={classes.total_right}>
-                           {totalPrice} ₴
-                        </span>
+                              {totalPrice} ₴
+                           </span>
                         </div>
 
                         <div className={classes.total_container}>
-                        <span className={classes.total_left}>
-                           Delivery price
-                        </span>
+                           <span className={classes.total_left}>
+                              Стоимосить доставки
+                           </span>
 
                            <span className={classes.total_right}>
-                           {delivery === 'pickup'
-                              ? 'Free'
-                              : 'By rates of delivery'
-                           }
-                        </span>
+                              {delivery === 'pickup'
+                                 ? 'Бесплатно'
+                                 : 'По тарифам перевозчика'
+                              }
+                           </span>
                         </div>
                      </div>
 
                      <hr className={classes.total_hr}/>
 
                      <div className={classes.toPay_container}>
-                     <span className={classes.total_left}>
-                        To pay
-                     </span>
+                        <span className={classes.total_left}>
+                           К оплате
+                        </span>
 
                         <span className={classes.payPrice}>
-                        {totalPrice} ₴
-                     </span>
+                           {totalPrice} ₴
+                        </span>
                      </div>
 
                      <div className={classes.submit_btn_container}>
@@ -420,7 +419,7 @@ const Checkout = (props) => {
                            type={'wideBlue_button'}
                            onClickHandler={submitHandler}
                         >
-                           Confirm purchase
+                           Потвердить покупку
                         </Button>
                      </div>
                   </div>

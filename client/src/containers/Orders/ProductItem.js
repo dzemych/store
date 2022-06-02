@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 
 
 const ProductItem = (props) => {
-   const {requestJson, requestImg} = useHttp()
+   const {requestImg} = useHttp()
    const navigate = useNavigate()
 
    const [img, setImg] = useState(defaultPhoto)
@@ -24,7 +24,7 @@ const ProductItem = (props) => {
          if (img)
             setImg(img)
       })()
-   }, [props.slug])
+   }, [props.slug, props.mainPhoto])
 
    return (
       <div className={classes.container}>

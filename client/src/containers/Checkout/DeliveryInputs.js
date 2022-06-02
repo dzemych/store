@@ -1,20 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import classes from "./Checkout.module.sass";
-import useNewPay from "../../functions/useNewPay.hook";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronUp} from "@fortawesome/free-solid-svg-icons";
 
 
 const DeliveryInputs = (props) => {
-   // const {loadCities, cities, setCities, loadBranches, branches} = useNewPay()
    const cities = props.cities
 
    const renderBranch = () => {
       const el = cities.find(city => city.name === props.location)
 
       const title = el && !+el.isBranch
-         ? 'Enter the address for delivery'
-         : 'Select your branch'
+         ? 'Введите адрес для доставки'
+         : 'Выберет ваше отделение'
 
       const selectForm =
                <select
@@ -65,19 +63,24 @@ const DeliveryInputs = (props) => {
    }, [props.location])
 
    useEffect(() => {
+
       if (cities.find(city => city.name === props.location))
          (async () => {
             await props.loadBranches(props.location)
          })()
+
    }, [cities, props.location])
 
    useEffect(() => {
+
       if (props.location.length > 1)
          (async () => {
             await props.loadCities(props.location)
          })()
+
       if (props.location.length < 2)
          props.setCities([])
+
    }, [props.location])
 
    return(
@@ -95,15 +98,15 @@ const DeliveryInputs = (props) => {
 
             <div className={classes.method_text}>
                <span className={classes.method_name}>
-                  Pickup
+                  Самовывоз
                </span>
 
                <span className={classes.method_info}>
-                  Khmelnitsky, Zarechanskaya 8
+                  Хмельницкий, Вулиця свободи 9а
                </span>
 
                <span className={classes.method_price}>
-                  Free
+                  Бесплатно
                </span>
             </div>
          </div>
@@ -121,15 +124,15 @@ const DeliveryInputs = (props) => {
 
             <div className={classes.method_text}>
                <span className={classes.method_name}>
-                  Delivery by NewPay
+                  Доставка Новой Почтой
                </span>
 
                <span className={classes.method_info}>
-                  To any city of Ukraine
+                  В любой город Украины
                </span>
 
                <span className={classes.method_price}>
-                  At the rates of NewPay
+                  По тарифам Новой Почты
                </span>
             </div>
 
@@ -144,7 +147,7 @@ const DeliveryInputs = (props) => {
             <div className={classes.delivery_forms}>
                <div className={classes.form_item}>
                   <label htmlFor='cities_input'>
-                     Start typing and select your city
+                     Начните писать и выберете ваш город
                   </label>
 
                   <input
@@ -155,7 +158,7 @@ const DeliveryInputs = (props) => {
                      role='combobox'
                      value={props.location}
                      onChange={props.locationHandler}
-                     placeholder='Start typing'
+                     placeholder='Начните писать'
                   />
 
                   <datalist id='cities_list' role='listbox'>

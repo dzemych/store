@@ -26,7 +26,6 @@ const ShoppingCart = (props) => {
       navigate('/checkout')
    }
 
-   // TODO total price
    useEffect(() => {
       if (basket.length > 0) {
          (async () => {
@@ -40,7 +39,7 @@ const ShoppingCart = (props) => {
             setProducts(data.products)
          })()
       } else {setProducts([])}
-   }, [basket])
+   }, [basket, requestJson])
 
    return (
       <div className={classes.container}>
@@ -85,21 +84,24 @@ const ShoppingCart = (props) => {
                      </MediaQuery>
 
                      <span className={classes.total_price}>
-                        {products.reduce((acc, el) => {
-                           acc += el.price
-                           return acc
-                        }, 0)}
+                        {(Object.keys(items).length > 0 && products.length > 0) &&
+                           products.reduce((acc, el) => {
+                              acc += el.price * items[el._id].amount
+                              return acc
+                           }, 0)
+                        }
                         ₴
                      </span>
                   </div>
 
                   {products.length > 0 &&
-                  <Button
-                     type={'bigGreen_button'}
-                     onClickHandler={onPurchase}
-                  >
-                     Purchase
-                  </Button>}
+                     <Button
+                        type={'bigGreen_button'}
+                        onClickHandler={onPurchase}
+                     >
+                        Purchase
+                     </Button>
+                  }
                </div>
             </div>
          </div>
