@@ -19,14 +19,21 @@ const purchaseReducer = createSlice({
       },
       setStatus(state, action) {
          state.status = action.payload
+      },
+      loadPurchasesFromLocal(state) {
+         const str = window.localStorage.getItem('purchases')
+         state.purchases = JSON.parse(str)
       }
    },
    extraReducers(builder) {
       builder
          .addCase('purchase/createPurchase/fulfilled', (state, action) => {
-            console.log(action)
+            if (!state.purchases) {
+               state.purchases = [action.payload.data._id]
+            } else {
+               state.purchases.unshift(action.payload.data._id)
+            }
 
-            state.purchases.unshift(action.payload.data._id)
             state.status = 'success'
 
             localStorage.setItem('purchases', JSON.stringify(state.purchases))
@@ -36,4 +43,4 @@ const purchaseReducer = createSlice({
 
 export default purchaseReducer.reducer
 
-export const {addCheckout, clearCheckout, setStatus} = purchaseReducer.actions
+export const {addCheckout, clearCheckout, setStatus, loadPurchasesFromLocal} = purchaseReducer.actions

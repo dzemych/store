@@ -9,6 +9,7 @@ import {useDispatch} from "react-redux";
 import {fetchUser} from "./redux/user/userAction";
 import {loadLocalStorage} from "./redux/user/userReducer";
 import {loadRecentlyFromStorage} from "./redux/recently/recentlyReducer";
+import {loadPurchasesFromLocal} from "./redux/purchase/purchaseReducer";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
 
    useEffect(() => {
       dispatch(loadRecentlyFromStorage())
+      dispatch(loadPurchasesFromLocal())
    }, [])
 
    return (

@@ -12,7 +12,7 @@ import DeliveryInputs from "./DeliveryInputs";
 import Button from "../../forms/Button/Button";
 import useNewPay from "../../functions/useNewPay.hook";
 import {fetchCreatePurchase} from "../../redux/purchase/purchaseActions";
-import {setStatus} from "../../redux/product/productReducer";
+import {setStatus} from "../../redux/purchase/purchaseReducer";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 

@@ -26,7 +26,7 @@ const useRoutes = (props) => {
 
    useEffect(() => {
       if (!isAuth)
-         if (location.pathname === '/user' || location.pathname === '/orders') {
+         if (location.pathname === '/user') {
             dispatch(toggleAuth())
          }
    }, [location, dispatch])
@@ -44,10 +44,7 @@ const useRoutes = (props) => {
              ? <Route path={'/user'} exact element={ <User/> } />
              : <Route path={'/user'} exact element={ <Home/> } />
           }
-          {isAuth
-             ? <Route path={'/orders'} exact element={ <Orders/> } />
-             : <Route path={'/orders'} exact element={ <Home/> } />
-          }
+          <Route path={'/orders'} exact element={ <Orders/> } />
           <Route path={'/checkout'} exact element={ <Checkout/> }/>
           <Route path={'/resetPassword'} exact element={ <ForgotPassword/> }/>
           <Route path={'/resetPassword/:token'} exact element={ <ResetPassword/> }/>

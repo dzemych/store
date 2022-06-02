@@ -18,6 +18,11 @@ router
       purchaseController.createOnePurchase
    )
 
+router.post(
+   '/getPurchases',
+   purchaseController.getPurchasesFromArr
+)
+
 router
    .get(
       '/myPurchases',

@@ -66,7 +66,6 @@ const ProductCard = React.forwardRef((props, ref) => {
                      `/img/product/${props.slug}/${props.mainPhoto}`
                   )
 
-                  console.log(img)
                   setImg(img)
                   setStatus('success')
                } catch (e) {

@@ -1,17 +1,47 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import classes from './ProductItem.module.sass'
+import {useHttp} from "../../functions/http.hook";
+import defaultPhoto from '../../img/no-image.png'
+import {useNavigate} from "react-router-dom";
 
 
 const ProductItem = (props) => {
+   const {requestJson, requestImg} = useHttp()
+   const navigate = useNavigate()
+
+   const [img, setImg] = useState(defaultPhoto)
+
+   const openProduct = () => {
+      navigate('/products/' + props.slug)
+   }
+
+   useEffect(() => {
+      (async () => {
+         const img = await requestImg(
+            `/img/product/${props.slug}/${props.mainPhoto}`
+         )
+
+         if (img)
+            setImg(img)
+      })()
+   }, [props.slug])
+
    return (
       <div className={classes.container}>
          <div className={classes.wrapper}>
             <div className={classes.topBar_wrapper}>
                <div className={classes.img_container}>
-                  <img src={props.img} alt=""/>
+                  <img
+                     src={img}
+                     alt=""
+                     onClick={openProduct}
+                  />
                </div>
 
-               <div className={classes.topBar_title}>
+               <div
+                  className={classes.topBar_title}
+                  onClick={openProduct}
+               >
                   <span>{props.title}</span>
                </div>
             </div>

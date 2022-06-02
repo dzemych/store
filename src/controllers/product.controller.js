@@ -142,10 +142,6 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 exports.getProductsFromArr = catchAsync(async (req, res, next) => {
    const arr = req.body.products
 
-   let queryObj = {}
-   if (req.body.type === 'slug')
-      queryObj
-
    if (!arr)
       return next(new AppError('Please provide products array', 400))
 

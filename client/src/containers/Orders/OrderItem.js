@@ -1,16 +1,82 @@
-import React from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import classes from './OrderItem.module.sass'
 import ProductItem from "./ProductItem";
 import {useMediaQuery} from "react-responsive";
+import {useHttp} from "../../functions/http.hook";
 
 
 const OrderItem = (props) => {
 
-   const statusColor = props.status === 'success' ?
-      '#00A046' : props.status === 'fail' ? '#D2D2D2'
+   const {requestJson} = useHttp()
+   const [purchase, setPurchase] = useState({
+      status: '___',
+      createdAt: '___',
+      totalPrice: '___',
+      user: {
+         name: '___',
+         surname: '___',
+         email: '___',
+         tel: '___'
+      },
+      products: []
+   })
+   const [products, setProducts] = useState([])
+
+   const statusColor = purchase.status === 'success' ?
+      '#00A046' : props.purchase === 'fail' ? '#D2D2D2'
          : '#FFA900'
 
    const isLaptop = useMediaQuery({minWidth: 768})
+
+   useEffect(() => {
+      (async () => {
+         const data = await requestJson(
+            `/purchase/${props.id}`
+         )
+
+         setPurchase(data.data)
+      })()
+   }, [props.id])
+
+   useEffect(() => {
+      (async () => {
+         const ids = purchase.products.reduce((acc, el) => {
+            acc.push(el.id)
+            return acc
+         }, [])
+
+         const data = await requestJson(
+            `/product/getProducts`,
+            'POST',
+            JSON.stringify({products: ids}),
+            {'Content-Type': 'application/json'}
+         )
+
+         setProducts(data.products)
+      })()
+   }, [purchase.products])
+
+   const renderProducts = useCallback(() => {
+      if (products.length > 0) {
+         return purchase.products.map((el, i) => {
+            const product = products.find(productEl => productEl._id === el.id)
+            console.log(product)
+
+            return (
+               <ProductItem
+                  key={i}
+                  id={el.id}
+                  slug={product.slug}
+                  mainPhoto={product.mainPhoto}
+                  title={product.title}
+                  price={product.price}
+                  amount={el.amount}
+                  size={el.size}
+               />
+            )
+         })
+      }
+   }, [products])
 
    return (
       <div className={classes.container}>
@@ -24,30 +90,33 @@ const OrderItem = (props) => {
          }}>
             <div className={classes.topBar}>
                <div className={classes.status_wrapper}>
-                  <span className={classes.status_date}>{props.date}</span>
+                  <span className={classes.status_date}>{purchase.date}</span>
 
                   <span className={classes.status_status}>
-                     {props.status.charAt(0).toUpperCase() + props.status.slice(1)}
+                     {purchase.status.charAt(0).toUpperCase() + purchase.status.slice(1)}
                   </span>
                </div>
 
                <div className={classes.order_sum_wrapper}>
-               <span className={classes.sum_title}>
-                  Order price
-               </span>
+                  <span className={classes.sum_title}>
+                     Order price
+                  </span>
 
                   <span className={classes.sum_price}>
-                  {props.orderPrice} ₴
-               </span>
+                     {purchase.totalPrice} ₴
+                  </span>
                </div>
             </div>
 
 
             <div className={classes.bottomBar}>
                <div className={classes.data_wrapper}>
-                  <span className={classes.data_item}>{props.data.name}</span>
-                  <span className={classes.data_item}>{props.data.phoneNumber}</span>
-                  <span className={classes.data_item}>{props.data.email}</span>
+                  <span className={classes.data_item}>
+                     {purchase.user.name}&nbsp;
+                     {purchase.user.surname}
+                  </span>
+                  <span className={classes.data_item}>{purchase.user.tel}</span>
+                  <span className={classes.data_item}>{purchase.user.email}</span>
                </div>
 
                <div className={classes.action_wrapper}>
@@ -56,18 +125,7 @@ const OrderItem = (props) => {
             </div>
 
             <div className={classes.products_list}>
-               {
-                  props.products.map((el, i) => (
-                     <ProductItem
-                        key={i}
-                        title={el.title}
-                        price={el.price}
-                        id={el.id}
-                        amount={el.amount}
-                        img={el.img}
-                     />
-                  ))
-               }
+               {renderProducts()}
             </div>
          </div>
       </div>
