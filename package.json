@@ -6,8 +6,10 @@
   "scripts": {
     "server": "nodemon server.js",
     "client": "npm run start --prefix client",
-    "db": "mongod --dbpath=E:\\data\\db",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "admin": "npm run start --prefix admin",
+    "db": "mongod --dbpath=D:\\Vanya\\data\\db",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev:admin": "concurrently \"npm run server\" \"npm run admin\""
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,126 @@
+.container
+  width: 100%
+  height: 100px
+
+.wrapper
+  width: 100%
+  padding: 30px
+  text-align: center
+
+.main_title
+  font-size: 2.5em
+  font-family: Caveat, sans-serif
+  margin-bottom: 15px
+
+.inputs_list
+  margin: 0 auto
+  width: 80%
+  border-radius: 10px
+  border: 1px solid #c7c7c7
+  background: #e9e9ea
+  padding: 25px 50px 25px 25px
+
+.input_container
+  margin-bottom: 10px
+  & input[type=number]
+    width: fit-content
+
+.form_error
+  color: #d65050
+  margin-top: 3px
+  margin-left: 5px
+
+.description_container
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  margin-bottom: 10px
+  & label
+    color: #9d9d9d
+    margin-bottom: 3px
+  & textarea
+    width: 90%
+    outline: none
+    border-radius: 6px
+    border: 1px solid #86b4c5
+    padding: 10px 15px
+    font-size: 1.1em
+    &::-webkit-resizer
+      display: none
+  & span
+    margin-top: 3px
+
+.main_details_container
+  display: flex
+  flex-direction: row
+
+.sex_container
+  width: 50%
+  padding-right: 20px
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  & label
+    color: #9d9d9d
+    margin-bottom: 3px
+  & select
+    text-decoration: none
+    outline: none
+    width: 100%
+    border-radius: 6px
+    border: 1px solid #86b4c5
+    padding: 10px 15px
+    font-size: 1.1em
+
+.sex_option
+  border: none
+  border-radius: 6px
+
+.category_container
+  width: 50%
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  & label
+    color: #9d9d9d
+    margin-bottom: 3px
+  & input
+    text-decoration: none
+    outline: none
+    width: 100%
+    border-radius: 6px
+    border: 1px solid #86b4c5
+    padding: 10px 15px
+    font-size: 1.1em
+
+.sizes_container
+  width: 100%
+  margin-top: 15px
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  & h3
+    font-weight: 400
+    font-family: RobotoRegular, sans-serif
+
+.sizes_list
+  margin-top: 6px
+  width: 100%
+  display: flex
+  flex-direction: row
+  & > div
+    margin-right: 9px
+  & label
+    margin-left: 5px
+
+.features_container
+  width: 100%
+  margin-top: 15px
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  flex-wrap: wrap
+  & > div
+    width: 48%
+  & > div:nth-child(n + 3)
+    margin-top: 6px
