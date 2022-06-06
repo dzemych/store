@@ -1,10 +1,16 @@
-import React, {useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import classes from './CreateProduct.module.sass'
 import useForms from "../../functions/forms.hook";
 import Input from "../../forms/Input/Input";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowLeft, faHouse, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 
 const CreateProduct = (props) => {
+
+   const loadPhotoRef = useRef(null)
+
+   const [photos, setPhotos] = useState([])
 
    const [numSizes, setNumSizes] = useState({
       xs: 0,
@@ -15,14 +21,14 @@ const CreateProduct = (props) => {
       xxl: 0
    })
 
-   const categories = ['hoodie', 'shirt', 't-shirt']
-
    const [features, setFeatures] = useState({
       material: '',
       season: '',
       style: '',
       warrant: ''
    })
+
+   const categories = ['hoodie', 'shirt', 't-shirt']
 
    const {form, setForm, formError, changeHandler, checkValidity} = useForms({
       title: '',
@@ -42,6 +48,50 @@ const CreateProduct = (props) => {
       setFeatures(prev => ({...prev, [key]: e.target.value}))
    }
 
+   const loadPhotoHandler = e => {
+      e.preventDefault()
+
+      const photo = loadPhotoRef.current.files[0]
+      setPhotos(prev => [...prev, URL.createObjectURL(photo)])
+   }
+
+   const inputClick = () => {
+      loadPhotoRef.current.click()
+   }
+
+   const deletePhotoHandler = index => {
+      setPhotos(prev => prev.filter((el, i) => i !== index))
+   }
+
+   const shiftPhotoHandler = index => {
+      setPhotos(prev => prev.reduce((acc, el, i) => {
+         if (index - 1 === i) {
+            acc.push(prev[index])
+         } else if (index === i) {
+            acc.push(prev[index - 1])
+         } else {
+            acc.push(prev[i])
+         }
+
+         return acc
+      }, []))
+   }
+
+   const firstPhotoHandler = photo => {
+      console.log(photo)
+      const arr = [...photos]
+
+     const newArr = arr.sort((a, b) =>
+         a === photo ? -1
+            : b === photo ? 1
+            : 0
+      )
+
+      setPhotos(newArr)
+   }
+
+   useEffect(() => console.log(photos), [photos])
+
    return (
       <div className={classes.container}>
          <div className={classes.wrapper}>
@@ -53,7 +103,7 @@ const CreateProduct = (props) => {
                      type={'text'}
                      title={'Product title'}
                      value={form.title}
-                     onChange={e => changeHandler(e.taget.value, 'title')}
+                     onChange={e => changeHandler(e.target.value, 'title')}
                      placeholder={'Title'}
                      error={formError.title}
                   />
@@ -179,6 +229,7 @@ const CreateProduct = (props) => {
                <div className={classes.features_container}>
                   {Object.keys(features).map((el, i) => (
                      <Input
+                        key={i}
                         type={'text'}
                         value={features[el]}
                         onChange={e => changeFeatures(e, el)}
@@ -188,7 +239,54 @@ const CreateProduct = (props) => {
                </div>
 
                <div className={classes.photos_container}>
+                  <h3 className={classes.photos_title}>Upload your photos</h3>
+                  
+                  <div className={classes.photos_list}>
+                     {photos.map((el, i) => (
+                        <div
+                           key={i}
+                           className={classes.photo_item}
+                        >
+                           <div className={classes.photo_hover}>
+                              {i !== 0 &&
+                                 <>
+                                    <FontAwesomeIcon
+                                       icon={faHouse}
+                                       onClick={() => firstPhotoHandler(el)}
+                                    />
+                                    <FontAwesomeIcon
+                                       icon={faArrowLeft}
+                                       onClick={() => shiftPhotoHandler(i)}
+                                    />
+                                 </>
+                              }
 
+                              <FontAwesomeIcon
+                                 icon={faTrash}
+                                 onClick={() => deletePhotoHandler(i)}
+                              />
+                           </div>
+
+                           <img src={el} alt=""/>
+                        </div>
+                     ))}
+                  </div>
+
+                  <div
+                     className={classes.addPhoto_input}
+                     onClick={inputClick}
+                  >
+                     <input
+                        type="file"
+                        accept="image/*"
+                        ref={loadPhotoRef}
+                        onChange={e => loadPhotoHandler(e)}
+                     />
+
+                     <FontAwesomeIcon
+                        icon={faPlus}
+                     />
+                  </div>
                </div>
             </div>
          </div>

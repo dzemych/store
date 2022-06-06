@@ -7,9 +7,11 @@ const AllRoutes = (props) => {
 
 
    return (
-      <Routes>
-         <Route path={'/'} exact element={ <CreateProduct/> } />
-      </Routes>
+      <div style={{marginLeft: '170px'}}>
+         <Routes>
+            <Route path={'/'} exact element={ <CreateProduct/> } />
+         </Routes>
+      </div>
    )
 }
 
