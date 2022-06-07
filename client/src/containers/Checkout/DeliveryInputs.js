@@ -24,6 +24,7 @@ const DeliveryInputs = (props) => {
                   onChange={props.branchHandler}
                >
                   <option value=""/>
+
                   {props.branches.length > 0 &&
                      props.branches.map((selectEl, i) => (
                         <option value={selectEl.address} key={i}>
