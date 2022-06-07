@@ -11,9 +11,10 @@ const fsPromises = require('fs/promises')
 
 const multerStorage = multer.diskStorage({
    destination: async (req, file, cb) => {
+
       // 1) Create directory
       const dir = path.resolve
-      ('public/img/', 'product', req.params.slug)
+      ('public/img/', 'product', req.body.slug)
 
       // 2) If newly created product creat new directory
       if (!fs.existsSync(dir)){
@@ -36,11 +37,11 @@ const multerFilter = async (req, file, cb) => {
    if (!req.params.slug)
       cb(new AppError('Provide product slug', 409), false)
 
-   const product = await Product.findOne({slug: req.params.slug}).lean()
+   const product = await Product.findOne({slug: req.body.slug}).lean()
 
    //! Check if there is such product
    if (!product)
-      cb(new AppError('No product with such id', 404), false)
+      cb(new AppError('No product with such slug', 404), false)
 
    cb(null, true)
 }

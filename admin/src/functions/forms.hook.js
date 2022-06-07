@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 
 const useForms = (fields) => {
@@ -12,12 +12,12 @@ const useForms = (fields) => {
          if (form.title.length < 2)
             newError.title = 'Minimum length 2 symbols'
 
-         if (!form.title.match(/^[a-zA-Z]+$/))
-            newError.title = 'Only a-z'
+         if (!form.title.match(/^[а-яА-ЯёЁ]+$/))
+            newError.title = 'Possible symbols: А-Я'
       }
 
       if (fields.hasOwnProperty('price')) {
-         if (fields.price < 1 && fields.price > 1000000)
+         if (form.price < 1 || form.price > 1000000)
             newError.price = 'Invalid price'
       }
 
@@ -41,7 +41,7 @@ const useForms = (fields) => {
    }
 
    const changeHandler = (value, type) => {
-      setForm(prev => ({...prev, [type]: value}))
+      setForm(prev => ({...prev, [type]: type === 'price' ? +value : value}))
    }
 
    const setInitial = () => {

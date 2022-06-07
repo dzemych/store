@@ -7,9 +7,9 @@ const path = require('path')
 
 const router = Router()
 
-router.get('/:category/:product/:photo', catchAsync(async (req, res, next) => {
+router.get('/:type/:product/:photo', catchAsync(async (req, res, next) => {
    const photoPath = path.resolve(
-      'public/img', req.params.category, req.params.product, req.params.photo
+      'public/img', req.params.type, req.params.product, req.params.photo
    )
 
    if (!fs.existsSync(photoPath))
