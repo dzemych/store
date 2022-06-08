@@ -14,7 +14,7 @@ const multerStorage = multer.diskStorage({
 
       // 1) Create directory
       const dir = path.resolve
-      ('public/img/', 'product', req.body.slug)
+      ('public/img/', 'product', req.params.slug)
 
       // 2) If newly created product creat new directory
       if (!fs.existsSync(dir)){
@@ -37,7 +37,7 @@ const multerFilter = async (req, file, cb) => {
    if (!req.params.slug)
       cb(new AppError('Provide product slug', 409), false)
 
-   const product = await Product.findOne({slug: req.body.slug}).lean()
+   const product = await Product.findOne({slug: req.params.slug}).lean()
 
    //! Check if there is such product
    if (!product)

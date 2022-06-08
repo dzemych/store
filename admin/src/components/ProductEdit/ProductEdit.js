@@ -5,9 +5,22 @@ import Input from "../../forms/Input/Input";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faHouse, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import slugify from "slugify";
+import {useHttp} from "../../functions/http.hook";
 
 
 const CreateProduct = (props) => {
+
+   const {requestJson} = useHttp()
+
+   const {form, formError, changeHandler, checkValidity} = useForms({
+      title: '',
+      description: '',
+      price: 0,
+      sex: '',
+      category: '',
+   })
+
+   const categories = ['hoodie', 'shirt', 't-shirt']
 
    const loadPhotoRef = useRef(null)
 
@@ -29,25 +42,15 @@ const CreateProduct = (props) => {
       warrant: ''
    })
 
-   const categories = ['hoodie', 'shirt', 't-shirt']
-
-   const {form, formError, changeHandler, checkValidity} = useForms({
-      title: '',
-      description: '',
-      price: 0,
-      sex: '',
-      category: '',
-   })
-
    const [sizeError, setSizeError] = useState('')
    const [featuresError, setFeaturesError] = useState('')
 
-   const changeSize = (e, key) => {
-      setNumSizes(prev => ({...prev, [key]: e.target.value}))
+   const changeSize = (val, key) => {
+      setNumSizes(prev => ({...prev, [key]: val}))
    }
 
-   const changeFeatures = (e, key) => {
-      setFeatures(prev => ({...prev, [key]: e.target.value}))
+   const changeFeatures = (val, key) => {
+      setFeatures(prev => ({...prev, [key]: val}))
    }
 
    const loadPhotoHandler = e => {
@@ -129,11 +132,12 @@ const CreateProduct = (props) => {
             numSizes,
             features
          }
+         let photoFiles = []
 
          if (photos.length > 0) {
             const slug = slugify(form.title)
 
-            const photoFiles = photos.map((el, i) => {
+            photoFiles = photos.map((el, i) => {
                const type = el.file.name.split('.')[1]
 
                return new File(
@@ -153,8 +157,37 @@ const CreateProduct = (props) => {
             product.photos = photoNames
          }
 
-         console.log(product)
+         await uploadProduct(product)
+         await uploadPhotos(photoFiles)
+      }
+   }
 
+   const uploadProduct = async product => {
+      try {
+         const response = await requestJson(
+            `/product/`,
+            'POST',
+            JSON.stringify(product),
+            {
+               'Content-Type': 'application/json',
+               'Auth': 'Bearer '
+            }
+         )
+      } catch (e) {
+         console.log(e)
+      }
+   }
+
+   const uploadPhotos = async (photos, slug) => {
+      try {
+         const response = await requestJson(
+            '/product/uploadPhotos/' + slug,
+            'POST',
+            photos,
+            {'Auth': 'Bearer '}
+         )
+      } catch (e) {
+         console.log(e)
       }
    }
 
@@ -165,7 +198,7 @@ const CreateProduct = (props) => {
                type={'text'}
                title={'Product title'}
                value={form.title}
-               onChange={e => changeHandler(e.target.value, 'title')}
+               onChange={value => changeHandler(value, 'title')}
                placeholder={'Title'}
                error={formError.title}
             />
@@ -176,7 +209,7 @@ const CreateProduct = (props) => {
                type={'number'}
                title={'Product price'}
                value={form.price}
-               onChange={e => changeHandler(e.target.value, 'price')}
+               onChange={value => changeHandler(value, 'price')}
                placeholder={'Product price'}
                error={formError.price}
             />
@@ -188,7 +221,7 @@ const CreateProduct = (props) => {
             </label>
 
             <textarea
-               value={form.value}
+               value={form.description}
                onChange={e => changeHandler(e.target.value, 'description')}
                name="description"
                id="description_input"
@@ -197,8 +230,8 @@ const CreateProduct = (props) => {
 
             {formError &&
                <span className={classes.form_error}>
-                        {formError.description}
-                     </span>
+                  {formError.description}
+               </span>
             }
          </div>
 
@@ -235,8 +268,8 @@ const CreateProduct = (props) => {
 
                {formError.sex &&
                   <span className={classes.form_error}>
-                           {formError.sex}
-                        </span>
+                     {formError.sex}
+                  </span>
                }
             </div>
 
@@ -268,8 +301,8 @@ const CreateProduct = (props) => {
 
                {formError.category &&
                   <span className={classes.form_error}>
-                        {formError.category}
-                     </span>
+                     {formError.category}
+                  </span>
                }
             </div>
          </div>
@@ -283,7 +316,7 @@ const CreateProduct = (props) => {
                      type={'number'}
                      key={i}
                      value={numSizes[el]}
-                     onChange={e => changeSize(e, el)}
+                     onChange={value => changeSize(value, el)}
                      title={el.toUpperCase()}
                   />
                ))}
@@ -291,8 +324,8 @@ const CreateProduct = (props) => {
 
             {sizeError &&
                <span className={classes.form_error}>
-                     {sizeError}
-                  </span>
+                  {sizeError}
+               </span>
             }
          </div>
 
@@ -302,15 +335,15 @@ const CreateProduct = (props) => {
                   key={i}
                   type={'text'}
                   value={features[el]}
-                  onChange={e => changeFeatures(e, el)}
+                  onChange={value => changeFeatures(value, el)}
                   title={el.slice(0, 1).toUpperCase() + el.slice(1)}
                />
             ))}
 
             {featuresError &&
                <span className={classes.form_error}>
-                        {featuresError}
-                     </span>
+                  {featuresError}
+               </span>
             }
          </div>
 
@@ -348,21 +381,23 @@ const CreateProduct = (props) => {
                ))}
             </div>
 
-            <div
-               className={classes.addPhoto_input}
-               onClick={inputClick}
-            >
-               <input
-                  type="file"
-                  accept="image/*"
-                  ref={loadPhotoRef}
-                  onChange={e => loadPhotoHandler(e)}
-               />
+            {photos.length < 10 &&
+               <div
+                  className={classes.addPhoto_input}
+                  onClick={inputClick}
+               >
+                  <input
+                     type="file"
+                     accept="image/*"
+                     ref={loadPhotoRef}
+                     onChange={e => loadPhotoHandler(e)}
+                  />
 
-               <FontAwesomeIcon
-                  icon={faPlus}
-               />
-            </div>
+                  <FontAwesomeIcon
+                     icon={faPlus}
+                  />
+               </div>
+            }
          </div>
 
          <div className={classes.submit_container}>

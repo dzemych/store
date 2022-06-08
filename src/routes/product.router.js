@@ -25,7 +25,7 @@ router.use(
    authController.restrictTo(['admin']),
 )
 
-router.post('/uploadPhotos', productController.uploadPhotos)
+router.post('/uploadPhotos/:slug', productController.uploadPhotos)
 
 router
    .route('/:slug')

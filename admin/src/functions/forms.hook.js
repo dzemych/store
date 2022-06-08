@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
+import validator from "validator/es";
 
 
 const useForms = (fields) => {
@@ -22,6 +23,7 @@ const useForms = (fields) => {
       }
 
       if (fields.hasOwnProperty('description')) {
+         console.log(form.description.length)
          if (form.description.length < 10)
             newError.description = 'Minimum length 10 symbols'
       }
@@ -34,6 +36,16 @@ const useForms = (fields) => {
       if (fields.hasOwnProperty('category')) {
          if (!form.category)
             newError.category = 'Product must have category'
+      }
+
+      if (fields.hasOwnProperty('password')){
+         if (form.password.length < 8)
+            newError.password = 'At least 8 symbols'
+      }
+
+      if (fields.hasOwnProperty('email')){
+         if (!validator.isEmail(form.email))
+            newError.email = 'Invalid email'
       }
 
       setError(newError)

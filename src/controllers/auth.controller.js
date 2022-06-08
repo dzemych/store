@@ -14,6 +14,24 @@ const createJwtToken = (id, exp = process.env.JWT_EXPIRES_IN) => {
    })
 }
 
+const createFirstAdmin = catchAsync(async (email, password, res) => {
+   const user = await User.create({
+      name: 'Jasmin',
+      email: email,
+      password: password,
+      passwordConfirm: password,
+      role: 'admin'
+   })
+
+   const token = createJwtToken(user._id)
+
+   res.status(201).json({
+      status: 'success',
+      message: 'User successfully created',
+      id: user._id, token, name: user.name, email: user.email
+   })
+})
+
 exports.createUser = catchAsync(async (req, res, next) => {
    const user = new User(req.body)
    await user.save()
@@ -28,9 +46,17 @@ exports.createUser = catchAsync(async (req, res, next) => {
 })
 
 exports.loginUser = catchAsync(async (req, res, next) => {
-   // 1) Check if email if email and password exists
+   // 1) Check if email and password exists
    const {email, password} = req.body
    if (!email || !password) return next(new AppError('Please provide email and password.', 400))
+
+   if (req.body.role === 'admin'){
+      const admins = await User.find({role: 'admin'})
+
+      if (admins.length < 1) {
+         return createFirstAdmin(req.body.email, req.body.password, res)
+      }
+   }
 
    // 2) Check if user exists
    const user = await User

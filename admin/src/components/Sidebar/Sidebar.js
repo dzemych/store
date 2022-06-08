@@ -1,15 +1,26 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import classes from './Sidebar.module.sass'
 import {useNavigate} from "react-router-dom"
+import {AuthContext} from "../../context/AuthContext";
 
 
 const Sidebar = (props) => {
+   const auth = useContext(AuthContext)
+
    const navigate = useNavigate()
+
+   const logOutHandler = () => {
+      auth.logout()
+   }
 
    const links = [
       {
          title: 'New product',
          onClick: () => navigate('/')
+      },
+      {
+         title: 'All products',
+         onClick: () => navigate('/products')
       }
    ]
 
@@ -25,6 +36,13 @@ const Sidebar = (props) => {
                   </div>
                ))}
             </nav>
+
+            <span
+               className={classes.logOut}
+               onClick={logOutHandler}
+            >
+               Log out
+            </span>
          </div>
       </div>
    )

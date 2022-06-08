@@ -6,7 +6,11 @@
   height: 100vh
 
 .wrapper
+  position: relative
+  display: flex
+  flex-direction: column
   width: 100%
+  height: 100%
   padding: 60px 25px
 
 .nav_wrapper
@@ -27,3 +31,15 @@
   &:hover
     opacity: .8
     transform: translateX(8px)
+
+.logOut
+  margin: 0 0 25px
+  position: absolute
+  cursor: pointer
+  bottom: 0
+  font-family: Caveat, sans-serif
+  color: #fff
+  font-size: 35px
+  transition: 280ms
+  &:hover
+    transform: scale(1.1)

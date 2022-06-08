@@ -13,7 +13,6 @@ const changeUser = async (field, userId, productId, type) => {
 
    let user
 
-   console.log(query)
    if (type === 'push')
       user = await User.findOneAndUpdate({_id: userId}, {
          $addToSet: query
@@ -24,7 +23,6 @@ const changeUser = async (field, userId, productId, type) => {
          $pull: query
       }, {new: true}).lean()
 
-   console.log(user)
    return user
 }
 
