@@ -11,7 +11,6 @@ const fsPromises = require('fs/promises')
 
 const multerStorage = multer.diskStorage({
    destination: async (req, file, cb) => {
-
       // 1) Create directory
       const dir = path.resolve
       ('public/img/', 'product', req.params.slug)
@@ -58,8 +57,10 @@ exports.getTopProducts = handlerFactory.getAll(Product, {sort: '-sold,price'})
 exports.createOneProduct = handlerFactory.createOne(Product)
 
 exports.updateOneProduct = catchAsync(async (req, res, next) => {
+   const slug = req.params.slug
+
    // 1) Find required product
-   const product = await Product.findOne({slug: req.params.slug})
+   const product = await Product.findOne({slug})
 
    //! If no product with that key return error
    if (!product) return next(new AppError('No such data found', 404))
@@ -70,8 +71,8 @@ exports.updateOneProduct = catchAsync(async (req, res, next) => {
          for (i in product.photos) {
             const fileName = product.photos[i]
 
+            //! If body to update does not include current photo - delete it
             if (!req.body.photos.includes(fileName)) {
-               //! If body to update does not include current photo - delete it
                const fullPath = getFullPath(slug, fileName)
                const isPhoto = await fsPromises.unlink(fullPath)
             }
@@ -109,7 +110,6 @@ exports.updateOneProduct = catchAsync(async (req, res, next) => {
 exports.getAllProducts = catchAsync(async (req, res, next) => {
    // 1) Create queryObj and query it throw filter obj
    const features = new APIfeatures(Product, {...req.query})
-   console.log(req.query)
 
    features
       .filter()

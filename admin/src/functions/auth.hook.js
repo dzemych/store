@@ -32,8 +32,7 @@ const useAuth = (props) => {
             {'Authorization': 'Bearer ' + token}
          )
 
-         console.log(data)
-         setUser(data)
+         setUser({...data.data, token: localStorage.getItem('adminToken')})
       } catch (e) {
          console.log(e)
       }

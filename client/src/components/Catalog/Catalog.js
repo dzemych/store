@@ -37,7 +37,7 @@ const Catalog = (props) => {
       (async () => {
          const data = await requestJson('/product/allCategories')
 
-         if (data.categories){
+         if (data.categories.man && data.categories.woman){
             setCategories(data.categories)
          }
       })()

@@ -1,0 +1,71 @@
+.container
+  width: 100%
+
+.wrapper
+  width: 100%
+  padding-top: 35px
+
+.filter_bar
+  width: 55%
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  max-width: 600px
+  border: 1px solid #c3c3cd
+  border-radius: 4px
+  padding: 0 15px 17px
+  margin: 0 auto
+  & > div
+    margin-top: 9px
+    margin-right: 9px
+
+.sort_container
+  width: fit-content
+  & select
+    outline: none
+    cursor: pointer
+    padding: 5px 8px
+    font-size: 1em
+    color: #333
+    border: 1px solid #c2c8d4
+    border-radius: 6px
+    &:focus
+      border-radius: 6px 6px 0 0
+
+.filter_container
+  width: 100%
+  font-size: 1.1em
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+
+.sex_container, .category_container
+  padding: 17px 14px
+  border: 1px solid #dae0e0
+  border-radius: 9px
+  & input
+    cursor: pointer
+
+.title_container
+  width: 45%
+  & input
+    width: 100%
+    outline: none
+    padding: 7px 10px
+    border-radius: 7px
+    border: 1px solid #dae0e0
+  & span
+    margin-bottom: 4px
+
+.products_list
+  width: 55%
+  max-width: 600px
+  margin: 15px auto 0
+  & > div:not(:first-child)
+    margin-top: 15px
+
+@media (max-width: 1024px)
+  .filter_bar
+    width: 70%
+  .products_list
+    width: 70%

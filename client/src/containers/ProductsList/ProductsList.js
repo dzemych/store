@@ -71,9 +71,9 @@ const ProductsList = (props) => {
                   onChange={e => setSort(e.target.value)}
                >
                   <option value="-avgRating">Most popular</option>
+                  <option value="createdAt">Newest</option>
                   <option value="-price">Price from high to low</option>
                   <option value="price">Price from low to high</option>
-                  <option value="newest">Newest</option>
                </select>
             </div>
 

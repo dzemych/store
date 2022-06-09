@@ -1,10 +1,20 @@
 .inputs_list
+  position: relative
   margin: 0 auto
   width: 80%
   border-radius: 10px
   border: 1px solid #c7c7c7
   background: #e9e9ea
   padding: 25px 50px 25px 25px
+
+.goBack
+  font-family: RobotoMedium, sans-serif
+  position: absolute
+  top: 0
+  right: 0
+  margin: 15px
+  color: #4e9de2
+  cursor: pointer
 
 .input_container
   margin-bottom: 10px
@@ -146,6 +156,9 @@
 
 .photo_item
   position: relative
+  display: flex
+  justify-content: center
+  align-items: center
   width: 200px
   height: 85px
   margin: 9px 9px 0
@@ -178,6 +191,7 @@
 .submit_container
   width: 100%
   margin-top: 15px
+  display: flex
   justify-content: center
   align-items: center
   & button
@@ -191,3 +205,29 @@
     color: #fff
     font-family: RobotoMedium, sans-serif
     font-size: 20px
+
+.success_container
+  width: 70%
+  margin: 0 auto
+  border: 1px solid #e1e5e7
+  border-radius: 15px
+  background: #f2f6f4
+  padding: 18px 22px
+  text-align: center
+
+.success_title
+  font-family: RobotoMedium, sans-serif
+  color: #333
+
+.goBack_btn
+  margin-top: 15px
+  width: 60%
+  border: none
+  outline: none
+  border-radius: 8px
+  padding: 19px 25px
+  background: #7da2cd
+  color: #f4faf6
+  font-family: RobotoMedium, sans-serif
+  font-size: 2em
+  cursor: pointer
