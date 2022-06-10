@@ -25,6 +25,10 @@ const Sidebar = (props) => {
       {
          title: 'Questions',
          onClick: () => navigate('/questions')
+      },
+      {
+         title: 'Purchases',
+         onClick: () => navigate('/purchases')
       }
    ]
 

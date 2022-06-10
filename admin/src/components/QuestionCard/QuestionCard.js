@@ -10,32 +10,34 @@ const QuestionCard = (props) => {
 
    const {requestJson} = useHttp()
 
-   const [answer, setAnswer] = useState('')
+   const [edit, setEdit] = useState(false)
+   const [text, setText] = useState(props.answer ? props.answer : '')
+   const [answer, setAnswer] = useState(props.answer ? props.answer : '')
    const [answerError, setAnswerError] = useState('')
 
    const submitHandler = async () => {
-      if (answer.length < 2) {
+      if (text.length < 2) {
          setAnswerError('Minimum symbols 12')
       } else {
          setAnswerError('')
 
-         console.log(props.id)
          const data = await requestJson(
             `/question/${props.id}`,
             'PATCH',
-            JSON.stringify({ answer }),
+            JSON.stringify({ answer: text }),
             {
                'Authorization': 'Bearer ' + auth.user.token,
                'Content-Type': 'application/json'
             }
          )
 
-         console.log(data)
+         setAnswer(data.data.answer)
+         setEdit(false)
       }
    }
 
    const changeHandler = e => {
-      setAnswer(e.target.value.slice(0, 400))
+      setText(e.target.value.slice(0, 400))
    }
 
    return (
@@ -66,32 +68,53 @@ const QuestionCard = (props) => {
 
          <hr className={classes.main_hr}/>
 
-         <div className={classes.writeAnswer_container}>
-            <span className={classes.writeAnswer_title}>
-               Write your answer
+         {props.answer && !edit
+         ? <div className={classes.answer_container}>
+            <span
+               className={classes.edit_answer}
+               onClick={() => setEdit(prev => !prev)}
+            >
+               {edit ? 'Cancel' : 'Edit'}
             </span>
 
-            <textarea
-               name="write_answer"
-               id="write_answer"
-               rows="6"
-               value={answer}
-               onChange={changeHandler}
-            />
+            <span className={classes.answer_title}>
+               Your answer
+            </span>
 
-            {answerError &&
-               <span className={classes.answer_error}>
-                  {answerError}
-               </span>
-            }
+            <span className={classes.answer_text}>
+               {answer}
+            </span>
          </div>
 
-         <button
-            onClick={submitHandler}
-            className={classes.submit_btn}
-         >
-            Post answer
-         </button>
+         : <div className={classes.answer_container}>
+               <span className={classes.answer_title}>
+                  Write your answer
+               </span>
+
+               <textarea
+                  name="write_answer"
+                  id="write_answer"
+                  rows="6"
+                  value={text}
+                  onChange={changeHandler}
+               />
+
+               {answerError &&
+                  <span className={classes.answer_error}>
+                     {answerError}
+                  </span>
+               }
+            </div>
+         }
+
+         {(!props.answer || edit) &&
+            <button
+               onClick={submitHandler}
+               className={classes.submit_btn}
+            >
+               Post answer
+            </button>
+         }
       </CardWrapper>
    )
 }
