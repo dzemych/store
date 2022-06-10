@@ -13,8 +13,8 @@ const useForms = (fields) => {
          if (form.title.length < 2)
             newError.title = 'Minimum length 2 symbols'
 
-         if (!form.title.match(/^[а-яА-ЯёЁ]+$/))
-            newError.title = 'Possible symbols: А-Я'
+         if (!form.title.match(/^[а-яё\w\d\-&_() ]+$/i))
+            newError.title = 'Only letters and &_()-'
       }
 
       if (fields.hasOwnProperty('price')) {
@@ -23,7 +23,6 @@ const useForms = (fields) => {
       }
 
       if (fields.hasOwnProperty('description')) {
-         console.log(form.description.length)
          if (form.description.length < 10)
             newError.description = 'Minimum length 10 symbols'
       }

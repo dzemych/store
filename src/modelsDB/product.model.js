@@ -39,7 +39,7 @@ const productSchema = new Schema({
       required: true,
    },
    description: String,
-   numSizes: {
+   numSizes:{
       type: {
          _id: {type: String, default: undefined},
          xs: {

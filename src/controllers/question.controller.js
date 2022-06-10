@@ -6,18 +6,43 @@ const APIfeatures = require("../utils/APIfeatures");
 const mongoose = require('mongoose')
 
 
-exports.getAllQuestions = handlerFactory.getAll(Question)
 exports.createOneQuestion = handlerFactory.createOne(Question)
 exports.getOneQuestion = handlerFactory.getOne(Question)
 exports.updateOneQuestion = (req, res, next) => {
    handlerFactory
-      .updateOne(Question, '_id', 'id', {user: req.userId})
+      .updateOne(Question, '_id', 'id')
       (req, res, next)
 }
-
 exports.getMyQuestions = (req, res, next) => {
    handlerFactory.getAll(Question, {user: req.userId})(req, res, next)
 }
+
+exports.getAllQuestions = catchAsync(async (req, res, next) => {
+   // 1) Create queryObj and query it throw filter obj
+   const features = new APIfeatures(Question, {...req.query})
+
+   features
+      .filter()
+      .populate({
+         path: 'user',
+         select: 'name'
+      })
+      .populate({
+         path: 'product',
+         select: 'price title slug sex mainPhoto'
+      })
+      .paginate()
+
+   // 2) Get queried data
+   const questions = await features.query.lean()
+
+   res.json({
+      status: 'success',
+      message: `Data successfully received`,
+      results: questions.length,
+      questions: questions,
+   })
+})
 
 exports.deleteOneQuestion = catchAsync(async (req, res, next) => {
    // 1) Check if there is such question

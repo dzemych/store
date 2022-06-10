@@ -20,18 +20,22 @@ router
 
 router.get('/allCategories', productController.getAllCategories)
 
-router.use(
-   authController.protectAndSetUserId,
-   authController.restrictTo(['admin']),
-)
-
-router.post('/uploadPhotos/:slug', productController.uploadPhotos)
+router
+   .post(
+      '/uploadPhotos/:slug',
+      authController.protectAndSetUserId,
+      authController.restrictTo(['admin']),
+      productController.uploadPhotos,
+      productController.getOneProduct
+   )
 
 router
    .route('/:slug')
    .get(productController.getOneProduct)
    .patch(
       checkUpdate,
+      authController.protectAndSetUserId,
+      authController.restrictTo(['admin']),
       productController.updateOneProduct
    )
 

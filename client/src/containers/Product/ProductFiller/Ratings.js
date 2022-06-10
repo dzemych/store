@@ -202,8 +202,8 @@ const Ratings = (props) => {
                      ))
                   }
                </div>
-               : <h1 className={classes.noRatings}>No ratings yet</h1>
 
+               : <h1 className={classes.noRatings}>No ratings yet</h1>
             }
          </div>
       </div>

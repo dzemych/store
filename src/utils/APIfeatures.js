@@ -18,14 +18,27 @@ class APIfeatures {
       })
 
       if (Object.keys(queryObj).length > 0) {
+
+         Object.keys(queryObj).forEach(key => {
+            const el = queryObj[key]
+
+            if (el.hasOwnProperty('in') && !Array.isArray(el.in))
+               el.in = el.in.split(',')
+         })
+
          const queryStr = JSON.stringify(queryObj)
             .replace(/\b(gte|gt|lt|lte|regex|options|in)\b/g, match => `$${match}`)
-            .replace(/\s/g, '')
 
          this.query = this.query.find(JSON.parse(queryStr))
       } else {
          this.query = this.query.find()
       }
+
+      return this
+   }
+
+   populate(populateObj) {
+      this.query.populate(populateObj)
 
       return this
    }

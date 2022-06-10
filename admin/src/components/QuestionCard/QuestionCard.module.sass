@@ -1,0 +1,85 @@
+.main_hr
+  width: 100%
+  height: 1px
+  margin: 7px 0
+  background: #d7e1e2
+  border: none
+
+.user_container
+  width: 100%
+  padding: 0 4px
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+
+.user_name
+  font-size: 1.15em
+  font-family: RobotoMedium, sans-serif
+
+.date
+  align-self: flex-start
+  font-size: .95em
+  font-family: RobotoRegular, sans-serif
+  color: #a0a2a4
+
+.question_text
+  margin-top: 7px
+  padding: 0 10px
+  width: 100%
+  text-align: left
+
+.answer_container
+  position: relative
+  padding: 0 10px
+  width: 100%
+  text-align: center
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  & textarea
+    width: 100%
+    font-size: 1.2em
+    margin-top: 4px
+    outline: none
+    border-radius: 10px
+    border: 1px solid #d7dae0
+    padding: 8px 10px
+  & textarea::-webkit-resizer
+    display: none
+
+.answer_title
+  font-family: RobotoMedium, sans-serif
+  color: #4989c4
+
+.answer_error
+  margin: 4px 7px
+  color: #a74341
+  font-family: RobotoMedium, sans-serif
+  font-size: .9em
+
+.submit_btn
+  cursor: pointer
+  margin: 10px 14px 0
+  width: 40%
+  background: #507bbf
+  border: none
+  border-radius: 11px
+  color: #f1f6f6
+  font-family: RobotoMedium, sans-serif
+  font-size: 1.1em
+  padding: 13px 15px
+
+.answer_text
+  text-align: left
+  padding: 3px 10px
+  width: 100%
+
+.edit_answer
+  cursor: pointer
+  position: absolute
+  top: 0
+  right: 0
+  margin: 2px
+  color: #3e77aa
+  font-family: RobotoMedium, sans-serif

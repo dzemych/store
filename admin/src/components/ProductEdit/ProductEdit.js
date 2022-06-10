@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import classes from './ProductEdit.module.sass'
 import useForms from "../../functions/forms.hook";
 import Input from "../../forms/Input/Input";
@@ -6,47 +6,59 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faHouse, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import slugify from "slugify";
 import {useHttp} from "../../functions/http.hook";
+import {AuthContext} from "../../context/AuthContext";
+import {useNavigate} from "react-router-dom";
 
 
 const CreateProduct = (props) => {
 
-   const {requestJson} = useHttp()
+   const navigate = useNavigate()
+
+   const auth = useContext(AuthContext)
+
+   const {requestJson, requestImg} = useHttp()
 
    const {form, formError, changeHandler, checkValidity} = useForms({
-      title: '',
-      description: '',
-      price: 0,
-      sex: '',
-      category: '',
+      title: props.title ? props.title : '',
+      description: props.description ? props.description : '',
+      price: props.price ? props.price : 0,
+      sex: props.sex ? props.sex : '',
+      category: props.category ? props.category : '',
    })
-
-   const categories = ['hoodie', 'shirt', 't-shirt']
 
    const loadPhotoRef = useRef(null)
 
+   const [status, setStatus] = useState('idle')
+   const [allCategories, setAllCategories] = useState([])
    const [photos, setPhotos] = useState([])
 
-   const [numSizes, setNumSizes] = useState({
-      xs: 0,
-      s: 0,
-      m: 0,
-      l: 0,
-      xl: 0,
-      xxl: 0
-   })
+   const [numSizes, setNumSizes] = useState(() => (
+      props.numSizes ? props.numSizes
+         : {
+            xs: 0,
+            s: 0,
+            m: 0,
+            l: 0,
+            xl: 0,
+            xxl: 0
+         }
+   ))
 
-   const [features, setFeatures] = useState({
-      material: '',
-      season: '',
-      style: '',
-      warrant: ''
-   })
+   const [features, setFeatures] = useState(() => (
+      props.features ? props.features
+         : {
+            material: '',
+            season: '',
+            style: '',
+            warrant: ''
+         }
+   ))
 
    const [sizeError, setSizeError] = useState('')
    const [featuresError, setFeaturesError] = useState('')
 
    const changeSize = (val, key) => {
-      setNumSizes(prev => ({...prev, [key]: val}))
+      setNumSizes(prev => ({...prev, [key]: +val}))
    }
 
    const changeFeatures = (val, key) => {
@@ -58,7 +70,8 @@ const CreateProduct = (props) => {
 
       const photo = loadPhotoRef.current.files[0]
 
-      setPhotos(prev => [...prev, {name: URL.createObjectURL(photo), file: photo}])
+      if (photo)
+         setPhotos(prev => [...prev, {name: URL.createObjectURL(photo), file: photo}])
    }
 
    const inputClick = () => {
@@ -84,7 +97,6 @@ const CreateProduct = (props) => {
    }
 
    const firstPhotoHandler = photo => {
-      console.log(photo)
       const arr = [...photos]
 
       const newArr = arr.sort((a, b) =>
@@ -130,15 +142,18 @@ const CreateProduct = (props) => {
          const product = {
             ...form,
             numSizes,
-            features
+            features,
+            mainPhoto: '',
+            photos: []
          }
+
+         const slug = slugify(form.title)
          let photoFiles = []
 
+         // If there are photos add them to product
          if (photos.length > 0) {
-            const slug = slugify(form.title)
-
             photoFiles = photos.map((el, i) => {
-               const type = el.file.name.split('.')[1]
+               const type = el.file.type.split('/')[1]
 
                return new File(
                   [el.file],
@@ -148,7 +163,7 @@ const CreateProduct = (props) => {
             })
 
             const photoNames = photos.map((el, i) => {
-               const type = el.file.name.split('.')[1]
+               const type = el.file.type.split('/')[1]
 
                return `${slug}-${i + 1}.${type}`
             })
@@ -157,207 +172,299 @@ const CreateProduct = (props) => {
             product.photos = photoNames
          }
 
-         await uploadProduct(product)
-         await uploadPhotos(photoFiles)
+         const productResponse = await uploadProduct(product)
+         const photoResponse = await uploadPhotos(photoFiles, slug)
+
+         console.log(productResponse)
+         console.log(photoResponse)
+         if (productResponse.status === 'success' && photoResponse.status === 'success')
+            setStatus('success')
       }
    }
 
    const uploadProduct = async product => {
       try {
-         const response = await requestJson(
-            `/product/`,
-            'POST',
-            JSON.stringify(product),
+         const url = props.type === 'edit' ? `/product/${props.slug}` : `/product/`
+         const method = props.type === 'edit' ? 'PATCH' : 'POST'
+
+         return await requestJson(
+            url, method, JSON.stringify(product),
             {
-               'Content-Type': 'application/json',
-               'Auth': 'Bearer '
+               'Content-Type' : 'application/json',
+               'Authorization': 'Bearer ' + auth.user.token
             }
          )
       } catch (e) {
          console.log(e)
+         throw e
       }
    }
 
-   const uploadPhotos = async (photos, slug) => {
+   const uploadPhotos = async (photoFiles, slug) => {
       try {
-         const response = await requestJson(
-            '/product/uploadPhotos/' + slug,
+         const oldSlug = props.slug ? props.slug : slug
+
+         const form = new FormData()
+         photoFiles.forEach(el => {
+            form.append('photos', el)
+         })
+
+         return await requestJson(
+            '/product/uploadPhotos/' + oldSlug.toLowerCase(),
             'POST',
-            photos,
-            {'Auth': 'Bearer '}
+            form,
+            {'Authorization': 'Bearer ' + auth.user.token}
          )
       } catch (e) {
          console.log(e)
+         throw e
       }
    }
 
-   return (
-      <div className={classes.inputs_list}>
-         <div className={classes.input_container}>
-            <Input
-               type={'text'}
-               title={'Product title'}
-               value={form.title}
-               onChange={value => changeHandler(value, 'title')}
-               placeholder={'Title'}
-               error={formError.title}
-            />
+   const goBack = () => {
+      navigate(-1)
+   }
+
+   useEffect(() => {
+      (async () => {
+         const data = await requestJson(
+            '/product/allCategories'
+         )
+
+         if (data) {
+            const sex = Object.keys(data.categories)
+            const categories = sex.reduce((acc, el) => {
+               acc = acc.concat(data.categories[el])
+               return acc
+            }, [])
+
+            const uniques = categories.filter((el, index, arr) => (
+               arr.indexOf(el) === index
+            ))
+
+            setAllCategories(uniques)
+         }
+      })()
+   }, [])
+
+   useEffect(() => {
+      if ((props.photos && props.photos.length > 0) && props.slug) {
+         (async () => {
+            const promises = props.photos.map(el => {
+               return requestImg(
+                  `/img/product/${props.slug}/${el}`
+               )
+            })
+
+            const data = await Promise.all(promises)
+
+            const productPhotos = data.map((el, i) => {
+               const file = new File([el.blob], `${props.slug}-${i + 1}`, {
+                  type: el.blob.type
+               })
+
+               return {
+                  file, name: el.imgUrl
+               }
+            })
+
+            setPhotos(productPhotos)
+         })()
+      }
+   }, [props.photos, props.slug])
+
+   if (status === 'success') {
+      return (
+         <div className={classes.success_container}>
+            <h1 className={classes.success_title}>
+               {props.type === 'edit'
+                  ? 'Product was successfully updated'
+                  : 'Product was successfully created'
+               }
+            </h1>
+
+            <button
+               className={classes.goBack_btn}
+               onClick={goBack}
+            >
+               Go back
+            </button>
          </div>
+      )
+   } else {
+      return (
+         <div className={classes.inputs_list}>
+            {props.type === 'edit' &&
+            <span className={classes.goBack} onClick={goBack}>
+               Go back
+            </span>
+            }
 
-         <div className={classes.input_container}>
-            <Input
-               type={'number'}
-               title={'Product price'}
-               value={form.price}
-               onChange={value => changeHandler(value, 'price')}
-               placeholder={'Product price'}
-               error={formError.price}
-            />
-         </div>
+            <div className={classes.input_container}>
+               <Input
+                  type={'text'}
+                  title={'Product title'}
+                  value={form.title}
+                  onChange={value => changeHandler(value, 'title')}
+                  placeholder={'Title'}
+                  error={formError.title}
+               />
+            </div>
 
-         <div className={classes.description_container}>
-            <label htmlFor="description_input">
-               Product description
-            </label>
+            <div className={classes.input_container}>
+               <Input
+                  type={'number'}
+                  title={'Product price'}
+                  value={form.price}
+                  onChange={value => changeHandler(value, 'price')}
+                  placeholder={'Product price'}
+                  error={formError.price}
+               />
+            </div>
 
-            <textarea
-               value={form.description}
-               onChange={e => changeHandler(e.target.value, 'description')}
-               name="description"
-               id="description_input"
-               rows="6"
-            />
+            <div className={classes.description_container}>
+               <label htmlFor="description_input">
+                  Product description
+               </label>
 
-            {formError &&
+               <textarea
+                  value={form.description}
+                  onChange={e => changeHandler(e.target.value, 'description')}
+                  name="description"
+                  id="description_input"
+                  rows="6"
+               />
+
+               {formError &&
                <span className={classes.form_error}>
                   {formError.description}
                </span>
-            }
-         </div>
-
-         <div className={classes.main_details_container}>
-            <div className={classes.sex_container}>
-               <label htmlFor={'product_sex'}>
-                  Select product sex
-               </label>
-
-               <select
-                  id={'product_sex'}
-                  value={form.sex}
-                  onChange={e => changeHandler(e.target.value, 'sex')}
-                  placeholder={'Product sex'}
-               >
-                  <option value="">
-                     ---select sex---
-                  </option>
-
-                  <option
-                     value={'man'}
-                     className={classes.sex_option}
-                  >
-                     Man
-                  </option>
-
-                  <option
-                     value={'woman'}
-                     className={classes.sex_option}
-                  >
-                     Woman
-                  </option>
-               </select>
-
-               {formError.sex &&
-                  <span className={classes.form_error}>
-                     {formError.sex}
-                  </span>
                }
             </div>
 
-            <div className={classes.category_container}>
-               <label htmlFor='category_input'>
-                  Product category
-               </label>
+            <div className={classes.main_details_container}>
+               <div className={classes.sex_container}>
+                  <label htmlFor={'product_sex'}>
+                     Select product sex
+                  </label>
 
-               <input
-                  type="text"
-                  id='category_input'
-                  name='category_input'
-                  list="category_list"
-                  role='combobox'
-                  value={form.category}
-                  onChange={e => changeHandler(e.target.value, 'category')}
-                  placeholder='Product category'
-               />
+                  <select
+                     id={'product_sex'}
+                     value={form.sex}
+                     onChange={e => changeHandler(e.target.value, 'sex')}
+                     placeholder={'Product sex'}
+                  >
+                     <option value="">
+                        ---select sex---
+                     </option>
 
-               <datalist id='category_list' role='listbox'>
-                  {categories.length > 0 &&
-                     categories.map((selectEl, i) => (
+                     <option
+                        value={'man'}
+                        className={classes.sex_option}
+                     >
+                        Man
+                     </option>
+
+                     <option
+                        value={'woman'}
+                        className={classes.sex_option}
+                     >
+                        Woman
+                     </option>
+                  </select>
+
+                  {formError.sex &&
+                  <span className={classes.form_error}>
+                     {formError.sex}
+                  </span>
+                  }
+               </div>
+
+               <div className={classes.category_container}>
+                  <label htmlFor='category_input'>
+                     Product category
+                  </label>
+
+                  <input
+                     type="text"
+                     id='category_input'
+                     name='category_input'
+                     list="category_list"
+                     role='combobox'
+                     value={form.category}
+                     onChange={e => changeHandler(e.target.value, 'category')}
+                     placeholder='Product category'
+                  />
+
+                  <datalist id='category_list' role='listbox'>
+                     {allCategories.length > 0 &&
+                     allCategories.map((selectEl, i) => (
                         <option value={selectEl} key={i}>
                            {selectEl}
                         </option>
                      ))
-                  }
-               </datalist>
+                     }
+                  </datalist>
 
-               {formError.category &&
+                  {formError.category &&
                   <span className={classes.form_error}>
                      {formError.category}
                   </span>
-               }
-            </div>
-         </div>
-
-         <div className={classes.sizes_container}>
-            <h3>Product sizes</h3>
-
-            <div className={classes.sizes_list}>
-               {Object.keys(numSizes).map((el, i) => (
-                  <Input
-                     type={'number'}
-                     key={i}
-                     value={numSizes[el]}
-                     onChange={value => changeSize(value, el)}
-                     title={el.toUpperCase()}
-                  />
-               ))}
+                  }
+               </div>
             </div>
 
-            {sizeError &&
+            <div className={classes.sizes_container}>
+               <h3>Product sizes</h3>
+
+               <div className={classes.sizes_list}>
+                  {Object.keys(numSizes).map((el, i) => (
+                     <Input
+                        type={'number'}
+                        key={i}
+                        value={numSizes[el]}
+                        onChange={value => changeSize(value, el)}
+                        title={el.toUpperCase()}
+                     />
+                  ))}
+               </div>
+
+               {sizeError &&
                <span className={classes.form_error}>
                   {sizeError}
                </span>
-            }
-         </div>
+               }
+            </div>
 
-         <div className={classes.features_container}>
-            {Object.keys(features).map((el, i) => (
-               <Input
-                  key={i}
-                  type={'text'}
-                  value={features[el]}
-                  onChange={value => changeFeatures(value, el)}
-                  title={el.slice(0, 1).toUpperCase() + el.slice(1)}
-               />
-            ))}
+            <div className={classes.features_container}>
+               {Object.keys(features).map((el, i) => (
+                  <Input
+                     key={i}
+                     type={'text'}
+                     value={features[el]}
+                     onChange={value => changeFeatures(value, el)}
+                     title={el.slice(0, 1).toUpperCase() + el.slice(1)}
+                  />
+               ))}
 
-            {featuresError &&
+               {featuresError &&
                <span className={classes.form_error}>
                   {featuresError}
                </span>
-            }
-         </div>
+               }
+            </div>
 
-         <div className={classes.photos_container}>
-            <h3 className={classes.photos_title}>Upload your photos</h3>
+            <div className={classes.photos_container}>
+               <h3 className={classes.photos_title}>Upload your photos</h3>
 
-            <div className={classes.photos_list}>
-               {photos.map((el, i) => (
-                  <div
-                     key={i}
-                     className={classes.photo_item}
-                  >
-                     <div className={classes.photo_hover}>
-                        {i !== 0 &&
+               <div className={classes.photos_list}>
+                  {photos.map((el, i) => (
+                     <div
+                        key={el.name + '_' + i}
+                        className={classes.photo_item}
+                     >
+                        <div className={classes.photo_hover}>
+                           {i !== 0 &&
                            <>
                               <FontAwesomeIcon
                                  icon={faHouse}
@@ -368,20 +475,20 @@ const CreateProduct = (props) => {
                                  onClick={() => shiftPhotoHandler(i)}
                               />
                            </>
-                        }
+                           }
 
-                        <FontAwesomeIcon
-                           icon={faTrash}
-                           onClick={() => deletePhotoHandler(i)}
-                        />
+                           <FontAwesomeIcon
+                              icon={faTrash}
+                              onClick={() => deletePhotoHandler(i)}
+                           />
+                        </div>
+
+                        <img src={el.name} alt=""/>
                      </div>
+                  ))}
+               </div>
 
-                     <img src={el.name} alt=""/>
-                  </div>
-               ))}
-            </div>
-
-            {photos.length < 10 &&
+               {photos.length < 10 &&
                <div
                   className={classes.addPhoto_input}
                   onClick={inputClick}
@@ -397,18 +504,19 @@ const CreateProduct = (props) => {
                      icon={faPlus}
                   />
                </div>
-            }
-         </div>
+               }
+            </div>
 
-         <div className={classes.submit_container}>
-            <button
-               onClick={onSubmit}
-            >
-               Submit
-            </button>
+            <div className={classes.submit_container}>
+               <button
+                  onClick={onSubmit}
+               >
+                  Submit
+               </button>
+            </div>
          </div>
-      </div>
-   )
+      )
+   }
 }
 
 export default CreateProduct

@@ -62,11 +62,11 @@ const ProductCard = React.forwardRef((props, ref) => {
          if (props.mainPhoto) {
             (async () => {
                try {
-                  const img = await requestImg(
+                  const imgUrl = await requestImg(
                      `/img/product/${props.slug}/${props.mainPhoto}`
                   )
 
-                  setImg(img)
+                  setImg(imgUrl)
                   setStatus('success')
                } catch (e) {
                   setStatus('error')
@@ -74,6 +74,7 @@ const ProductCard = React.forwardRef((props, ref) => {
             })()
          }
       }
+      console.log(props)
    }, [props.mainPhoto, requestImg, props.slug])
 
    return (

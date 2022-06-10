@@ -16,7 +16,7 @@ export const useHttp = () => {
                body,
                headers: {
                   referrerPolicy: 'no-referrer-when-downgrade',
-                  contentType: 'image/jpeg'
+                  contentType: 'image/*'
                }}
          )
 
@@ -24,9 +24,9 @@ export const useHttp = () => {
             throw new Error(response.message || 'Something went wrong')
 
          const blob = await response.blob()
-         const img = URL.createObjectURL(blob)
+         const imgUrl = URL.createObjectURL(blob)
 
-         return img
+         return {blob, imgUrl}
       } catch (e) {
          setError(e)
          throw e

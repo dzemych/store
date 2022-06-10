@@ -149,22 +149,26 @@ const Review = (props) => {
                   <div className={classes.features_table}>
                      {
                         status === 'success' &&
-                        Object.keys(product.features).map((key, i) => (
-                           <div
-                              className={classes.table_row}
-                              key={i}
-                           >
-                              <span className={classes.table_left}>
-                                 {key[0].toUpperCase() + key.slice(1)}:
-                              </span>
-                              <span className={classes.table_right}>
-                                 {
-                                    product.features[key][0].toUpperCase() +
-                                    product.features[key].slice(1)
-                                 }
-                              </span>
-                           </div>
-                        ))
+                        Object.keys(product.features).map((key, i) => {
+                           if (product.features[key])
+                              return (
+                                 <div
+                                    className={classes.table_row}
+                                    key={i}
+                                 >
+                                    <span className={classes.table_left}>
+                                       {key[0].toUpperCase() + key.slice(1)}:
+                                    </span>
+
+                                    <span className={classes.table_right}>
+                                       {
+                                          product.features[key][0].toUpperCase() +
+                                          product.features[key].slice(1)
+                                       }
+                                    </span>
+                                 </div>
+                              )
+                        })
                      }
                   </div>
                </div>
