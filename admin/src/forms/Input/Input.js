@@ -8,7 +8,7 @@ const Input = (props) => {
    const [show, setShow] = useState(false)
 
    const onSubmit = e => {
-      if (e.key === 'Enter')
+      if (e.key === 'Enter' && props.onSubmit)
          props.onSubmit()
    }
 

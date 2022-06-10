@@ -29,7 +29,10 @@ const questionSchema = new Schema({
       type: Date,
       default: 0
    },
-   answer: String
+   answer: {
+      type: Object,
+      default: null
+   }
 })
 
 questionSchema.index({product: 1})

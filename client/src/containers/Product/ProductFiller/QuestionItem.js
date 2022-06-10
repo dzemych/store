@@ -60,7 +60,7 @@ const QuestionItem = (props) => {
                         </span>
 
                         <span className={classes.question_date}>
-                           {props.answer.date}
+                           {new Date(props.answer.date).toLocaleDateString()}
                         </span>
                      </div>
 

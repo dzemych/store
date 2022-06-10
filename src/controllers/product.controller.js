@@ -24,7 +24,6 @@ const multerStorage = multer.diskStorage({
    },
    filename: (req, file, cb) => {
       const ext = file.mimetype.split('/')[1]
-      // const name = `product-${req.params.slug}-${Date.now()}.${ext}`
       const name = file.originalname
 
       cb(null, name)
@@ -114,7 +113,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
    features
       .filter()
       .sort()
-      .select('-photos -questions -numQuestions -ratings')
+      .select('-photos -questions -ratings')
       .paginate()
 
    // 2) Get queried data

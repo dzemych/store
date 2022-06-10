@@ -41,7 +41,6 @@ const Questions = (props) => {
             `/question/`
          )
 
-         console.log(data)
          if (data)
             setQuestions(data.questions)
       })()

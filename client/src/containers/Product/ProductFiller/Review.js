@@ -103,7 +103,9 @@ const Review = (props) => {
 
                <span>
                   {product.status === 'active'
-                     ? 'Is available' : 'No sizes'
+                     ? 'В наличии' :
+                     product.status === 'nosizes' ?
+                        'Нет размеров': 'Недоступен'
                   }
                </span>
             </div>

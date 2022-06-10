@@ -10,9 +10,10 @@ const QuestionCard = (props) => {
 
    const {requestJson} = useHttp()
 
+   const [owner, setOwner] = useState(props.answer ? props.answer.nick : '')
    const [edit, setEdit] = useState(false)
-   const [text, setText] = useState(props.answer ? props.answer : '')
-   const [answer, setAnswer] = useState(props.answer ? props.answer : '')
+   const [text, setText] = useState(props.answer ? props.answer.text : '')
+   const [answer, setAnswer] = useState(props.answer ? props.answer.text : '')
    const [answerError, setAnswerError] = useState('')
 
    const submitHandler = async () => {
@@ -24,14 +25,16 @@ const QuestionCard = (props) => {
          const data = await requestJson(
             `/question/${props.id}`,
             'PATCH',
-            JSON.stringify({ answer: text }),
+            JSON.stringify({ answer: {
+               text, nick: owner, date: new Date()
+            }}),
             {
                'Authorization': 'Bearer ' + auth.user.token,
                'Content-Type': 'application/json'
             }
          )
 
-         setAnswer(data.data.answer)
+         setAnswer(data.data.answer.text)
          setEdit(false)
       }
    }
@@ -68,43 +71,56 @@ const QuestionCard = (props) => {
 
          <hr className={classes.main_hr}/>
 
-         {props.answer && !edit
-         ? <div className={classes.answer_container}>
-            <span
-               className={classes.edit_answer}
-               onClick={() => setEdit(prev => !prev)}
-            >
-               {edit ? 'Cancel' : 'Edit'}
-            </span>
+         {(!props.answer || edit)
+            ? <div className={classes.answer_container}>
+                  <div className={classes.owner_container}>
+                     <span className={classes.answer_title}>
+                        Write your answer
+                     </span>
 
-            <span className={classes.answer_title}>
-               Your answer
-            </span>
+                     <span className={classes.verticalBar}>
+                        &nbsp;|&nbsp;
+                     </span>
 
-            <span className={classes.answer_text}>
-               {answer}
-            </span>
-         </div>
+                     <input
+                        type="text"
+                        value={owner}
+                        onChange={e => setOwner(e.target.value.slice(0, 25))}
+                        placeholder={'Answer as ...'}
+                     />
+                  </div>
 
-         : <div className={classes.answer_container}>
-               <span className={classes.answer_title}>
-                  Write your answer
-               </span>
+                  <textarea
+                     name="write_answer"
+                     id="write_answer"
+                     rows="6"
+                     value={text}
+                     onChange={changeHandler}
+                  />
 
-               <textarea
-                  name="write_answer"
-                  id="write_answer"
-                  rows="6"
-                  value={text}
-                  onChange={changeHandler}
-               />
+                  {answerError &&
+                     <span className={classes.answer_error}>
+                        {answerError}
+                     </span>
+                  }
+               </div>
 
-               {answerError &&
-                  <span className={classes.answer_error}>
-                     {answerError}
+            : <div className={classes.answer_container}>
+                  <span
+                     className={classes.edit_answer}
+                     onClick={() => setEdit(prev => !prev)}
+                  >
+                     {edit ? 'Cancel' : 'Edit'}
                   </span>
-               }
-            </div>
+
+                  <div className={classes.owner_container}>
+                     <span>Your answer</span>
+                  </div>
+
+                  <span className={classes.answer_text}>
+                     {answer}
+                  </span>
+               </div>
          }
 
          {(!props.answer || edit) &&

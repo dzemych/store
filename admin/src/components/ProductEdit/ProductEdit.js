@@ -175,8 +175,6 @@ const CreateProduct = (props) => {
          const productResponse = await uploadProduct(product)
          const photoResponse = await uploadPhotos(photoFiles, slug)
 
-         console.log(productResponse)
-         console.log(photoResponse)
          if (productResponse.status === 'success' && photoResponse.status === 'success')
             setStatus('success')
       }
@@ -287,7 +285,7 @@ const CreateProduct = (props) => {
                className={classes.goBack_btn}
                onClick={goBack}
             >
-               Go back
+               Go to all products
             </button>
          </div>
       )
@@ -295,9 +293,9 @@ const CreateProduct = (props) => {
       return (
          <div className={classes.inputs_list}>
             {props.type === 'edit' &&
-            <span className={classes.goBack} onClick={goBack}>
-               Go back
-            </span>
+               <span className={classes.goBack} onClick={goBack}>
+                  Go back
+               </span>
             }
 
             <div className={classes.input_container}>
@@ -336,9 +334,9 @@ const CreateProduct = (props) => {
                />
 
                {formError &&
-               <span className={classes.form_error}>
-                  {formError.description}
-               </span>
+                  <span className={classes.form_error}>
+                     {formError.description}
+                  </span>
                }
             </div>
 
@@ -359,24 +357,24 @@ const CreateProduct = (props) => {
                      </option>
 
                      <option
-                        value={'man'}
+                        value={'мужчины'}
                         className={classes.sex_option}
                      >
-                        Man
+                        Мужчины
                      </option>
 
                      <option
-                        value={'woman'}
+                        value={'женщины'}
                         className={classes.sex_option}
                      >
-                        Woman
+                        Женщины
                      </option>
                   </select>
 
                   {formError.sex &&
-                  <span className={classes.form_error}>
-                     {formError.sex}
-                  </span>
+                     <span className={classes.form_error}>
+                        {formError.sex}
+                     </span>
                   }
                </div>
 
@@ -398,11 +396,11 @@ const CreateProduct = (props) => {
 
                   <datalist id='category_list' role='listbox'>
                      {allCategories.length > 0 &&
-                     allCategories.map((selectEl, i) => (
-                        <option value={selectEl} key={i}>
-                           {selectEl}
-                        </option>
-                     ))
+                        allCategories.map((selectEl, i) => (
+                           <option value={selectEl} key={i}>
+                              {selectEl}
+                           </option>
+                        ))
                      }
                   </datalist>
 

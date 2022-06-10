@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import classes from './Questions.module.sass'
 import QuestionItem from "./QuestionItem";
-import Button from "../../../forms/Button/Button";
 import {useSelector} from "react-redux";
 import {useHttp} from "../../../functions/http.hook";
 

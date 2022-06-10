@@ -31,7 +31,7 @@ const productSchema = new Schema({
    },
    sex: {
       type: String,
-      enum: ['man', 'woman'],
+      enum: ['мужчины', 'женщины'],
       required: true
    },
    category: {
@@ -128,12 +128,12 @@ const productSchema = new Schema({
       },
       season: {
          type: String,
-         default: 'All season'
+         default: ''
       },
       style: String,
       warrant: {
          type: String,
-         default: '14 days'
+         default: '14 дней'
       }
    }
 })

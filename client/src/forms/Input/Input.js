@@ -16,7 +16,7 @@ const Input = (props) => {
    }, [])
 
    const submitCheck = e => {
-      if (e.key === 'Enter')
+      if (e.key === 'Enter' && props.onSubmit)
          props.onSubmit()
    }
 

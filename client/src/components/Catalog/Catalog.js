@@ -17,12 +17,12 @@ const Catalog = (props) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
-   const [categories, setCategories] = useState({man: ['all'], woman: ['all']})
+   const [categories, setCategories] = useState({мужчины: ['все'], женщины: ['все']})
    const {requestJson} = useHttp()
 
    const onClickHandler = (sex, category) => {
       dispatch(toggleCatalog())
-      if (category === 'all') {
+      if (category === 'все') {
          navigate(`/products?sex=${sex}`)
       } else {
          navigate(`/products?sex=${sex}&category=${category}`)
@@ -37,11 +37,14 @@ const Catalog = (props) => {
       (async () => {
          const data = await requestJson('/product/allCategories')
 
-         if (data.categories.man && data.categories.woman){
+         console.log(data)
+         if (data.categories.женщины && data.categories.мужчины){
             setCategories(data.categories)
          }
       })()
    }, [requestJson])
+
+   console.log(categories)
 
    useEsc(catalogHandler)
 
@@ -60,28 +63,28 @@ const Catalog = (props) => {
             <h1 className={'title'}>Catalog</h1>
 
             <div className={classes.category_section}>
-               <h3 className={classes.category_title}>For women</h3>
+               <h3 className={classes.category_title}>Женщинам</h3>
 
                <ul className={classes.category_list}>
-                  {categories.woman.map((el, i) => (
+                  {categories.женщины.map((el, i) => (
                      <li
                         key={i}
                         className={classes.category_item}
-                        onClick={() => onClickHandler('woman', el)}
+                        onClick={() => onClickHandler('женщины', el)}
                      >{`${el[0].toUpperCase()}${el.slice(1)}`}</li>
                   ))}
                </ul>
             </div>
 
             <div className={classes.category_section}>
-               <h3 className={classes.category_title}>For men</h3>
+               <h3 className={classes.category_title}>Мужчинам</h3>
 
                <ul className={classes.category_list}>
-                  {categories.man.map((el, i) => (
+                  {categories.мужчины.map((el, i) => (
                      <li
                         key={i}
                         className={classes.category_item}
-                        onClick={() => onClickHandler('man', el)}
+                        onClick={() => onClickHandler('мужчины', el)}
                      >{`${el[0].toUpperCase()}${el.slice(1)}`}</li>
                   ))}
                </ul>
