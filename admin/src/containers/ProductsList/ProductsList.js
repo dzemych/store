@@ -10,6 +10,7 @@ const ProductsList = (props) => {
 
    const [products, setProducts] = useState([])
    const [sort, setSort] = useState('-avgRating')
+   const [show, setShow] = useState(true)
 
    useEffect(() => {
       (async () => {
