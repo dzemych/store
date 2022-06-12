@@ -37,14 +37,11 @@ const Catalog = (props) => {
       (async () => {
          const data = await requestJson('/product/allCategories')
 
-         console.log(data)
          if (data.categories.женщины && data.categories.мужчины){
             setCategories(data.categories)
          }
       })()
    }, [requestJson])
-
-   console.log(categories)
 
    useEsc(catalogHandler)
 

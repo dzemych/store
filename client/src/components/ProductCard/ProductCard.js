@@ -74,7 +74,6 @@ const ProductCard = React.forwardRef((props, ref) => {
             })()
          }
       }
-      console.log(props)
    }, [props.mainPhoto, requestImg, props.slug])
 
    return (

@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import classes from './Purchases.module.sass'
 import {useHttp} from "../../functions/http.hook";
 import {AuthContext} from "../../context/AuthContext";
+import PurchaseCard from "../../components/PurchaseCard/PurchaseCard";
 
 
 const Purchases = (props) => {
@@ -20,8 +21,7 @@ const Purchases = (props) => {
             {'Authorization': 'Bearer ' + auth.user.token}
          )
 
-         console.log(purchases)
-         setPurchases(purchases)
+         setPurchases(purchases.data)
       })()
    }, [])
 
@@ -30,7 +30,19 @@ const Purchases = (props) => {
          <div className={classes.wrapper}>
             {purchases.length > 0
                ? <div className={classes.purchases_list}>
-
+                  {purchases.map((el, i) => (
+                     <PurchaseCard
+                        key={i}
+                        delivery={{
+                           type: el.deliveryType,
+                           address: el.deliveryAddress
+                        }}
+                        totalPrice={el.totalPrice}
+                        user={el.user}
+                        products={el.products}
+                        status={el.status}
+                     />
+                  ))}
                </div>
 
                : <span className={classes.noPurchases}>

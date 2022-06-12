@@ -116,7 +116,6 @@ const Checkout = (props) => {
    const submitHandler = () =>   {
       let formError = checkValidity()
 
-      console.log(+form.tel.replace(/(\+|\s)/g, ''))
       if (!formError) {
          const products = Object.keys(checkout).reduce((acc, id) => {
             acc.push({

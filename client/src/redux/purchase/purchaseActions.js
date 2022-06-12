@@ -10,7 +10,6 @@ export const fetchCreatePurchase = createAsyncThunk(
       const isAuth = thunkApi.getState().user.token
       const basket = thunkApi.getState().user.basket
 
-      console.log(JSON.stringify(payload))
       try {
          const response = await fetch(
             `${dbUrl}/purchase`,
