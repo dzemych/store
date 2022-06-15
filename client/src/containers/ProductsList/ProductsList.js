@@ -22,7 +22,7 @@ const ProductsList = (props) => {
             try {
                const data = await requestJson(
                   `/product${location.search}&page=1&limit=10&` +
-                  `fields=price,title,slug,avgRating,numRating,mainPhoto,_id,status&` +
+                  `fields=sex,price,title,slug,avgRating,numRating,mainPhoto,_id,status&` +
                   `sort=${sort}`
                )
 
@@ -45,6 +45,7 @@ const ProductsList = (props) => {
             products.map((item, i) => (
                <ProductCard
                   id={item._id}
+                  sex={item.sex}
                   slug={item.slug}
                   title={item.title}
                   price={item.price}

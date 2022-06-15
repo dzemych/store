@@ -8,13 +8,15 @@ import {useSelector} from "react-redux";
 const Orders = (props) => {
    const purchaseIds = useSelector(state => state.purchase.purchases)
 
+   console.log(purchaseIds
+   )
    return (
       <div className={classes.container}>
          <div className={classes.wrapper}>
             <h1 className={'title'}>Your orders</h1>
 
             <div className={classes.orders_list}>
-               {purchaseIds.length > 0
+               {purchaseIds && purchaseIds.length > 0
                 ? purchaseIds.map((el, i) => (
                      <OrderItem
                         id={el}

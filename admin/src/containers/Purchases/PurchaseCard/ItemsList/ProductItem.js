@@ -1,6 +1,6 @@
 import React from 'react'
-import classes from './PurchaseCard.module.sass'
-import CardWrapper from "../CardWrapper/CardWrapper";
+import classes from '../PurchaseCard.module.sass'
+import CardWrapper from "../../../../components/CardWrapper/CardWrapper";
 
 
 const ProductItem = (props) => {

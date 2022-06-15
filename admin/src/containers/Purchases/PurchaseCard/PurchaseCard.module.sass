@@ -31,15 +31,54 @@
   display: flex
   flex-direction: column
 
-.products_list
+.status_container
+  width: 100%
+
+.status_actions
   margin-top: 8px
-  & > div
-    border-bottom: 1px solid #e5e1e1
-    border-top: 1px solid #e5e1e1
-    border-right: none
-    border-left: none
-    border-radius: 0
-    padding: 5px 4px
+  width: 100%
+  display: flex
+  flex-direction: row
+  flex-wrap: nowrap
+  & button
+    margin-right: 7px
+    border-radius: 7px
+    padding: 8px 12px
+    background: whitesmoke
+    color: #333333
+    font-size: 14px
+    border: none
+    outline: none
+    cursor: pointer
+
+.status_title
+  width: 100%
+  height: fit-content
+  text-align: left
+
+.main_hr
+  width: 97%
+  height: 1px
+  background: rgb(221, 228, 229)
+  margin: 8px 0
+  border: none
+
+.show_container
+  margin: 5px 3px 0
+  color: #3e77aa
+  font-family: RobotoMedium, sans-serif
+  font-size: 17px
+  text-align: left
+  width: 100%
+
+.showIcon
+  cursor: pointer
+  transition: 280ms
+  margin-right: 5px
+  transform-origin: center
+
+.showIconDown
+  transform: rotate(90deg)
 
 .product_data
   padding: 0 12px

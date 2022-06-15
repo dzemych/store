@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import classes from './Questions.module.sass'
 import {useHttp} from "../../functions/http.hook";
-import QuestionCard from "../../components/QuestionCard/QuestionCard";
+import QuestionCard from "./QuestionCard/QuestionCard";
 
 
 const Questions = (props) => {

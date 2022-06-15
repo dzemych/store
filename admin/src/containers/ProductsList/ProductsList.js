@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import classes from './ProductsList.module.sass'
 import {useLocation, useNavigate} from "react-router-dom";
 import {useHttp} from "../../functions/http.hook";
-import ProductCard from "../../components/ProductCard/ProductCard";
+import ProductCard from "./ProductCard/ProductCard";
 
 
 const ProductsList = (props) => {
@@ -84,7 +84,6 @@ const ProductsList = (props) => {
             `/product${location.search}`
          )
 
-         console.log(data)
          setProducts(data.products)
       })()
    }, [location.search])

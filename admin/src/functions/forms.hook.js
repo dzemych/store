@@ -10,7 +10,7 @@ const useForms = (fields) => {
       const newError = {}
 
       if (fields.hasOwnProperty('title')) {
-         if (form.title.length < 2)
+         if (form.title.trimStart().trimEnd().length < 2)
             newError.title = 'Minimum length 2 symbols'
 
          if (!form.title.match(/^[а-яё\w\d\-&_() ]+$/i))
@@ -52,7 +52,12 @@ const useForms = (fields) => {
    }
 
    const changeHandler = (value, type) => {
-      setForm(prev => ({...prev, [type]: type === 'price' ? +value : value}))
+      let newValue = value
+
+      if (type === 'price')
+         newValue = +newValue
+
+      setForm(prev => ({...prev, [type]: newValue}))
    }
 
    const setInitial = () => {

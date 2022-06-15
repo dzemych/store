@@ -149,9 +149,10 @@ const LeaveRecord = (props) => {
                   {getButton()}
 
                   {(error && error.message.includes('E11000')) &&
-                  <span className={classes.ratingDuplicate}>
+                     <span className={classes.ratingDuplicate}>
                      You cannot post more than one rating
-                  </span>}
+                     </span>
+                  }
                </>
                : <div className={classes.noAuth_container}>
                   <h1>Please login</h1>

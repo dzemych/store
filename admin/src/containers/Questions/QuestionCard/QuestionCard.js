@@ -1,8 +1,8 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import classes from './QuestionCard.module.sass'
-import CardWrapper from "../CardWrapper/CardWrapper";
-import {useHttp} from "../../functions/http.hook";
-import {AuthContext} from "../../context/AuthContext";
+import CardWrapper from "../../../components/CardWrapper/CardWrapper";
+import {useHttp} from "../../../functions/http.hook";
+import {AuthContext} from "../../../context/AuthContext";
 
 
 const QuestionCard = (props) => {
@@ -11,7 +11,7 @@ const QuestionCard = (props) => {
    const {requestJson} = useHttp()
 
    const [owner, setOwner] = useState(props.answer ? props.answer.nick : '')
-   const [edit, setEdit] = useState(false)
+   const [edit, setEdit] = useState(true)
    const [text, setText] = useState(props.answer ? props.answer.text : '')
    const [answer, setAnswer] = useState(props.answer ? props.answer.text : '')
    const [answerError, setAnswerError] = useState('')
@@ -43,6 +43,10 @@ const QuestionCard = (props) => {
       setText(e.target.value.slice(0, 400))
    }
 
+   useEffect(() => {
+      setEdit(false)
+   }, [])
+
    return (
       <CardWrapper
          slug={props.slug}
@@ -71,9 +75,16 @@ const QuestionCard = (props) => {
 
          <hr className={classes.main_hr}/>
 
-         {(!props.answer || edit)
+         {edit
             ? <div className={classes.answer_container}>
                   <div className={classes.owner_container}>
+                     <span
+                        className={classes.edit_answer}
+                        onClick={() => setEdit(prev => !prev)}
+                     >
+                        {edit ? 'Cancel' : 'Edit'}
+                     </span>
+
                      <span className={classes.answer_title}>
                         Write your answer
                      </span>
@@ -123,7 +134,7 @@ const QuestionCard = (props) => {
                </div>
          }
 
-         {(!props.answer || edit) &&
+         {edit &&
             <button
                onClick={submitHandler}
                className={classes.submit_btn}

@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import classes from './Purchases.module.sass'
 import {useHttp} from "../../functions/http.hook";
 import {AuthContext} from "../../context/AuthContext";
-import PurchaseCard from "../../components/PurchaseCard/PurchaseCard";
+import PurchaseCard from "./PurchaseCard/PurchaseCard";
 
 
 const Purchases = (props) => {
@@ -33,6 +33,7 @@ const Purchases = (props) => {
                   {purchases.map((el, i) => (
                      <PurchaseCard
                         key={i}
+                        id={el._id}
                         delivery={{
                            type: el.deliveryType,
                            address: el.deliveryAddress

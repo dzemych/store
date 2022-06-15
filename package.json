@@ -7,7 +7,7 @@
     "server": "nodemon server.js",
     "client": "npm run start --prefix client",
     "admin": "npm run start --prefix admin",
-    "db": "mongod --dbpath=D:\\Vanya\\data\\db",
+    "db": "mongod --dbpath=C:\\data\\db",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "dev:admin": "concurrently \"npm run server\" \"npm run admin\""
   },

@@ -18,6 +18,8 @@ const CreateProduct = (props) => {
 
    const {requestJson, requestImg} = useHttp()
 
+   const [duplicateError, setDuplicate] = useState(null)
+
    const {form, formError, changeHandler, checkValidity} = useForms({
       title: props.title ? props.title : '',
       description: props.description ? props.description : '',
@@ -133,6 +135,53 @@ const CreateProduct = (props) => {
       return false
    }
 
+   const uploadProduct = async product => {
+      try {
+         const url = props.type === 'edit' ? `/product/${props.slug}` : `/product/`
+         const method = props.type === 'edit' ? 'PATCH' : 'POST'
+
+         return await requestJson(
+            url, method, JSON.stringify(product),
+            {
+               'Content-Type' : 'application/json',
+               'Authorization': 'Bearer ' + auth.user.token
+            }
+         )
+      } catch (e) {
+         if (e.message.includes('E11000')) {
+            setDuplicate('This product name has already been used')
+         }
+
+         console.log(e)
+         return e.message
+      }
+   }
+
+   const uploadPhotos = async (photoFiles, slug) => {
+      try {
+         const oldSlug = props.slug ? props.slug : slug
+
+         const form = new FormData()
+         photoFiles.forEach(el => {
+            form.append('photos', el)
+         })
+
+         return await requestJson(
+            '/product/uploadPhotos/' + oldSlug.toLowerCase(),
+            'POST',
+            form,
+            {'Authorization': 'Bearer ' + auth.user.token}
+         )
+      } catch (e) {
+         console.log(e)
+         return e.message
+      }
+   }
+
+   const goBack = () => {
+      navigate(-1)
+   }
+
    const onSubmit = async () => {
       const formError = checkValidity()
       const sizesError = checkSizes()
@@ -141,6 +190,7 @@ const CreateProduct = (props) => {
       if (!formError && !sizesError && !featuresError) {
          const product = {
             ...form,
+            title: form.title.trimEnd().trimStart(),
             numSizes,
             features,
             mainPhoto: '',
@@ -178,49 +228,6 @@ const CreateProduct = (props) => {
          if (productResponse.status === 'success' && photoResponse.status === 'success')
             setStatus('success')
       }
-   }
-
-   const uploadProduct = async product => {
-      try {
-         const url = props.type === 'edit' ? `/product/${props.slug}` : `/product/`
-         const method = props.type === 'edit' ? 'PATCH' : 'POST'
-
-         return await requestJson(
-            url, method, JSON.stringify(product),
-            {
-               'Content-Type' : 'application/json',
-               'Authorization': 'Bearer ' + auth.user.token
-            }
-         )
-      } catch (e) {
-         console.log(e)
-         throw e
-      }
-   }
-
-   const uploadPhotos = async (photoFiles, slug) => {
-      try {
-         const oldSlug = props.slug ? props.slug : slug
-
-         const form = new FormData()
-         photoFiles.forEach(el => {
-            form.append('photos', el)
-         })
-
-         return await requestJson(
-            '/product/uploadPhotos/' + oldSlug.toLowerCase(),
-            'POST',
-            form,
-            {'Authorization': 'Bearer ' + auth.user.token}
-         )
-      } catch (e) {
-         console.log(e)
-         throw e
-      }
-   }
-
-   const goBack = () => {
-      navigate(-1)
    }
 
    useEffect(() => {
@@ -285,7 +292,7 @@ const CreateProduct = (props) => {
                className={classes.goBack_btn}
                onClick={goBack}
             >
-               Go to all products
+               Go back
             </button>
          </div>
       )
@@ -305,7 +312,7 @@ const CreateProduct = (props) => {
                   value={form.title}
                   onChange={value => changeHandler(value, 'title')}
                   placeholder={'Title'}
-                  error={formError.title}
+                  error={formError.title || duplicateError}
                />
             </div>
 

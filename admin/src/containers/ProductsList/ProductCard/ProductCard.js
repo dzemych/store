@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './ProductCard.module.sass'
 import {useNavigate} from "react-router-dom";
-import CardWrapper from "../CardWrapper/CardWrapper";
+import CardWrapper from "../../../components/CardWrapper/CardWrapper";
 
 
 const ProductCard = (props) => {

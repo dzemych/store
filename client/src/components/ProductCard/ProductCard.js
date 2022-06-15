@@ -79,6 +79,14 @@ const ProductCard = React.forwardRef((props, ref) => {
    return (
       <div className={classes.productCard_container} ref={ref}>
          <div className={classes.wrapper}>
+            {props.sex &&
+               <div className={classes.product_sex}>
+                  <span>
+                     {props.sex.slice(0,1).toUpperCase()}{props.sex.slice(1)}
+                  </span>
+               </div>
+            }
+
             <FontAwesomeIcon
                icon={icon}
                className={classes.heartIcon}
