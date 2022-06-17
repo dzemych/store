@@ -6,11 +6,9 @@ import {clearErrors, loadLocalStorage, toggleSent} from "./userReducer";
 export const signUp = createAsyncThunk(
    'user/signUp',
    async (user, thunkApi) => {
-      const dbUrl = thunkApi.getState().app.dbUrl
-
       try {
          const response = await fetch(
-            `${dbUrl}/auth/signup`,
+            `/api/auth/signup`,
             {
                method: 'POST',
                body: JSON.stringify(user),
@@ -36,11 +34,9 @@ export const signUp = createAsyncThunk(
 export const signIn = createAsyncThunk(
    'user/signIn',
    async (user, thunkApi) => {
-      const dbUrl = thunkApi.getState().app.dbUrl
-
       try {
          const response = await fetch(
-            `${dbUrl}/auth/login`,
+            `/api/auth/login`,
             {
                method: "POST",
                body: JSON.stringify(user),
@@ -65,12 +61,11 @@ export const signIn = createAsyncThunk(
 export const updateUser = createAsyncThunk(
    'user/updateUser',
    async (user, thunkApi) => {
-      const dbUrl = thunkApi.getState().app.dbUrl
       const token = thunkApi.getState().user.token
 
       try {
          const response = await fetch(
-            `${dbUrl}/auth/updateUser`,
+            `/api/auth/updateUser`,
             {
                method: "PATCH",
                body: JSON.stringify(user.form),
@@ -94,10 +89,8 @@ export const updateUser = createAsyncThunk(
 export const fetchUser = createAsyncThunk(
    'user/fetchUser',
    async (token, thunkApi) => {
-      const dbUrl = thunkApi.getState().app.dbUrl
-
       try {
-         const response = await fetch(`${dbUrl}/user/me`, {
+         const response = await fetch(`/api/user/me`, {
             method: 'GET',
             headers: {
                'Authorization': `Bearer ${token}`
@@ -119,11 +112,9 @@ export const fetchUser = createAsyncThunk(
 export const forgotPassword = createAsyncThunk(
    'user/forgotPassword',
    async (email, thunkApi) => {
-      const dbUrl = thunkApi.getState().app.dbUrl
-
       try {
          const response = await fetch(
-            `${dbUrl}/auth/resetPassword`,
+            `/api/auth/resetPassword`,
             {
                method: 'POST',
                body: JSON.stringify({email}),
@@ -146,11 +137,9 @@ export const forgotPassword = createAsyncThunk(
 export const resetPassword = createAsyncThunk(
    'user/resetPassword',
    async (user, thunkApi) => {
-      const dbUrl = thunkApi.getState().app.dbUrl
-
       try {
          const response = await fetch(
-            `${dbUrl}/auth/resetPassword/${user.token}`,
+            `/api/auth/resetPassword/${user.token}`,
             {
                method: 'POST',
                body: JSON.stringify({
@@ -176,12 +165,11 @@ export const resetPassword = createAsyncThunk(
 export const fetchWishList = createAsyncThunk(
    'user/fetchWishList',
    async (payload, thunkApi) => {
-      const dbUrl = thunkApi.getState().app.dbUrl
       const token = thunkApi.getState().user.token
 
       try {
          const response = await fetch(
-            `${dbUrl}/user/changeWishList`,
+            `/api/user/changeWishList`,
             {
                method: 'PATCH',
                body: JSON.stringify({productId: payload.id, type: payload.type}),
@@ -207,12 +195,11 @@ export const fetchWishList = createAsyncThunk(
 export const fetchBasket = createAsyncThunk(
    'user/fetchBasket',
    async (payload, thunkApi) => {
-      const dbUrl = thunkApi.getState().app.dbUrl
       const token = thunkApi.getState().user.token
 
       try {
          const response = await fetch(
-            `${dbUrl}/user/changeBasket`,
+            `/api/user/changeBasket`,
             {
                method: 'PATCH',
                body: JSON.stringify({productId: payload.id, type: payload.type}),

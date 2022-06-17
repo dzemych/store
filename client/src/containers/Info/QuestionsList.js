@@ -18,7 +18,7 @@ const QuestionsList = (props) => {
                </div>
 
                <div className={classes.item_right}>
-                  <h3 className={classes.item_title}>Payment</h3>
+                  <h3 className={classes.item_title}>Оплата</h3>
                   <span className={classes.item_text}>
                      Lorem ipsum dolor sit amet, consectetur
                      adipiscing elit, sed do eiusmod tempor
@@ -38,7 +38,7 @@ const QuestionsList = (props) => {
                </div>
 
                <div className={classes.item_right}>
-                  <h3 className={classes.item_title}>Delivery</h3>
+                  <h3 className={classes.item_title}>Доставка</h3>
                   <span className={classes.item_text}>
                      Lorem ipsum dolor sit amet, consectetur
                      adipiscing elit, sed do eiusmod tempor
@@ -58,7 +58,7 @@ const QuestionsList = (props) => {
                </div>
 
                <div className={classes.item_right}>
-                  <h3 className={classes.item_title}>Purchase help</h3>
+                  <h3 className={classes.item_title}>Помощь в оплате</h3>
                   <span className={classes.item_text}>
                      Lorem ipsum dolor sit amet, consectetur
                      adipiscing elit, sed do eiusmod.
@@ -77,7 +77,7 @@ const QuestionsList = (props) => {
                </div>
 
                <div className={classes.item_right}>
-                  <h3 className={classes.item_title}>Warranty</h3>
+                  <h3 className={classes.item_title}>Гарантия</h3>
                   <span className={classes.item_text}>
                      Lorem ipsum dolor sit amet, consectetur
                      adipiscing elit, sed do eiusmod.

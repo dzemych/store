@@ -44,7 +44,7 @@ const ShoppingCart = (props) => {
    return (
       <div className={classes.container}>
          <div className={'wrapper'}>
-            <h1 className={'title'}>Shopping cart</h1>
+            <h1 className={'title'}>Корзина</h1>
 
             <div className={classes.body}>
                <div className={classes.products_container}>
@@ -71,7 +71,7 @@ const ShoppingCart = (props) => {
                         </div>
                      ))
                      : <div className={classes.noProducts}>
-                        <h1>No products</h1>
+                        <h1>Нету продуктов</h1>
                      </div>
                   }
 
@@ -80,7 +80,7 @@ const ShoppingCart = (props) => {
                <div className={classes.total_container}>
                   <div className={classes.total_amount}>
                      <MediaQuery maxWidth={768}>
-                        <span>Total</span>
+                        <span>Всего к оплате</span>
                      </MediaQuery>
 
                      <span className={classes.total_price}>
@@ -99,7 +99,7 @@ const ShoppingCart = (props) => {
                         type={'bigGreen_button'}
                         onClickHandler={onPurchase}
                      >
-                        Purchase
+                        Купить
                      </Button>
                   }
                </div>

@@ -1,6 +1,8 @@
 const express = require('express')
+const path = require('path')
 const errorController = require('./controllers/error.controller')
 const Router = require('./router')
+const AppRouter = require('./routes/app.router')
 const app = express()
 const rateLimiter = require('express-rate-limit')
 const helmet = require('helmet')
@@ -29,9 +31,16 @@ app.use(cors())
 app.use(express.json())
 
 // 3) ROUTES
-app.use('/', Router)
+app.use('/api', Router)
 
-//| Error handler
+if (process.env.NODE_ENV === 'production') {
+   app.use('/', express.static(path.resolve('client/build')))
+   app.use('/admin', express.static(path.resolve('admin/build')))
+
+   app.use(AppRouter)
+}
+
+// Error handler
 app.use(errorController)
 
 module.exports = app

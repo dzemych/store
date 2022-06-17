@@ -132,7 +132,7 @@ const Review = (props) => {
                         marginRight: "2vw"
                      }}/>
 
-                  Purchase
+                  {isBasket ? 'В корзине' : 'Купить'}
                </Button>
             </div>
 

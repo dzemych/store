@@ -226,6 +226,7 @@ const Checkout = (props) => {
             JSON.stringify({products: Object.keys(checkout)}),
             {'Content-Type': 'application/json'}
          )
+
          setProducts(data.products)
       })()
    }, [])

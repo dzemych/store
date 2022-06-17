@@ -113,7 +113,7 @@ const OrderItem = (props) => {
 
                <div className={classes.order_sum_wrapper}>
                   <span className={classes.sum_title}>
-                     Order price
+                     Сума заказа
                   </span>
 
                   <span className={classes.sum_price}>

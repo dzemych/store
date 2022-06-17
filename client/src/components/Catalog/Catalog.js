@@ -23,9 +23,9 @@ const Catalog = (props) => {
    const onClickHandler = (sex, category) => {
       dispatch(toggleCatalog())
       if (category === 'все') {
-         navigate(`/products?sex=${sex}`)
+         navigate(`/products?sex=${sex}&page=1`)
       } else {
-         navigate(`/products?sex=${sex}&category=${category}`)
+         navigate(`/products?sex=${sex}&category=${category}&page=1`)
       }
    }
 
@@ -57,7 +57,7 @@ const Catalog = (props) => {
                onClick={catalogHandler}
             />
 
-            <h1 className={'title'}>Catalog</h1>
+            <h1 className={'title'}>Каталог</h1>
 
             <div className={classes.category_section}>
                <h3 className={classes.category_title}>Женщинам</h3>

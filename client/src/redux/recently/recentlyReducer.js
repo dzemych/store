@@ -14,7 +14,6 @@ const recentlyReducer = createSlice({
          const products = state.products
 
          if (products.includes(id)) {
-            const i = products.indexOf(id)
             state.products = products.sort((x,y) => x === id ? -1 : y === id ? 1 : 0)
          } else {
             if (products.length < 12) {

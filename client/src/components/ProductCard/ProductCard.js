@@ -79,14 +79,6 @@ const ProductCard = React.forwardRef((props, ref) => {
    return (
       <div className={classes.productCard_container} ref={ref}>
          <div className={classes.wrapper}>
-            {props.sex &&
-               <div className={classes.product_sex}>
-                  <span>
-                     {props.sex.slice(0,1).toUpperCase()}{props.sex.slice(1)}
-                  </span>
-               </div>
-            }
-
             <FontAwesomeIcon
                icon={icon}
                className={classes.heartIcon}
@@ -121,7 +113,7 @@ const ProductCard = React.forwardRef((props, ref) => {
                   className={classes.leave_rating}
                   onClick={() => openProductHandler(props.slug)}
                >
-                  <span>Leave rating</span>
+                  <span>Оставить оценку</span>
                </div>
             }
 

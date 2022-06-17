@@ -11,7 +11,7 @@ const Contacts = (props) => {
       <div className={'container'}>
          <div className={'wrapper'}>
             <h1 className={'title'}>
-               Our contacts
+               Наши контакты
             </h1>
 
             <hr className={classes.hr}/>
@@ -19,14 +19,14 @@ const Contacts = (props) => {
             <div className={classes.contacts_container}>
                <div className={classes.contact_person}>
                   <div className={classes.leftBar}>
-                     <span>Name:</span>
-                     <span>Number:</span>
-                     <span>Email:</span>
-                     <span>Instagram:</span>
+                     <span>Имя:</span>
+                     <span>Номер:</span>
+                     <span>Имейл:</span>
+                     <span>Инстаграм:</span>
                   </div>
 
                   <div className={classes.rightBar}>
-                     <span>Tatyana</span>
+                     <span>Татьяна</span>
                      <span>+380509008875</span>
                      <span>tanya16khm@gmail.com</span>
                      <span>tania_dzemich</span>
@@ -39,7 +39,7 @@ const Contacts = (props) => {
             <div className={classes.address}>
                <div className={classes.address_info}>
                   <div className={classes.leftBar}>
-                     <span>Address:</span>
+                     <span>Адрес:</span>
                   </div>
 
                   <div className={classes.rightBar}>

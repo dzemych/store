@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './Info.module.sass'
-import keyboardTyping from '../../img/keyboard-typing.png'
+import monitor from '../../img/monitor.png'
 import QuestionsList from "./QuestionsList";
 import '../basicStyles.sass'
 
@@ -10,11 +10,11 @@ const Info = (props) => {
       <div className={'container'}>
          <div className={'wrapper'}>
             <h1 className={'title'}>
-               How can we help you ?
+               Как мы можем вам помочь ?
             </h1>
 
             <div className={classes.title_img}>
-               <img src={keyboardTyping} alt=""/>
+               <img src={monitor} alt=""/>
             </div>
 
             <QuestionsList/>
@@ -22,17 +22,17 @@ const Info = (props) => {
             <hr className={classes.main_hr}/>
 
             <div className={classes.contact_container}>
-               <h2 className={classes.contact_title}>Ask us a question</h2>
+               <h2 className={classes.contact_title}>Задайте нам вопрос</h2>
 
                <div className={classes.contact_wrapper}>
                   <div className={classes.textUs_container}>
-                     <h3 className={classes.textUs_title}>Mail us</h3>
+                     <h3 className={classes.textUs_title}>Отправьте эмейл</h3>
 
                      <span className={classes.textUs_text}>dzemichivan@gmail.com</span>
                   </div>
 
                   <div className={classes.textUs_container}>
-                     <h3 className={classes.textUs_title}>Text us in Viber</h3>
+                     <h3 className={classes.textUs_title}>Напишите нам в Вайбере</h3>
 
                      <span className={classes.textUs_text}>+380509008875</span>
                   </div>

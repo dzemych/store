@@ -49,7 +49,7 @@ const User = (props) => {
    useEffect(() => {
       if (isUpdated)
          setInitial()
-   }, [isUpdated])
+   }, [isUpdated, setInitial])
 
    useEffect(() => {
       return () => {

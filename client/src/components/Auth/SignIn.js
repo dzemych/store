@@ -1,11 +1,8 @@
-import React, {useState} from 'react'
+import React from 'react'
 import classes from './Auth.module.sass'
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEye, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
 import Button from "../../forms/Button/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {signIn} from "../../redux/user/userAction";
-import validator from "validator/es";
 import Input from "../../forms/Input/Input";
 import {useNavigate} from "react-router-dom";
 import {toggleAuth} from "../../redux/app/appReducer";

@@ -16,11 +16,11 @@ import {pushToRecently} from "../../redux/recently/recentlyReducer";
 
 const Product = (props) => {
    const pages = [
-      {key: 'Review', value: 'review'},
-      {key: 'Ratings', value: 'ratings'},
-      {key: 'Questions', value: 'questions'},
-      {key: 'Ask a question', value: 'askQuestion'},
-      {key: 'Leave a review', value: 'leaveRating'}
+      {key: 'Все о товаре', value: 'review'},
+      {key: 'Отзывы', value: 'ratings'},
+      {key: 'Вопросы', value: 'questions'},
+      {key: 'Задать вопрос', value: 'askQuestion'},
+      {key: 'Написать отзыв', value: 'leaveRating'}
    ]
 
    const params = useParams()
@@ -54,6 +54,7 @@ const Product = (props) => {
                <div className={classes.product_title_container}>
                   <h1 className={classes.product_title}>
                      {product.title}&nbsp;
+
                      <span className={classes.product_sex}>
                         ({product.sex.toUpperCase()})
                      </span>
@@ -77,7 +78,7 @@ const Product = (props) => {
                      }
 
                      <span className={classes.review_number}>
-                     {product.numRating} review
+                     {product.numRating} отзывов
                   </span>
                   </div>
                </div>

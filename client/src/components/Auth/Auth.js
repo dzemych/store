@@ -7,7 +7,7 @@ import {useDispatch} from "react-redux";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import {clearErrors} from "../../redux/user/userReducer";
-import {Desktop} from "../../functions/mediaCheck";
+import {Tablet} from "../../functions/mediaCheck";
 import Backdrop from "../Backdrop/Backdrop";
 import useEsc from "../../functions/useEsc";
 
@@ -36,7 +36,7 @@ const Auth = (props) => {
             <div className={classes.wrapper}>
                <div className={classes.topBar}>
                <span>
-                  {page === 'signin' ? 'Log in': 'Registration'}
+                  {page === 'signin' ? 'Войти': 'Регистарция'}
                </span>
 
                   <FontAwesomeIcon
@@ -55,12 +55,12 @@ const Auth = (props) => {
             </div>
          </div>
 
-         <Desktop>
+         <Tablet>
             {props.isOpen &&
                <Backdrop
                   onClick={authHandler}
                />}
-         </Desktop>
+         </Tablet>
       </>
    )
 }

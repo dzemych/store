@@ -43,7 +43,7 @@ const QuestionItem = (props) => {
                   </div>
 
                   <span onClick={() => setAnswer(prev => !prev)}>
-                     Answer
+                     Ответ
                   </span>
                </div>
             }

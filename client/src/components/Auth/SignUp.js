@@ -1,6 +1,5 @@
-import React, {useState} from 'react'
+import React from 'react'
 import classes from './Auth.module.sass'
-import validator from "validator/es";
 import Button from "../../forms/Button/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {signUp} from "../../redux/user/userAction";

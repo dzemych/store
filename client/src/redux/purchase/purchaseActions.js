@@ -6,13 +6,12 @@ import {removeFromBasket, updateLocalStorage} from "../user/userReducer";
 export const fetchCreatePurchase = createAsyncThunk(
    'purchase/createPurchase',
    async (payload, thunkApi) => {
-      const dbUrl = thunkApi.getState().app.dbUrl
       const isAuth = thunkApi.getState().user.token
       const basket = thunkApi.getState().user.basket
 
       try {
          const response = await fetch(
-            `${dbUrl}/purchase`,
+            `/api/purchase`,
             {
                method: "POST",
                body: JSON.stringify(payload),

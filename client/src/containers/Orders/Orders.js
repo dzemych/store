@@ -8,12 +8,10 @@ import {useSelector} from "react-redux";
 const Orders = (props) => {
    const purchaseIds = useSelector(state => state.purchase.purchases)
 
-   console.log(purchaseIds
-   )
    return (
       <div className={classes.container}>
          <div className={classes.wrapper}>
-            <h1 className={'title'}>Your orders</h1>
+            <h1 className={'title'}>Ваши заказы</h1>
 
             <div className={classes.orders_list}>
                {purchaseIds && purchaseIds.length > 0
@@ -24,7 +22,7 @@ const Orders = (props) => {
                      />
                   ))
                 : <span className={classes.noPurchases}>
-                     No purchases made on this device
+                     На этом устройстве не сделано ни одного заказа
                   </span>
                }
             </div>

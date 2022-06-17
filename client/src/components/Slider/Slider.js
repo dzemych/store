@@ -99,7 +99,7 @@ const Slider = (props) => {
                }
                onClick={e => clickHandler(e, 'prev')}
             >
-               <img src={chevron}/>
+               <img src={chevron} alt={'|'}/>
             </div>
          }
 
@@ -111,7 +111,7 @@ const Slider = (props) => {
                }
                onClick={e => clickHandler(e, 'next')}
             >
-               <img src={chevron}/>
+               <img src={chevron} alt={'|'}/>
             </div>
          }
       </div>

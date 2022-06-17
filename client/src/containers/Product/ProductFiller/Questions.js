@@ -30,7 +30,7 @@ const Questions = (props) => {
    return (
       <div className={classes.container}>
          <span className={classes.title}>
-            Questions for {product.title}
+            Вопросы к {product.title}
             <span> {questions.length}</span>
          </span>
 
@@ -46,7 +46,7 @@ const Questions = (props) => {
                      answer={el.answer}
                   />
                   ))
-               : <h1 className={classes.noQuestions}>No questions</h1>
+               : <h1 className={classes.noQuestions}>Нет вопросов</h1>
             }
 
             {/*<div className={classes.showMore_container}>*/}

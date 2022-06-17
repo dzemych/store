@@ -78,7 +78,7 @@ const LeaveRecord = (props) => {
                disabled={(stars < 1 || text.length < 2 || text.length > 700)}
                onClickHandler={() => postRecord('rating')}
             >
-               Leave review
+               Оставить отзыв
             </Button>
          )
       if (props.type === 'question')
@@ -88,7 +88,7 @@ const LeaveRecord = (props) => {
                disabled={text.length < 2 || text.length > 700}
                onClickHandler={() => postRecord('question')}
             >
-               Ask a question
+               Задать вопрос
             </Button>
          )
    }
@@ -98,8 +98,8 @@ const LeaveRecord = (props) => {
          <div className={classes.wrapper}>
             <div className={classes.header}>
                <span className={classes.title}>{
-                  props.type === 'rating' ? 'Leave your review'
-                  : 'Ask a question'
+                  props.type === 'rating' ? 'Отсавить отзыв'
+                  : 'Задать вопрос'
                }</span>
             </div>
 
@@ -109,8 +109,8 @@ const LeaveRecord = (props) => {
             ? <div className={classes.success_container}>
                  <h1>
                     {props.type === 'rating'
-                    ? 'Rating successfully posted'
-                    : 'We will answer you within two days'
+                    ? 'Отзыв успешно размещён'
+                    : 'Мы ответим вам на протяжении одного дня'
                     }
                  </h1>
             </div>
@@ -135,8 +135,8 @@ const LeaveRecord = (props) => {
                      <textarea
                         placeholder={
                            props.type === 'rating' ?
-                              'Wrote your review':
-                              'Ask a question'
+                              'Оставьте ваш отзыв':
+                              'Задайте нам вопрос'
                         }
                         name="rating_text"
                         id="rating_text"
@@ -150,17 +150,18 @@ const LeaveRecord = (props) => {
 
                   {(error && error.message.includes('E11000')) &&
                      <span className={classes.ratingDuplicate}>
-                     You cannot post more than one rating
+                        Вы можете оставить только один отзыв
                      </span>
                   }
                </>
                : <div className={classes.noAuth_container}>
-                  <h1>Please login</h1>
+                  <h1>Нужно войти в аккаунт</h1>
+
                   <Button
                      type={'wideBlue_button'}
                      onClickHandler={() => dispatch(toggleAuth())}
                   >
-                     Log in
+                     Войти
                   </Button>
                </div>
             }

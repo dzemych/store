@@ -12,14 +12,14 @@ const imgRouter = require('./routes/img.router')
 
 const router = Router()
 
-router.use('/api/product', productRouter)
-router.use('/api/user', userRouter)
-router.use('/api/auth', authRouter)
-router.use('/api/rating', ratingRouter)
-router.use('/api/purchase', purchaseRouter)
-router.use('/api/question', questionRouter)
-router.use('/api/contact', contactRouter)
-router.use('/api/img', imgRouter)
+router.use('/product', productRouter)
+router.use('/user', userRouter)
+router.use('/auth', authRouter)
+router.use('/rating', ratingRouter)
+router.use('/purchase', purchaseRouter)
+router.use('/question', questionRouter)
+router.use('/contact', contactRouter)
+router.use('/img', imgRouter)
 
 router.use('*', (req, res, next) => {
    next(new AppError('This route is not yet defined', 404))

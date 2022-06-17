@@ -15,10 +15,10 @@ const Footer = (props) => {
        <div className={classes.container}>
           <div className={classes.wrapper}>
              <div className={classes.links}>
-                <NavLink to={'/'}>Home</NavLink>
-                <NavLink to={'about'}>About</NavLink>
-                <NavLink to={'contacts'}>Our contacts</NavLink>
-                <NavLink to={'info'}>Info</NavLink>
+                <NavLink to={'/'}>Главная</NavLink>
+                <NavLink to={'about'}>Про нас</NavLink>
+                <NavLink to={'contacts'}>Наши контакты</NavLink>
+                <NavLink to={'info'}>Помощь</NavLink>
              </div>
 
              <hr className={classes.hr}/>
@@ -44,12 +44,15 @@ const Footer = (props) => {
             <hr className={classes.hr}/>
 
              <div className={classes.bottomBar}>
-                <button className={classes.mail}>Mail us</button>
+                <button className={classes.mail}>
+                   Напишите нам
+                </button>
 
                 <div className={classes.rights}>
                    <span className={classes.copyright}>
                       © Copyright {new Date().getFullYear()}
                    </span>
+
                    <span className={classes.power}>
                       Powered by Dzemych
                    </span>

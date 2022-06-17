@@ -59,27 +59,28 @@ const WishList = (props) => {
             setProducts(data.products)
          })()
       } else {setProducts([])}
-   }, [wishList])
+   }, [wishList, requestJson])
 
    return (
       <div className={classes.container}>
          <div className={classes.wrapper}>
-            <h1 className={'title'}>Your wish list</h1>
+            <h1 className={'title'}>Список желаний</h1>
 
             <div className={classes.actions_container}>
                <span
                   className={classes.action_btn}
                   onClick={buyAll}
-               >Buy all</span>
+               >Купить все</span>
+
                <span
                   className={classes.action_btn}
                   onClick={deleteAll}
-               >Delete all</span>
+               >Удалить все</span>
             </div>
 
             <div className={classes.products_list}>
                {wishList.length > 0
-                  ? products.map((item, i) => (
+                  ? products.map(item => (
                      <ProductCard
                         key={props.slug}
                         id={item._id}
@@ -93,7 +94,7 @@ const WishList = (props) => {
                      />
                   ))
                   : <div className={classes.noProducts}>
-                     <h1>No products</h1>
+                     <h1>Нет продуктов</h1>
                   </div>
                }
             </div>
@@ -103,7 +104,7 @@ const WishList = (props) => {
             <div className={classes.sum_container}>
                <div className={classes.sum_left}>
                   <span className={classes.sum_num}>
-                     {products.length} goods worth
+                     {products.length} товаров(а) стоят
                   </span>
                   <span className={classes.sum_price}>
                      {products.reduce((acc, el) => {
@@ -118,7 +119,7 @@ const WishList = (props) => {
                   onClick={buyAll}
                >
                   {products.length > 0 &&
-                  <Button type={'bigGreen_button'}>Buy all</Button>}
+                  <Button type={'bigGreen_button'}>Купить всё</Button>}
                </div>
             </div>
 

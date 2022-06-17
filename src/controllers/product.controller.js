@@ -129,8 +129,6 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
       return product
    })
 
-   // 3) Get length of all products collection
-
    res.json({
       status: 'success',
       message: `Data successfully received`,

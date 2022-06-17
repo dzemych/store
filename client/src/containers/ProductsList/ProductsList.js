@@ -2,39 +2,32 @@ import React, {useEffect, useMemo, useState} from 'react'
 import classes from './ProductsList.module.sass'
 import '../basicStyles.sass'
 import ProductCard from "../../components/ProductCard/ProductCard";
-import Button from "../../forms/Button/Button";
 import RecentlySlider from "../../components/Slider/RecentlySlider";
 import {useHttp} from "../../functions/http.hook";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
 
 
 const ProductsList = (props) => {
 
    const [products, setProducts] = useState([])
-   const [showMore, setShowMore] = useState(true)
+   const [showNext, setShowNext] = useState(true)
    const [sort, setSort] = useState('-avgRating')
 
    const {requestJson} = useHttp()
    const location = useLocation()
+   const navigate = useNavigate()
 
-   useEffect(() => {
-         (async () => {
-            try {
-               const data = await requestJson(
-                  `/product${location.search}&page=1&limit=10&` +
-                  `fields=sex,price,title,slug,avgRating,numRating,mainPhoto,_id,status&` +
-                  `sort=${sort}`
-               )
+   const page = useMemo(() => {
+      const page = location.search.match(/page=\d+/)
 
-               setProducts(data.products)
+      if (page) {
+         return +page[0].split('=')[1]
+      }
 
-               if (data.results < 10)
-                  setShowMore(false)
-            } catch (e) {
-               console.log(e)
-            }
-         })()
-   }, [location.search, requestJson, sort])
+      return '1'
+   }, [location.search])
 
    const getProduct = useMemo(() => {
       if (!products || products.length === 0)
@@ -42,8 +35,9 @@ const ProductsList = (props) => {
 
       if (products.length >= 1)
          return (
-            products.map((item, i) => (
+            products.map(item => (
                <ProductCard
+                  key={item.slug}
                   id={item._id}
                   sex={item.sex}
                   slug={item.slug}
@@ -53,17 +47,48 @@ const ProductsList = (props) => {
                   mainPhoto={item.mainPhoto}
                   avgRating={item.avgRating}
                   numRating={item.numRating}
-                  key={item.slug}
                />
             ))
          )
    }, [products])
 
+   const changePage = async type => {
+      try {
+         const newPage = type === 'next' ? page + 1 : page - 1
+
+         const newSearch = location.search.replace(/page=\d+/, `page=${newPage}`)
+
+         navigate(newSearch)
+      } catch (e) {
+         console.log(e)
+      }
+   }
+
+   useEffect(() => {
+      (async () => {
+         try {
+            const data = await requestJson(
+               `/product${location.search}&limit=20&` +
+               `fields=sex,price,title,slug,avgRating,numRating,mainPhoto,_id,status&` +
+               `sort=${sort}`
+            )
+
+            setProducts(data.products)
+
+            if (data.results < 20) {
+               setShowNext(false)
+            } else {
+               setShowNext(true)
+            }
+         } catch (e) {
+            console.log(e)
+         }
+      })()
+   }, [location.search, requestJson, sort])
+
    return (
       <div className={'container'}>
          <div className={classes.wrapper}>
-            <h2 className={classes.title}>Title</h2>
-
             <div className={classes.sort_panel}>
                <select
                   name="sort"
@@ -71,10 +96,10 @@ const ProductsList = (props) => {
                   className={classes.select}
                   onChange={e => setSort(e.target.value)}
                >
-                  <option value="-avgRating">Most popular</option>
-                  <option value="createdAt">Newest</option>
-                  <option value="-price">Price from high to low</option>
-                  <option value="price">Price from low to high</option>
+                  <option value="-avgRating">Самые популярные</option>
+                  <option value="createdAt">Новые</option>
+                  <option value="-price">Цена: от высокой к низкой</option>
+                  <option value="price">Цена: от низкой к высокой</option>
                </select>
             </div>
 
@@ -82,12 +107,32 @@ const ProductsList = (props) => {
                {getProduct}
             </div>
 
-            {showMore &&
-               <Button
-                  type={'viewAll_button'}
-               >
-                  Show more
-               </Button>
+            {(showNext && page > 1) &&
+               <div className={classes.page_container}>
+                  {page > 1
+                     ? <div
+                        className={classes.page_item}
+                        onClick={() => changePage('back')}
+                     >
+                        <FontAwesomeIcon icon={faArrowLeft}/>
+
+                        <span>Назад</span>
+                     </div>
+                     : <div className={classes.page_item}/>
+                  }
+
+                  {showNext
+                     ? <div
+                        className={classes.page_item}
+                        onClick={() => changePage('next')}
+                     >
+                        <span>Вперед</span>
+
+                        <FontAwesomeIcon icon={faArrowRight}/>
+                     </div>
+                     : <div className={classes.page_item}/>
+                  }
+               </div>
             }
 
             <hr className={classes.hr}/>

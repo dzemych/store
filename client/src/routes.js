@@ -29,7 +29,7 @@ const useRoutes = (props) => {
          if (location.pathname === '/user') {
             dispatch(toggleAuth())
          }
-   }, [location, dispatch])
+   }, [location, dispatch, isAuth])
 
     return (
        <Routes>

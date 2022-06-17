@@ -1,23 +1,20 @@
 import {useCallback, useState} from "react";
-import {useSelector} from "react-redux";
 
 
 export const useHttp = () => {
    const [error, setError] = useState('')
 
-   const dbUrl = useSelector(state => state.app.dbUrl)
-
    const requestImg = useCallback
    (async (url,method = 'GET',body = null) => {
       try {
          const response = await fetch(
-            `${dbUrl}${url}`,
+            `/api${url}`,
             {
                method,
                body,
                headers: {
                   referrerPolicy: 'no-referrer-when-downgrade',
-                  contentType: 'image/jpeg'
+                  contentType: 'image/*'
                }}
             )
 
@@ -32,13 +29,13 @@ export const useHttp = () => {
          setError(e)
          throw e
       }
-   }, [dbUrl])
+   }, [])
 
    const requestJson = useCallback
    (async (url, method = 'GET', body = null, headers = {}) => {
       try {
          const response = await fetch(
-            `${dbUrl}${url}`,
+            `/api${url}`,
             {method, body, headers}
          )
          const data = await response.json()
@@ -51,7 +48,7 @@ export const useHttp = () => {
          setError(e)
          throw e
       }
-   }, [dbUrl])
+   }, [])
 
    return {error, requestJson, requestImg, setError}
 }

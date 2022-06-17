@@ -37,7 +37,7 @@ const About = (props) => {
 
             <hr className={classes.hr}/>
 
-            <h2 className={classes.add_title}>Просмотрите каталог</h2>
+            <h2 className={classes.add_title}>Наш каталог</h2>
 
             <div className={classes.catalogBtn_container}>
                <Button

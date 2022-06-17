@@ -17,12 +17,14 @@ const Home = (props) => {
          <div className={classes.wrapper}>
             <section className={classes.preview}>
                <nav className={classes.preview_nav}>
-                  <NavLink to={'/info'}>Info</NavLink>
+                  {/*<NavLink to={'/info'}>Info</NavLink>*/}
+
                   <NavLink
                      to={'/contacts'}
                      className={classes.nav_contact}
-                  >Contacts</NavLink>
-                  <NavLink to={'/about'}>About</NavLink>
+                  >Конакты</NavLink>
+
+                  <NavLink to={'/about'}>Про нас</NavLink>
                </nav>
 
                <FashionAndStyle className={classes.preview_img}/>
@@ -32,7 +34,7 @@ const Home = (props) => {
                      type={'big_orange_button'}
                      onClickHandler={() => dispatch(toggleCatalog())}
                   >
-                     Catalog
+                     Каталог
                   </Button>
                </div>
             </section>
@@ -43,12 +45,14 @@ const Home = (props) => {
 
             <section className={classes.notation}>
                <h2 className={classes.note_title}>
-                  About us
+                  Про нас
                </h2>
+
                <span className={classes.note_text}>
                    Read about our dizzily creation story.
                    We had been fighting pirates and politics to reach what we have today
-                </span>
+               </span>
+
                <div className={classes.note_img}>
                   <img src={laptop} alt=""/>
                </div>
@@ -61,7 +65,8 @@ const Home = (props) => {
                   type={'viewAll_button'}
                   onClickHandler={() => dispatch(toggleCatalog())}
                >
-                  View all products</Button>
+                  Наш каталог
+               </Button>
 
                <hr className={classes.hr}/>
             </section>

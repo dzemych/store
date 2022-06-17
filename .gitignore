@@ -10,6 +10,10 @@ firebase-debug.*.log*
 #client side
 client/node_modules/
 
+#build folders
+build
+/build
+
 data/
 
 # WebStorm settings

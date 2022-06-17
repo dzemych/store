@@ -48,19 +48,19 @@ const ProductItem = (props) => {
 
             <div className={classes.sum_wrapper}>
                <div className={classes.sum_item}>
-                  <span className={classes.item_title}>Price</span>
+                  <span className={classes.item_title}>Цена</span>
 
                   <span className={classes.item_value}>{props.price} ₴</span>
                </div>
 
                <div className={classes.sum_item}>
-                  <span className={classes.item_title}>Amount</span>
+                  <span className={classes.item_title}>Количество</span>
 
                   <span className={classes.item_value}>{props.amount}</span>
                </div>
 
                <div className={classes.sum_item}>
-                  <span className={classes.item_title}>Total</span>
+                  <span className={classes.item_title}>В целом</span>
 
                   <span className={classes.item_value}>
                      {props.amount * props.price} ₴
@@ -70,13 +70,13 @@ const ProductItem = (props) => {
 
             <div className={classes.totals_wrapper}>
                <div className={classes.totals_item}>
-                  <span className={classes.total_title}>Payment</span>
+                  <span className={classes.total_title}>Оплата</span>
 
-                  <span>Upon receipt</span>
+                  <span>При получении</span>
                </div>
 
                <div className={classes.totals_item}>
-                  <span className={classes.total_title}>In total</span>
+                  <span className={classes.total_title}>В целом</span>
 
                   <span className={classes.total_price}>{props.price * props.amount} ₴</span>
                </div>

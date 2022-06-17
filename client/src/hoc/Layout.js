@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import Sidebar from "../components/Sidebar/Sidebar";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import Catalog from "../components/Catalog/Catalog";
 import Auth from "../components/Auth/Auth";
 

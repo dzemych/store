@@ -14,7 +14,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import instagramImg from '../../img/instagram.png'
 import facebookImg from '../../img/facebook.png'
-import viberImg from '../../img/viber.png'
 import telegramImg from '../../img/telegram.png'
 import smallLogo from '../../img/small-logo.png'
 import tdLogo from '../../img/tan-dem-wide-logo.png'
@@ -76,42 +75,42 @@ const Sidebar = (props) => {
    const links = [
       {
          icon: faHouse,
-         text: "Home",
+         text: "Главная",
          onClickHandler: e => openPageHandler(e, '/')
       },
       {
          icon: faShirt,
-         text: "Catalog",
+         text: "Каталог",
          onClickHandler: e => openCatalog(e)
       },
       {
          icon: faList,
-         text: "Your orders",
+         text: "Ваши заказы",
          onClickHandler: e => openPageHandler(e, 'orders')
       },
       {
          icon: faBasketShopping,
-         text: "Shopping cart",
+         text: "Корзина",
          onClickHandler: e => openPageHandler(e, 'shopping-cart')
       },
       {
          icon: faHeart,
-         text: "Wish list",
+         text: "Список желаний",
          onClickHandler: e => openPageHandler(e, 'wish-list')
       },
       {
          icon: faPeopleGroup,
-         text: "About us",
+         text: "Про нас",
          onClickHandler: e => openPageHandler(e, 'about')
       },
       {
          icon: faSquarePhone,
-         text: "Our contacts",
+         text: "Наши контакты",
          onClickHandler: e => openPageHandler(e, 'contacts')
       },
       {
          icon: faCircleQuestion,
-         text: "Q&A",
+         text: "Вопросы и ответы",
          onClickHandler: e => openPageHandler(e, 'info')
       },
    ]
@@ -183,6 +182,7 @@ const Sidebar = (props) => {
                      >
                         {name}
                      </span>
+
                      <span
                         className={classes.userEmail}
                         onClick={e => openPageHandler(e, 'user')}
@@ -199,28 +199,31 @@ const Sidebar = (props) => {
                <hr className={classes.hr}/>
 
                <div className={classes.infoBar}>
-                  <span className={classes.info_title}>Company information</span>
+                  <span className={classes.info_title}>Информация про компанию</span>
 
                   <ul className={classes.info_list}>
                      <li
                         className={classes.info_item}
                         onClick={e => openPageHandler(e, 'about')}
-                     >About us
+                     >Про нас
                      </li>
+
                      <li
                         className={classes.info_item}
                         onClick={e => openPageHandler(e, 'contacts')}
-                     >Contacts
+                     >Контакты
                      </li>
+
                      <li
                         className={classes.info_item}
                         onClick={e => openPageHandler(e, 'info')}
-                     >Delivery and payment
+                     >Доставка и оплата
                      </li>
+
                      <li
                         className={classes.info_item}
                         onClick={e => openPageHandler(e, 'info')}
-                     >Warrant
+                     >Гарантия
                      </li>
                   </ul>
                </div>
@@ -228,23 +231,34 @@ const Sidebar = (props) => {
                <hr className={classes.hr}/>
 
                <div className={classes.socialBar}>
-                  <span className={classes.social_title}>We in network</span>
+                  <span className={classes.social_title}>Мы в социальных сетях</span>
 
                   <ul className={classes.social_list}>
                      <li className={classes.social_item}>
-                        <img src={instagramImg} alt="instagram"/>
+                        <a
+                           href={'https://www.instagram.com/taniadzemich/?hl=ru'}
+                           target={'_blank'}
+                        >
+                           <img src={instagramImg} alt="instagram" />
+                        </a>
                      </li>
 
                      <li className={classes.social_item}>
-                        <img src={facebookImg} alt="facebook"/>
+                        <a
+                           href="https://www.facebook.com/profile.php?id=100013643565993"
+                           target={'_blank'}
+                        >
+                           <img src={facebookImg} alt="facebook"/>
+                        </a>
                      </li>
 
                      <li className={classes.social_item}>
-                        <img src={telegramImg} alt="telegram"/>
-                     </li>
-
-                     <li className={classes.social_item}>
-                        <img src={viberImg} alt="viber"/>
+                        <a
+                           href=""
+                           target={'_blank'}
+                        >
+                           <img src={telegramImg} alt="telegram"/>
+                        </a>
                      </li>
                   </ul>
                </div>
@@ -255,7 +269,7 @@ const Sidebar = (props) => {
                   className={classes.logOut}
                   onClick={() => authHandler()}
                >
-                  {isAuth ? 'Log out' : 'Log in'}
+                  {isAuth ? 'Выйти' : 'Войти'}
                </div>
             </div>
          </div>

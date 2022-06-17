@@ -4,12 +4,17 @@
   "description": "TZ magazine",
   "main": "server",
   "scripts": {
-    "server": "nodemon server.js",
-    "client": "npm run start --prefix client",
-    "admin": "npm run start --prefix admin",
     "db": "mongod --dbpath=C:\\data\\db",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "dev:admin": "concurrently \"npm run server\" \"npm run admin\""
+    "start": "cross-env NODE_ENV=production node server.js",
+    "server": "cross-env NODE_ENV=production nodemon server.js",
+    "server:install": "npm install",
+    "client": "npm run start --prefix client",
+    "client:install": "npm install --prefix client",
+    "client:build": "npm run build --prefix client",
+    "admin": "npm run start --prefix admin",
+    "admin:install": "npm install --prefix admin",
+    "admin:build": "npm run build --prefix admin",
+    "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -45,6 +50,7 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
-    "concurrently": "^7.1.0"
+    "concurrently": "^7.1.0",
+    "cross-env": "^7.0.3"
   }
 }

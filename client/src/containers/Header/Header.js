@@ -34,7 +34,7 @@ const Header = (props) => {
 
    const searchHandler = e => {
       e.preventDefault()
-      navigate(`/products?title[regex]=${value}`)
+      navigate(`/products?title[regex]=${value}&page=1   `)
    }
 
    return (
@@ -62,7 +62,7 @@ const Header = (props) => {
                >
                   <FontAwesomeIcon icon={faShirt}/>
 
-                  <span>Catalog</span>
+                  <span>Каталог</span>
                </div>
             </Laptop>
 
@@ -77,7 +77,7 @@ const Header = (props) => {
                   className={classes.search_btn}
                   onClick={e => searchHandler(e)}
                >
-                  Search
+                  Поиск
                </button>
             </Laptop>
 

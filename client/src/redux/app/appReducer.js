@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState = {
-   dbUrl: 'http://localhost:5000/api',
    sidebar: false,
    error: false,
    catalog: false,

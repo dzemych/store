@@ -20,7 +20,7 @@ const Ratings = (props) => {
 
    const product = useSelector(state => state.product.product)
 
-   const {wishListHandler, basketHandler, isWish} = useWishAndBasketList(product._id)
+   const {wishListHandler, basketHandler, isWish, isBasket} = useWishAndBasketList(product._id)
 
    const [stats, setStats] = useState([])
    const [ratings, setRatings] = useState([])
@@ -72,13 +72,13 @@ const Ratings = (props) => {
    return (
       <div className={classes.container}>
          <span className={classes.title}>
-            Ratings about {product.title}
+            Отзывы про {product.title}
          </span>
 
          <div className={classes.topBar_container}>
             <div className={classes.common_container}>
                <div className={classes.common_title}>
-                  <span>General rating</span>
+                  <span>Средний рейтинг</span>
                </div>
 
                <div className={classes.common_filler}>
@@ -98,7 +98,7 @@ const Ratings = (props) => {
                         filledIcon={<FontAwesomeIcon icon={faStar}/>}
                      />
 
-                     <span className={classes.rating_amount}>{product.numRating} ratings</span>
+                     <span className={classes.rating_amount}>{product.numRating} отзывы</span>
                   </div>
 
                   <div className={classes.common_right}>
@@ -149,7 +149,7 @@ const Ratings = (props) => {
                            onClickHandler={basketClick}
                            disabled={product.status !== 'active'}
                         >
-                           Purchase
+                           {isBasket ? 'В корзине' : 'Купить'}
                         </Button>
                      </div>
                   </div>
@@ -159,7 +159,7 @@ const Ratings = (props) => {
 
          <div className={classes.ratings_container}>
             <div className={classes.ratings_title}>
-               <span>All ratings <span>{ratings.length}</span></span>
+               <span>Все отзывы <span>{ratings.length}</span></span>
             </div>
 
             {
@@ -203,7 +203,7 @@ const Ratings = (props) => {
                   }
                </div>
 
-               : <h1 className={classes.noRatings}>No ratings yet</h1>
+               : <h1 className={classes.noRatings}>Нету отзывов</h1>
             }
          </div>
       </div>
