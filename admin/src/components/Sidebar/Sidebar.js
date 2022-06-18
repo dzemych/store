@@ -16,19 +16,19 @@ const Sidebar = (props) => {
    const links = [
       {
          title: 'New product',
-         onClick: () => navigate('/')
+         onClick: () => navigate('/admin')
       },
       {
          title: 'All products',
-         onClick: () => navigate('/products')
+         onClick: () => navigate('/admin/products')
       },
       {
          title: 'Questions',
-         onClick: () => navigate('/questions')
+         onClick: () => navigate('/admin/questions')
       },
       {
          title: 'Purchases',
-         onClick: () => navigate('/purchases')
+         onClick: () => navigate('/admin/purchases')
       }
    ]
 

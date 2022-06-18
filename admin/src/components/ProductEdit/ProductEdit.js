@@ -192,9 +192,12 @@ const CreateProduct = (props) => {
             ...form,
             title: form.title.trimEnd().trimStart(),
             numSizes,
-            features,
             mainPhoto: '',
-            photos: []
+            photos: [],
+            features: Object.keys(features).reduce((acc, el) => {
+               acc[el] = {value: features[el]}
+               return acc
+            }, {})
          }
 
          const slug = slugify(form.title)

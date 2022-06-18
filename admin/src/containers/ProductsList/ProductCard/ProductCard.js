@@ -8,7 +8,7 @@ const ProductCard = (props) => {
    const navigate = useNavigate()
 
    const editHandler = () => {
-      navigate('/edit/' + props.slug)
+      navigate('/admin/edit/' + props.slug)
    }
 
    return (

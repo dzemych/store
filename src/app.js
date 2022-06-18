@@ -3,12 +3,12 @@ const path = require('path')
 const errorController = require('./controllers/error.controller')
 const Router = require('./router')
 const AppRouter = require('./routes/app.router')
-const app = express()
 const rateLimiter = require('express-rate-limit')
 const helmet = require('helmet')
 const mongoSanitize = require('express-mongo-sanitize')
 const xssClean = require('xss-clean')
 const cors = require('cors')
+const app = express()
 
 
 // 1) SECURITY middlewares
@@ -34,8 +34,8 @@ app.use(express.json())
 app.use('/api', Router)
 
 if (process.env.NODE_ENV === 'production') {
-   app.use('/', express.static(path.resolve('client/build')))
    app.use('/admin', express.static(path.resolve('admin/build')))
+   app.use('/', express.static(path.resolve('client/build')))
 
    app.use(AppRouter)
 }

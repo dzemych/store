@@ -123,17 +123,35 @@ const productSchema = new Schema({
    },
    features: {
       material: {
-         type: String,
-         required: true
+         title: {
+            type: String,
+            default: 'Материал'
+         },
+         value: String
       },
       season: {
-         type: String,
-         default: ''
+         title: {
+            type: String,
+            default: 'Сезон'
+         },
+         value: String
       },
-      style: String,
+      style: {
+         title: {
+            type: String,
+            default: 'Стиль'
+         },
+         value: String
+      },
       warrant: {
-         type: String,
-         default: '14 дней'
+         title: {
+            type: String,
+            default: 'Гаррантия'
+         },
+         value: {
+            type: String,
+            default: '14 дней'
+         }
       }
    }
 })

@@ -32,7 +32,6 @@ const Auth = (props) => {
    const onSubmit = async () => {
       const newError = checkValidity()
 
-      console.log(newError)
       if (!newError) {
          const email = form.email
          const password = form.password

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import classes from "./Review.module.sass";
 import Slider, {SliderItem} from "../../../components/Slider/Slider";
 import RadioBox from "../../../forms/RadioBox/RadioBox";
@@ -71,7 +71,7 @@ const Review = (props) => {
 
          <div className={classes.data_wrapper}>
             <div className={classes.size_container}>
-               <span className={classes.size_title}>Sizes:</span>
+               <span className={classes.size_title}>Размеры:</span>
 
                <div className={classes.sizes_items}>
                   {
@@ -140,7 +140,7 @@ const Review = (props) => {
                <div className={classes.features_container}>
                   <div className={classes.title_container}>
                      <span className={classes.features_first}>
-                        Characteristics
+                        Характеристики
                      </span>
 
                      <span className={classes.features_second}>
@@ -159,14 +159,11 @@ const Review = (props) => {
                                     key={i}
                                  >
                                     <span className={classes.table_left}>
-                                       {key[0].toUpperCase() + key.slice(1)}:
+                                       {product.features[key].title}:
                                     </span>
 
                                     <span className={classes.table_right}>
-                                       {
-                                          product.features[key][0].toUpperCase() +
-                                          product.features[key].slice(1)
-                                       }
+                                       {product.features[key].value}
                                     </span>
                                  </div>
                               )
@@ -181,19 +178,19 @@ const Review = (props) => {
 
                <div className={classes.description_container}>
                   <div className={classes.title_container}>
-                  <span className={classes.features_first}>
-                     Description
-                  </span>
+                     <span className={classes.features_first}>
+                        Описание
+                     </span>
 
                      <span className={classes.features_second}>
-                     &nbsp;{product.title}
-                  </span>
+                        &nbsp;{product.title}
+                     </span>
                   </div>
 
                   <div className={classes.description_text}>
-                  <span>
-                     {product.description}
-                  </span>
+                     <span>
+                        {product.description}
+                     </span>
                   </div>
                </div>
             </div>

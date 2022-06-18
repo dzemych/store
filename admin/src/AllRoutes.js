@@ -16,11 +16,11 @@ const AllRoutes = (props) => {
          width: '100%'
       }}>
          <Routes>
-            <Route path={'/'} exact element={ <CreateProduct/> } />
-            <Route path={'/products'} exact element={ <ProductsList/> }/>
-            <Route path={'/edit/:slug'} exact element={ <Edit/> }/>
-            <Route path={'/questions'} exact element={ <Questions/> }/>
-            <Route path={'/purchases'} exact element={ <Purchases/> }/>
+            <Route path={'/admin'} exact element={ <CreateProduct/> } />
+            <Route path={'/admin/products'} exact element={ <ProductsList/> }/>
+            <Route path={'/admin/edit/:slug'} exact element={ <Edit/> }/>
+            <Route path={'/admin/questions'} exact element={ <Questions/> }/>
+            <Route path={'/admin/purchases'} exact element={ <Purchases/> }/>
          </Routes>
       </div>
    )
