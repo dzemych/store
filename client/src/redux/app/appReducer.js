@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import staticData from '../../static-data.json'
 
 
 const initialState = {
@@ -6,6 +7,7 @@ const initialState = {
    error: false,
    catalog: false,
    auth: false,
+   staticData: staticData
 }
 
 const reducer = createSlice({
@@ -33,9 +35,12 @@ const reducer = createSlice({
             state.auth = !state.auth
          }
       },
+      setStaticData(state, action) {
+         state.staticData = action.payload
+      }
    }
 })
 
 
-export const { toggleSidebar, toggleCatalog, toggleAuth } = reducer.actions
+export const { toggleSidebar, toggleCatalog, toggleAuth, setStaticData } = reducer.actions
 export default reducer.reducer

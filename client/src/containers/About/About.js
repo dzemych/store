@@ -3,11 +3,13 @@ import classes from './About.module.sass'
 import aboutUs from '../../img/about-us.png'
 import Button from "../../forms/Button/Button";
 import '../basicStyles.sass'
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {toggleCatalog} from "../../redux/app/appReducer";
 
 
 const About = (props) => {
+   const about = useSelector(state => state.app.staticData.aboutUs)
+
    const dispatch = useDispatch()
 
    return (
@@ -21,18 +23,7 @@ const About = (props) => {
             <div className={classes.article}>
                <h2 className={classes.article_title}>Наша история</h2>
 
-               <span className={classes.article_text}>
-                  Lorem ipsum dolor sit amet, consectetur
-                  adipiscing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip
-                  ex ea commodo consequat. Duis aute irure dolor
-                  in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint
-                  occaecat cupidatat non proident, sunt in culpa
-                  qui officia deserunt mollit anim id est laborum.
-               </span>
+               <span className={classes.article_text}>{about.eng}</span>
             </div>
 
             <hr className={classes.hr}/>

@@ -3,9 +3,12 @@ import classes from './Info.module.sass'
 import monitor from '../../img/monitor.png'
 import QuestionsList from "./QuestionsList";
 import '../basicStyles.sass'
+import {useSelector} from "react-redux";
 
 
 const Info = (props) => {
+   const contacts = useSelector(state => state.app.staticData.contacts)
+
    return (
       <div className={'container'}>
          <div className={'wrapper'}>
@@ -28,13 +31,13 @@ const Info = (props) => {
                   <div className={classes.textUs_container}>
                      <h3 className={classes.textUs_title}>Отправьте эмейл</h3>
 
-                     <span className={classes.textUs_text}>dzemichivan@gmail.com</span>
+                     <span className={classes.textUs_text}>{contacts.email}</span>
                   </div>
 
                   <div className={classes.textUs_container}>
                      <h3 className={classes.textUs_title}>Напишите нам в Вайбере</h3>
 
-                     <span className={classes.textUs_text}>+380509008875</span>
+                     <span className={classes.textUs_text}>{contacts.tel}</span>
                   </div>
                </div>
             </div>

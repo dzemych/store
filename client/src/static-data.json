@@ -1,0 +1,57 @@
+{
+  "tagline": {
+    "ukr": "Просто примір це",
+    "eng": "Just try it on"
+  },
+  "aboutUsShort": {
+    "rus": "",
+    "eng": "Read about our dizzily creation story. We had been fighting pirates and politics to reach what we have today",
+    "ukr": ""
+  },
+  "aboutUs": {
+    "rus": "",
+    "eng": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+  },
+  "contacts": {
+    "name": "Татьяна",
+    "tel": "+38(050)900-88-75",
+    "email": "tanya16khm@gmail.com",
+    "instagram": "taniadzemich",
+    "address": "Вулиця свободи 9а",
+    "addressCord": {
+      "longitude": 27.001403,
+      "latitude": 49.435459,
+      "zoom": 16
+    }
+  },
+  "info": [
+    {
+      "icon": "faCreditCard",
+      "titleRus": "Оплата",
+      "titleUkr": "Оплата",
+      "textRus": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "textUkr": ""
+    },
+    {
+      "icon": "faTruck",
+      "titleRus": "Доставка",
+      "titleUkr": "Доставка",
+      "textRus": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "textUkr": ""
+    },
+    {
+      "icon": "faBox",
+      "titleRus": "Помощь в оплате",
+      "titleUkr": "Помощь в оплате",
+      "textRus": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "textUkr": ""
+    },
+    {
+      "icon": "faShield",
+      "titleRus": "Гарантия",
+      "titleUkr": "Гарантия",
+      "textRus": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "textUkr": ""
+    }
+  ]
+}

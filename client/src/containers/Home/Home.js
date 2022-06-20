@@ -5,11 +5,13 @@ import {ReactComponent as FashionAndStyle} from '../../img/fashionAndStyle.svg'
 import laptop from '../../img/laptop.png'
 import Button from "../../forms/Button/Button";
 import {toggleCatalog} from "../../redux/app/appReducer";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import RecentlySlider from "../../components/Slider/RecentlySlider";
 
 
 const Home = (props) => {
+   const data = useSelector(state => state.app.staticData)
+
    const dispatch = useDispatch()
 
    return (
@@ -22,9 +24,13 @@ const Home = (props) => {
                   <NavLink
                      to={'/contacts'}
                      className={classes.nav_contact}
-                  >Конакты</NavLink>
+                  >
+                     Конакты
+                  </NavLink>
 
-                  <NavLink to={'/about'}>Про нас</NavLink>
+                  <NavLink to={'/about'}>
+                     Про нас
+                  </NavLink>
                </nav>
 
                <FashionAndStyle className={classes.preview_img}/>
@@ -40,7 +46,7 @@ const Home = (props) => {
             </section>
 
             <span className={classes.manuscript}>
-                Clean and Elegant Design
+                {data.tagline.eng}
             </span>
 
             <section className={classes.notation}>
@@ -48,10 +54,7 @@ const Home = (props) => {
                   Про нас
                </h2>
 
-               <span className={classes.note_text}>
-                   Read about our dizzily creation story.
-                   We had been fighting pirates and politics to reach what we have today
-               </span>
+               <span className={classes.note_text}>{data.aboutUsShort.eng}</span>
 
                <div className={classes.note_img}>
                   <img src={laptop} alt=""/>

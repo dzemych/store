@@ -4,9 +4,12 @@ import Map, {Marker} from 'react-map-gl'
 import pin from '../../img/pin.png'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '../basicStyles.sass'
+import {useSelector} from "react-redux";
 
 
 const Contacts = (props) => {
+   const contacts = useSelector(state => state.app.staticData.contacts)
+
    return (
       <div className={'container'}>
          <div className={'wrapper'}>
@@ -26,10 +29,10 @@ const Contacts = (props) => {
                   </div>
 
                   <div className={classes.rightBar}>
-                     <span>Татьяна</span>
-                     <span>+380509008875</span>
-                     <span>tanya16khm@gmail.com</span>
-                     <span>tania_dzemich</span>
+                     <span>{contacts.name}</span>
+                     <span>{contacts.tel}</span>
+                     <span>{contacts.email}</span>
+                     <span>{contacts.instagram}</span>
                   </div>
                </div>
             </div>
@@ -43,17 +46,13 @@ const Contacts = (props) => {
                   </div>
 
                   <div className={classes.rightBar}>
-                     <span>Вулиця свободи 9а</span>
+                     <span>{contacts.address}</span>
                   </div>
                </div>
 
                <Map
                   mapboxAccessToken='pk.eyJ1IjoiZHplbXljaCIsImEiOiJjbDB6cjRramwyNjV4M2lubWtzdjU2ejIyIn0.53BxV3A_eVL8B8TTQMUNZA'
-                  initialViewState={{
-                     longitude: 27.001403,
-                     latitude: 49.435459,
-                     zoom: 16
-                  }}
+                  initialViewState={contacts.addressCord}
                   style={{
                      width: "100%",
                      height: "40vh",
