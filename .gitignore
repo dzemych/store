@@ -57,8 +57,7 @@ bower_components
 build/Release
 
 # Dependency directories
-!node_modules/react-scripts/config/paths.js
-node_modules/*
+node_modules/
 
 # Optional npm cache directory
 .npm
