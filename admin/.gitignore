@@ -7,8 +7,10 @@ node_modules/**
 !node_modules/react-scripts
 
 node_modules/react-scripts/**
+!node_modules/react-scripts/config
 
-!node_modules/react-scripts/paths.js
+node_modules/react-scripts/config/**
+!node_modules/react-scripts/config/path.js
 
 /.pnp
 .pnp.js
