@@ -199,12 +199,13 @@ exports.updateUser = catchAsync(async (req, res, next) => {
 
 exports.protectAndSetUserId = catchAsync(async (req, res, next) => {
    const secret = process.env.JWT_SECRET
+   const auth = req.headers.authorization
 
    // 1) Check if client send a token
-   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer'))
+   if (!auth || !auth.startsWith('Bearer'))
       return next(new AppError('Please login', 401))
 
-   const token = req.headers.authorization.split(' ')[1]
+   const token = auth.split(' ')[1]
 
    // 2) Check if token is correct
    const jwtData = await util.promisify(jwt.verify)(token, secret)

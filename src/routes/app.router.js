@@ -19,14 +19,10 @@ const cps = ["Content-Security-Policy",
 const router = Router()
 
 router.get('/admin/**', catchAsync(async (req, res) => {
-   const url = `${req.protocol}://${req.hostname}/${req.originalUrl}`
-
-   console.log(url)
    res.sendFile(path.resolve('admin/build/index.html'))
 }))
 
 router.get('*', catchAsync(async (req, res) => {
-   console.log('client')
    res.sendFile(path.resolve('client/build/index.html'))
 }))
 
