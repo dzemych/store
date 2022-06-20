@@ -2,7 +2,7 @@
 
 # dependencies
 node_modules/*
-!node_modules/react-scripts/
+!node_modules/react-scripts
 
 node_modules/react-scripts/*
 !node_modules/react-scripts/paths.js
