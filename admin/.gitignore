@@ -1,12 +1,13 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-node_modules/*
-!node_modules/**/
+!/node_modules
 
-node_modules/react-scripts/*
-!node_modules/react-scripts/**/
-!node_modules/react-scripts/paths.js
+/node_modules/**
+!/node_modules/react-scripts
+
+/node_modules/react-scripts/**
+!/node_modules/react-scripts/paths.js
 
 /.pnp
 .pnp.js
