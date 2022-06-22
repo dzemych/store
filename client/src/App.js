@@ -30,7 +30,7 @@ function App() {
    useEffect(() => {
       dispatch(loadRecentlyFromStorage())
       dispatch(loadPurchasesFromLocal())
-   }, [])
+   }, [dispatch])
 
    return (
       <div className={classes.container}>
