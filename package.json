@@ -4,7 +4,7 @@
   "description": "TZ magazine",
   "main": "server",
   "scripts": {
-    "db": "mongod --dbpath=C:\\data\\db",
+    "db": "mongod",
     "start": "cross-env NODE_ENV=production node server.js",
     "server": "cross-env NODE_ENV=production nodemon server.js",
     "server:install": "npm install",
