@@ -4,7 +4,7 @@ import {useCallback, useState} from "react";
 export const useHttp = () => {
    const [error, setError] = useState('')
 
-   const dbUrl = 'https://tandem.km.ua:80/api'
+   const dbUrl = 'http://localhost:80/api'
 
    const requestImg = useCallback
    (async (url,method = 'GET',body = null) => {
