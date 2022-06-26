@@ -23,9 +23,9 @@ const start = async () => {
       await mongoose.connect(DB)
       console.log("DB connection successful")
 
-      // const httpsServer = https.createServer(options, app).listen(443)
-      const server = app.listen(port)
-      console.log(`App is running on port: ${port}`)
+      const httpsServer = https.createServer(options, app).listen(443)
+      // const server = app.listen(port)
+      console.log(`App is running on port: 443`)
    } catch (e) {
       console.log(e)
       process.exit(1)
