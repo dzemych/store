@@ -5,7 +5,7 @@ module.exports = function(app) {
    app.use(
       '/api',
       createProxyMiddleware({
-         target: "https://tandem:443",
+         target: "https://tandem.km.ua:443",
          changeOrigin: true,
       })
    );
