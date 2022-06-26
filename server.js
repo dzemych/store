@@ -6,10 +6,10 @@ const fs = require('fs')
 const app = require('./src/app')
 
 
-// const options = {
-//    cert: fs.readFileSync(path.resolve('sslcert/fullchain.pem')),
-//    key: fs.readFileSync(path.resolve('sslcert/privkey.pem'))
-// }
+const options = {
+   cert: fs.readFileSync(path.resolve('sslcert/fullchain.pem')),
+   key: fs.readFileSync(path.resolve('sslcert/privkey.pem'))
+}
 
 dotenv.config({ path:  path.join(__dirname, 'config.env')})
 
