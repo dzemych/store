@@ -34,6 +34,8 @@ app.use(express.json())
 app.use('/api', Router)
 
 if (process.env.NODE_ENV === 'production') {
+   app.use('/.well-known', express.static(path.resolve('static/.well-known')))
+
    app.use('/admin', express.static(path.resolve('admin/build')))
    app.use('/', express.static(path.resolve('client/build')))
 

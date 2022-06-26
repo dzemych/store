@@ -1,8 +1,15 @@
 const dotenv = require('dotenv')
+const https = require('https')
 const mongoose = require('mongoose')
 const path = require('path')
+const fs = require('fs')
 const app = require('./src/app')
 
+
+const options = {
+   cert: fs.readFileSync(path.resolve('sslcert/fullchain.pem')),
+   key: fs.readFileSync(path.resolve('sslcert/privkey.pem'))
+}
 
 dotenv.config({ path:  path.join(__dirname, 'config.env')})
 
@@ -16,7 +23,7 @@ const start = async () => {
       await mongoose.connect(DB)
       console.log("DB connection successful")
 
-      const server = app.listen(port)
+      const httpsServer = https.createServer(options, app).listen(443)
       console.log(`App is running on port: ${port}`)
    } catch (e) {
       console.log(e)
