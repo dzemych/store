@@ -13,7 +13,7 @@ const app = express()
 
 // 1) SECURITY middlewares
 // * Clean url from malicious code
-app.use(helmet())
+// app.use(helmet())
 app.use(mongoSanitize())
 app.use(xssClean())
 
@@ -34,6 +34,15 @@ app.use(express.json())
 app.use('/api', Router)
 
 if (process.env.NODE_ENV === 'production') {
+   app.use((req, res, next) => {
+      // res.set("Content-Security-Policy",
+      //    "default-src blob: http: https:;" +
+      //    "script-src http: 'self'"
+      // );
+
+      next()
+   })
+
    app.use('/.well-known', express.static(path.resolve('static/.well-known')))
 
    app.use('/admin', express.static(path.resolve('admin/build')))
