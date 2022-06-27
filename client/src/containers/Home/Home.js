@@ -19,13 +19,11 @@ const Home = (props) => {
          <div className={classes.wrapper}>
             <section className={classes.preview}>
                <nav className={classes.preview_nav}>
-                  {/*<NavLink to={'/info'}>Info</NavLink>*/}
-
                   <NavLink
                      to={'/contacts'}
                      className={classes.nav_contact}
                   >
-                     Конакты
+                     Контакты
                   </NavLink>
 
                   <NavLink to={'/about'}>

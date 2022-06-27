@@ -35,7 +35,7 @@ const Info = (props) => {
                   </div>
 
                   <div className={classes.textUs_container}>
-                     <h3 className={classes.textUs_title}>Напишите нам в Вайбере</h3>
+                     <h3 className={classes.textUs_title}>Напишите нам в Вайбер</h3>
 
                      <span className={classes.textUs_text}>{contacts.tel}</span>
                   </div>
