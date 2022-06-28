@@ -100,7 +100,7 @@ const Sidebar = (props) => {
       },
       {
          icon: faPeopleGroup,
-         text: "Про нас",
+         text: "О нас",
          onClickHandler: e => openPageHandler(e, 'about')
       },
       {
@@ -254,7 +254,7 @@ const Sidebar = (props) => {
 
                      <li className={classes.social_item}>
                         <a
-                           href=""
+                           href="https://t.me/taniadzemich"
                            target={'_blank'}
                         >
                            <img src={telegramImg} alt="telegram"/>

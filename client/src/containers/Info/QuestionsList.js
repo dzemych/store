@@ -25,7 +25,14 @@ const QuestionsList = (props) => {
                         <div className={classes.item_right}>
                            <h3 className={classes.item_title}>{el.titleRus}</h3>
 
-                           <span className={classes.item_text}>{el.textRus}</span>
+                           <span className={classes.item_text}>
+                              {el.textRus.split('\n').map((el, i) => (
+                                 <span key={i}>
+                                    {el}
+                                    <br/>
+                                 </span>
+                              ))}
+                           </span>
                         </div>
                      </li>
 

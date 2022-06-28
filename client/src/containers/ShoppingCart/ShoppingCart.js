@@ -71,7 +71,7 @@ const ShoppingCart = (props) => {
                         </div>
                      ))
                      : <div className={classes.noProducts}>
-                        <h1>Нету продуктов</h1>
+                        <h1>Нет продуктов</h1>
                      </div>
                   }
 

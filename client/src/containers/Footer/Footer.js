@@ -5,7 +5,6 @@ import {
    faInstagram,
    faFacebook,
    faTelegram,
-   faViber
 } from '@fortawesome/free-brands-svg-icons'
 import {NavLink} from "react-router-dom";
 
@@ -16,7 +15,7 @@ const Footer = (props) => {
           <div className={classes.wrapper}>
              <div className={classes.links}>
                 <NavLink to={'/'}>Главная</NavLink>
-                <NavLink to={'about'}>Про нас</NavLink>
+                <NavLink to={'about'}>О нас</NavLink>
                 <NavLink to={'contacts'}>Наши контакты</NavLink>
                 <NavLink to={'info'}>Помощь</NavLink>
              </div>
@@ -25,19 +24,30 @@ const Footer = (props) => {
 
              <ul className={classes.social_list}>
                 <li className={classes.social_item}>
-                   <FontAwesomeIcon icon={faInstagram}/>
+                   <a
+                      href={'https://www.instagram.com/taniadzemich/?hl=ru'}
+                      target={'_blank'}
+                   >
+                     <FontAwesomeIcon icon={faInstagram}/>
+                   </a>
                 </li>
 
                 <li className={classes.social_item}>
-                   <FontAwesomeIcon icon={faFacebook}/>
+                   <a
+                      href="https://www.facebook.com/profile.php?id=100013643565993"
+                      target={'_blank'}
+                   >
+                      <FontAwesomeIcon icon={faFacebook}/>
+                   </a>
                 </li>
 
                 <li className={classes.social_item}>
-                   <FontAwesomeIcon icon={faTelegram}/>
-                </li>
-
-                <li className={classes.social_item}>
-                   <FontAwesomeIcon icon={faViber}/>
+                   <a
+                      href="https://t.me/taniadzemich"
+                      target={'_blank'}
+                   >
+                      <FontAwesomeIcon icon={faTelegram}/>
+                   </a>
                 </li>
              </ul>
 

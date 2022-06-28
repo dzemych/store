@@ -27,7 +27,7 @@ const Home = (props) => {
                   </NavLink>
 
                   <NavLink to={'/about'}>
-                     Про нас
+                     О нас
                   </NavLink>
                </nav>
 
@@ -49,7 +49,7 @@ const Home = (props) => {
 
             <section className={classes.notation}>
                <h2 className={classes.note_title}>
-                  Про нас
+                  О нас
                </h2>
 
                <span className={classes.note_text}>{data.aboutUsShort.eng}</span>
