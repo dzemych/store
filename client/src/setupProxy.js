@@ -5,7 +5,9 @@ module.exports = function(app) {
    app.use(
       '/api',
       createProxyMiddleware({
-         target: "https://tandem.km.ua:443",
+         target: process.env.NODE_ENV === 'production' ?
+            "https://tandem.km.ua:443"
+            : "http://localhost:443",
          changeOrigin: true,
       })
    );

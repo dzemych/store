@@ -15,7 +15,7 @@ const About = (props) => {
    return (
       <div className={'container'}>
          <div className={'wrapper'}>
-            <h1 className={'title'}>Про нас</h1>
+            <h1 className={'title'}>О нас</h1>
             <div className={classes.title_img}>
                <img src={aboutUs} alt="About us"/>
             </div>
@@ -23,7 +23,7 @@ const About = (props) => {
             <div className={classes.article}>
                <h2 className={classes.article_title}>Наша история</h2>
 
-               <span className={classes.article_text}>{about.eng}</span>
+               <span className={classes.article_text}>{about.rus}</span>
             </div>
 
             <hr className={classes.hr}/>

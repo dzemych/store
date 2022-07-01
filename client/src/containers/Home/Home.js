@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './Home.module.sass'
 import {NavLink} from "react-router-dom";
 import {ReactComponent as FashionAndStyle} from '../../img/fashionAndStyle.svg'
-import laptop from '../../img/laptop.png'
+import packs from '../../img/packs.png'
 import Button from "../../forms/Button/Button";
 import {toggleCatalog} from "../../redux/app/appReducer";
 import {useDispatch, useSelector} from "react-redux";
@@ -48,14 +48,14 @@ const Home = (props) => {
             </span>
 
             <section className={classes.notation}>
-               <h2 className={classes.note_title}>
-                  О нас
-               </h2>
+               {/*<h2 className={classes.note_title}>*/}
+               {/*   О нас*/}
+               {/*</h2>*/}
 
-               <span className={classes.note_text}>{data.aboutUsShort.eng}</span>
+               {/*<span className={classes.note_text}>{data.aboutUsShort.eng}</span>*/}
 
                <div className={classes.note_img}>
-                  <img src={laptop} alt=""/>
+                  <img src={packs} alt=""/>
                </div>
             </section>
 

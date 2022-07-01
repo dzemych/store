@@ -10,6 +10,8 @@ firebase-debug.*.log*
 #client side
 client/node_modules/
 
+public
+
 data/
 
 # WebStorm settings

@@ -17,7 +17,12 @@ const Catalog = (props) => {
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
-   const [categories, setCategories] = useState({мужчины: ['все'], женщины: ['все']})
+   const [categories, setCategories] = useState({
+      мужчины: ['все'],
+      женщины: ['все'],
+      мальчики: ['все'],
+      девочки: ['все']
+   })
    const {requestJson} = useHttp()
 
    const onClickHandler = (sex, category) => {
@@ -37,9 +42,7 @@ const Catalog = (props) => {
       (async () => {
          const data = await requestJson('/product/allCategories')
 
-         if (data.categories.женщины && data.categories.мужчины){
-            setCategories(data.categories)
-         }
+         setCategories(prev => ({...prev, ...data.categories}))
       })()
    }, [requestJson])
 
@@ -59,33 +62,27 @@ const Catalog = (props) => {
 
             <h1 className={'title'}>Каталог</h1>
 
-            <div className={classes.category_section}>
-               <h3 className={classes.category_title}>Женщинам</h3>
+            {Object.keys(categories).map((key, i) => (
+               <div className={classes.category_section} key={i}>
+                  <h3 className={classes.category_title}>
+                     {`${key[0].toUpperCase()}${key.slice(1)}`}
+                  </h3>
 
-               <ul className={classes.category_list}>
-                  {categories.женщины.map((el, i) => (
-                     <li
-                        key={i}
-                        className={classes.category_item}
-                        onClick={() => onClickHandler('женщины', el)}
-                     >{`${el[0].toUpperCase()}${el.slice(1)}`}</li>
-                  ))}
-               </ul>
-            </div>
+                  <ul className={classes.category_list}>
 
-            <div className={classes.category_section}>
-               <h3 className={classes.category_title}>Мужчинам</h3>
+                     {categories[key].map((el, q) => (
+                        <li
+                           key={q}
+                           className={classes.category_item}
+                           onClick={() => onClickHandler(key, el)}
+                        >
+                           {`${el[0].toUpperCase()}${el.slice(1)}`}
+                        </li>
+                     ))}
 
-               <ul className={classes.category_list}>
-                  {categories.мужчины.map((el, i) => (
-                     <li
-                        key={i}
-                        className={classes.category_item}
-                        onClick={() => onClickHandler('мужчины', el)}
-                     >{`${el[0].toUpperCase()}${el.slice(1)}`}</li>
-                  ))}
-               </ul>
-            </div>
+                  </ul>
+               </div>
+            ))}
          </div>
       </div>
    )

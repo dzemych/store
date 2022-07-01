@@ -13,13 +13,13 @@ const multerStorage = multer.diskStorage({
    destination: async (req, file, cb) => {
       // 1) Create directory
       const dir = path.resolve
-      ('public/img/', 'product', req.params.slug)
+      ('public/img', 'product', req.params.slug)
 
       // 2) If newly created product creat new directory
-      if (!fs.existsSync(dir)){
-         await fsPromises.mkdir(dir);
+      if (!fs.existsSync(dir)) {
+         console.log(dir)
+         fs.mkdirSync(dir)
       }
-
       cb(null, dir)
    },
    filename: (req, file, cb) => {

@@ -2,9 +2,15 @@ import {useCallback, useState} from "react";
 
 
 export const useHttp = () => {
-   const [error, setError] = useState('')
+   const [error, setError] = useState(null)
 
-   const dbUrl = 'https://tandem.km.ua:443/api'
+   let dbUrl
+
+   if (process.env.NODE_ENV === 'production') {
+      dbUrl = 'https://tandem.km.ua:443/api'
+   } else {
+      dbUrl = 'http://localhost:443/api'
+   }
 
    const requestImg = useCallback
    (async (url,method = 'GET',body = null) => {
@@ -26,6 +32,7 @@ export const useHttp = () => {
          const blob = await response.blob()
          const imgUrl = URL.createObjectURL(blob)
 
+         setError(null)
          return {blob, imgUrl}
       } catch (e) {
          setError(e)
@@ -45,6 +52,7 @@ export const useHttp = () => {
          if (!response.ok)
             throw new Error(data.message || 'Something went wrong')
 
+         setError(null)
          return data
       } catch (e) {
          setError(e)

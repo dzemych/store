@@ -6,7 +6,7 @@
   "scripts": {
     "db": "mongod",
     "start": "cross-env NODE_ENV=production node server.js",
-    "server": "cross-env NODE_ENV=production nodemon server.js",
+    "server": "nodemon server.js",
     "server:install": "npm install",
     "client": "npm run start --prefix client",
     "client:install": "npm install --prefix client",

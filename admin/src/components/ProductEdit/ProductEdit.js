@@ -226,10 +226,11 @@ const CreateProduct = (props) => {
          }
 
          const productResponse = await uploadProduct(product)
-         const photoResponse = await uploadPhotos(photoFiles, slug)
+         if (productResponse.status === 'success') {
+            const photoResponse = await uploadPhotos(photoFiles, slug)
 
-         if (productResponse.status === 'success' && photoResponse.status === 'success')
-            setStatus('success')
+            if (photoResponse.status === 'success') setStatus('success')
+         }
       }
    }
 
@@ -378,6 +379,20 @@ const CreateProduct = (props) => {
                         className={classes.sex_option}
                      >
                         Женщины
+                     </option>
+
+                     <option
+                        value={'мальчики'}
+                        className={classes.sex_option}
+                     >
+                        Мальчики
+                     </option>
+
+                     <option
+                        value={'девочки'}
+                        className={classes.sex_option}
+                     >
+                        Девочки
                      </option>
                   </select>
 

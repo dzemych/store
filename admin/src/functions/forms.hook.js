@@ -28,7 +28,7 @@ const useForms = (fields) => {
       }
 
       if (fields.hasOwnProperty('sex')) {
-         if (!form.sex.match(/(женщины|мужчины)/))
+         if (!form.sex.match(/(женщины|мужчины|мальчики|девочки)/))
             newError.sex = 'Invalid sex'
       }
 

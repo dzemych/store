@@ -13,7 +13,7 @@ const app = express()
 
 // 1) SECURITY middlewares
 // * Clean url from malicious code
-// app.use(helmet())
+app.use(helmet())
 app.use(mongoSanitize())
 app.use(xssClean())
 

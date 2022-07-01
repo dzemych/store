@@ -31,7 +31,7 @@ const productSchema = new Schema({
    },
    sex: {
       type: String,
-      enum: ['мужчины', 'женщины'],
+      enum: ['мужчины', 'женщины', 'мальчики', 'девочки'],
       required: true
    },
    category: {
