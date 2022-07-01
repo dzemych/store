@@ -37,8 +37,8 @@ if (process.env.NODE_ENV === 'production') {
    app.use((req, res, next) => {
       res.set('Content-Security-Policy',
          "default-src blob: https: 'unsafe-inline';" +
-         "img-src blob: https: data: http:;" +
-         "img-src https: data: 'unsafe-inline'")
+         "img-src https: data: blob: 'unsafe-inline';" +
+         "script-src blob: https: data:")
 
       next()
    })
