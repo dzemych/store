@@ -1,8 +1,9 @@
 {
   "files": {
-    "main.css": "/static/css/main.5f07c1be.css",
-    "main.js": "/static/js/main.90ff8e31.js",
+    "main.css": "/static/css/main.56514f66.css",
+    "main.js": "/static/js/main.260a6a40.js",
     "static/js/483.1961621f.chunk.js": "/static/js/483.1961621f.chunk.js",
+    "static/media/packs.png": "/static/media/packs.5629fba25b7c49c54fe8.png",
     "static/media/instagram.png": "/static/media/instagram.10bbd62c967f083dcbef.png",
     "static/media/Pacifico-Regular.ttf": "/static/media/Pacifico-Regular.c0d735fc04154e03a691.ttf",
     "static/media/Caveat-Medium.ttf": "/static/media/Caveat-Medium.d6f39573695ef26eea71.ttf",
@@ -12,7 +13,6 @@
     "static/media/Roboto-Regular.ttf": "/static/media/Roboto-Regular.a8d6ac03c7b96b7acb62.ttf",
     "static/media/Roboto-Light.ttf": "/static/media/Roboto-Light.8be2d1487420548b3b8d.ttf",
     "static/media/monitor.png": "/static/media/monitor.0b1e0accaddf57ff133a.png",
-    "static/media/laptop.png": "/static/media/laptop.0bc65dbc85c459cd2cf1.png",
     "static/media/about-us.png": "/static/media/about-us.1372217c851e4379de31.png",
     "static/media/td-logo.png": "/static/media/td-logo.6fbda0489b9356426839.png",
     "static/media/no-image.png": "/static/media/no-image.5a26fbbbcc12e8ba3fbf.png",
@@ -24,12 +24,12 @@
     "static/media/fashionAndStyle.svg": "/static/media/fashionAndStyle.870f98e2d8e6d734a97e27e33fd49e4e.svg",
     "index.html": "/index.html",
     "static/media/find.svg": "/static/media/find.5a5f874a3507c5f94a84.svg",
-    "main.5f07c1be.css.map": "/static/css/main.5f07c1be.css.map",
-    "main.90ff8e31.js.map": "/static/js/main.90ff8e31.js.map",
+    "main.56514f66.css.map": "/static/css/main.56514f66.css.map",
+    "main.260a6a40.js.map": "/static/js/main.260a6a40.js.map",
     "483.1961621f.chunk.js.map": "/static/js/483.1961621f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5f07c1be.css",
-    "static/js/main.90ff8e31.js"
+    "static/css/main.56514f66.css",
+    "static/js/main.260a6a40.js"
   ]
 }
