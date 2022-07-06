@@ -5,7 +5,33 @@
   border-radius: 10px
   border: 1px solid #c7c7c7
   background: #e9e9ea
-  padding: 25px 50px 25px 25px
+  padding: 25px 35px 25px 25px
+
+.changeStatus
+  font-family: RobotoMedium, sans-serif
+  position: absolute
+  margin-top: 15px
+  top: 0
+  right: 40%
+  color: #4e9de2
+  cursor: pointer
+
+.productStatus
+  position: absolute
+  top: 0
+  right: 50%
+  transform: translateX(50%)
+  margin-top: 10px
+  color: #F5F5F5
+  font-family: RobotoMedium, sans-serif
+  font-size: 1.1rem
+  cursor: pointer
+  background: #b1b1b4
+  padding: 7px 12px
+  border-radius: 7px
+
+.productStatus_unavailable
+  background: #c13838
 
 .goBack
   font-family: RobotoMedium, sans-serif
@@ -120,6 +146,38 @@
     width: 48%
   & > div:nth-child(n + 3)
     margin-top: 6px
+
+.feature_item_wrapper
+  text-align: center
+  margin-top: 2px
+  border-radius: 6px
+  box-shadow: 0 0 2px 2px #cecaca
+
+.newFeature_container
+  width: 100%
+  margin-top: 4px
+  display: flex
+  flex-direction: row
+  align-items: flex-end
+  & > div
+    width: 50%
+  & > button
+    cursor: pointer
+    margin-left: 10px
+    height: fit-content
+    border-radius: 5px
+    padding: 11px 16px
+    background: #5f95c5
+    color: whitesmoke
+    font-weight: bold
+    text-decoration: none
+    outline: none
+    border: none
+
+.featureKey
+  color: #333333
+  font-weight: 500
+  font-size: 1.1rem
 
 .photos_container
   margin-top: 15px

@@ -2,11 +2,12 @@ import React, {useEffect, useState} from 'react'
 import classes from "./Review.module.sass";
 import defaultPhoto from '../../../img/no-image.png'
 import {useHttp} from "../../../functions/http.hook";
+import Loading from "../../../components/Loading/Loading";
 
 
-const PhotoItem = ({el, slug}) => {
+const PhotoItem = ({el, slug, onLoad, onClick}) => {
 
-   const {requestImg} = useHttp()
+   const {requestImg, loading} = useHttp()
 
    const [photo, setPhoto] = useState(defaultPhoto)
 
@@ -17,6 +18,7 @@ const PhotoItem = ({el, slug}) => {
                const img = await requestImg(`/img/product/${slug}/${el}`)
 
                setPhoto(img)
+               onLoad(img)
             })()
          } catch(e) {
             console.log(e)
@@ -27,7 +29,9 @@ const PhotoItem = ({el, slug}) => {
 
    return (
       <div className={classes.photo_wrapper}>
-         <img src={photo} alt=""/>
+         {loading ?
+            <Loading color={'gray'}/> : <img src={photo} alt="" onClick={onClick}/>
+         }
       </div>
    )
 }

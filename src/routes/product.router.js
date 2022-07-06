@@ -26,7 +26,7 @@ router
       authController.protectAndSetUserId,
       authController.restrictTo(['admin']),
       productController.uploadPhotos,
-      productController.getOneProduct
+      productController.sharpMainImg
    )
 
 router

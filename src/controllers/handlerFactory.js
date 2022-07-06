@@ -72,17 +72,10 @@ exports.updateOne = (collection, keyInDb = '_id', keyInParams = 'id', filter) =>
 
       // Update and save received data
       Object.keys(req.body).forEach(key => {
-         const type = typeof req.body[key]
-
-         if (type === 'object') {
-            const oldValue = {...data[key]}._doc
-            data[key] = {...oldValue, ...req.body[key]}
-         } else {
-            data[key] = req.body[key]
-         }
+         data[key] = req.body[key]
       })
 
-      await data.save()
+      await data.save({new: true})
 
       res.json({
          status: 'success',

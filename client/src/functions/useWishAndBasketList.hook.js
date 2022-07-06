@@ -48,7 +48,7 @@ const useWishAndBasketList = (productId) => {
       }
    }
 
-   const wishListHandler = () => {
+   const wishListHandler = (status) => {
       if (wishList.includes(productId)){
 
          if (isAuth) {

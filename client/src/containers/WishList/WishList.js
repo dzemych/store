@@ -6,9 +6,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {useHttp} from "../../functions/http.hook";
 import {fetchBasket, fetchWishList} from "../../redux/user/userAction";
 import {pushToBasket, removeFromWishList, updateLocalStorage} from "../../redux/user/userReducer";
+import {useNavigate} from "react-router-dom";
 
 
 const WishList = (props) => {
+
+   const navigate = useNavigate()
 
    const wishList = useSelector(state => state.user.wishList)
    const isAuth = useSelector(state => state.user.token)
@@ -31,6 +34,8 @@ const WishList = (props) => {
             dispatch(updateLocalStorage('basket'))
          }
       }
+
+      navigate('/shopping-cart')
    }
 
    const deleteAll = () => {

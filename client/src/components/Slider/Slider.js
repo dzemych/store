@@ -9,6 +9,8 @@ const Slider = (props) => {
    const [prevOffset, setPrevOffset] = useState(0)
    const [offset, setOffset] = useState(0)
 
+   const [transitionDuration, setTransitionDuration] = useState('0ms')
+
    const slides = props.slides ? props.slides : 2
 
    const startRef = useRef(0)
@@ -19,7 +21,9 @@ const Slider = (props) => {
       [pagesLength, slides])
 
    // 2) Event handlers
-   const clickHandler = (e, type) => {
+   const clickHandler = async (e, type) => {
+      await setTransitionDuration('280ms')
+
       let newX
 
       if (type === 'next') {
@@ -53,12 +57,14 @@ const Slider = (props) => {
       })
    }
 
-   const touchEndHandler = e => {
+   const touchEndHandler = async e => {
+      await setTransitionDuration('280ms')
+
       const blocksMove = Math.round(offset / blockFullWidth.current)
       let newX = blocksMove * blockFullWidth.current
 
-      setOffset(newX)
-      setPrevOffset(newX)
+      await setOffset(newX)
+      await setPrevOffset(newX)
    }
 
    // 3) Effects
@@ -67,13 +73,15 @@ const Slider = (props) => {
       blockFullWidth.current = listRef.current.offsetWidth / slides
    }, [props.children, slides])
 
+   // Set transition duration
+   useEffect(() => {
+      setTransitionDuration('0ms')
+   }, [offset])
+
    return (
       <div className={classes.container}>
-         <div
-            className={classes.window}
-         >
+         <div className={classes.window}>
             <div
-               className={classes.allPages_container}
                onTouchStart={touchStartHandler}
                onTouchMove={touchMoveHandler}
                onTouchEnd={touchEndHandler}
@@ -83,8 +91,9 @@ const Slider = (props) => {
                   display: "flex",
                   height: 'fit-content',
                   justifyContent: pagesLength > props.slides ? 'space-between': 'center',
-                  transition: "350ms",
-                  transform: `translateX(${-offset}px)`
+                  transitionDuration: transitionDuration,
+                  transitionTimingFunction: 'ease-in',
+                  transform: `translate3d(${-offset}px, 0, 0)`
                }}
             >
                {props.children}

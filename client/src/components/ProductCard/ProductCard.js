@@ -15,11 +15,12 @@ import {useMediaQuery} from "react-responsive";
 import {useHttp} from "../../functions/http.hook";
 import {useNavigate} from "react-router-dom";
 import useWishAndBasketList from "../../functions/useWishAndBasketList.hook";
+import Loading from "../Loading/Loading";
 
 
 const ProductCard = React.forwardRef((props, ref) => {
 
-   const {requestImg} = useHttp()
+   const {requestImg, loading} = useHttp()
    const navigate = useNavigate()
    const {wishListHandler, basketHandler, isBasket, isWish} = useWishAndBasketList(props.id)
 
@@ -54,7 +55,8 @@ const ProductCard = React.forwardRef((props, ref) => {
    }
 
    const wishClick = () => {
-      wishListHandler()
+      if (props.status === 'active')
+         wishListHandler()
    }
 
    useEffect(() => {
@@ -81,6 +83,7 @@ const ProductCard = React.forwardRef((props, ref) => {
          <div className={classes.wrapper}>
             <FontAwesomeIcon
                icon={icon}
+               aria-disabled={props.status !== 'active'}
                className={classes.heartIcon}
                onClick={() => wishClick()}
             />
@@ -89,9 +92,12 @@ const ProductCard = React.forwardRef((props, ref) => {
                className={classes.img_container}
                onClick={() => openProductHandler(props.slug)}
             >
-               <img src={img}
-                    alt='product img'
-               />
+               {loading ?
+                  <Loading color={'gray'}/>
+                  : <img src={img}
+                      alt='product img'
+                  />
+               }
             </div>
 
             <div

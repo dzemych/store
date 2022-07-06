@@ -7,11 +7,12 @@ import RadioBox from "../../forms/RadioBox/RadioBox";
 import useWishAndBasketList from "../../functions/useWishAndBasketList.hook";
 import {useHttp} from "../../functions/http.hook";
 import {useNavigate} from "react-router-dom";
+import Loading from "../Loading/Loading";
 
 
 const ShoppingCart = (props) => {
 
-   const {requestImg} = useHttp()
+   const {requestImg, loading} = useHttp()
    const navigate = useNavigate()
 
    const [img, setImg] = useState(defaultPhoto)
@@ -100,10 +101,13 @@ const ShoppingCart = (props) => {
 
             <div className={classes.topBar}>
                <div className={classes.basket_img_container}>
-                  <img src={img}
-                       alt='img'
-                       onClick={() => openProductHandler(props.slug)}
-                  />
+                  {loading ?
+                     <Loading color={'gray'}/>
+                     : <img src={img}
+                            alt='img'
+                            onClick={() => openProductHandler(props.slug)}
+                        />
+                  }
                </div>
 
                <div className={classes.basket_main}>

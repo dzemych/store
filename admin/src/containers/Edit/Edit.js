@@ -18,7 +18,7 @@ const Edit = (props) => {
 
          setProduct(data.product)
       })()
-   }, [params.slug])
+   }, [params.slug, requestJson])
 
    return (
       <div className={classes.container}>
@@ -36,6 +36,7 @@ const Edit = (props) => {
                   type={'edit'}
                   slug={product.slug}
                   id={product._id}
+                  status={product.status}
                   title={product.title}
                   price={product.price}
                   description={product.description}

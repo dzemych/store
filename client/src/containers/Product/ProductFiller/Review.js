@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import classes from "./Review.module.sass";
 import Slider, {SliderItem} from "../../../components/Slider/Slider";
 import RadioBox from "../../../forms/RadioBox/RadioBox";
@@ -13,6 +13,7 @@ import MediaQuery from "react-responsive";
 import {useSelector} from "react-redux";
 import PhotoItem from "./PhotoItem";
 import useWishAndBasketList from "../../../functions/useWishAndBasketList.hook";
+import PhotoSlider from "../../../components/PhotoSlider/PhotoSlider";
 
 
 const Review = (props) => {
@@ -20,6 +21,9 @@ const Review = (props) => {
 
    const product = useSelector(state => state.product.product)
    const status = useSelector(state => state.product.status)
+
+   const [photos, setPhotos] = useState({})
+   const [photoPage, setPhotoPage] = useState(null)
 
    const {wishListHandler, basketHandler, isWish, isBasket} = useWishAndBasketList(product._id)
 
@@ -42,11 +46,39 @@ const Review = (props) => {
          basketHandler()
    }
 
+   const wishClick = () => {
+      if (product.status === 'active')
+         wishListHandler()
+   }
+
+   const onLoadPhoto = (photo, i) => {
+      setPhotos(prev => ({
+         ...prev,
+         [i]: photo
+      }))
+   }
+
+   const openPhoto = i => {
+      setPhotoPage(i)
+   }
+
+   const onClose = () => {
+      setPhotoPage(null)
+   }
+
    return (
       <div className={classes.container}>
          <MediaQuery maxWidth={768}>
             <hr className={classes.main_hr}/>
          </MediaQuery>
+
+         {typeof photoPage === 'number' &&
+            <PhotoSlider
+               page={photoPage}
+               onClose={onClose}
+               photos={photos}
+            />
+         }
 
          <div className={classes.photo_slider_container}>
             <Slider slides={1}>
@@ -55,7 +87,12 @@ const Review = (props) => {
                   product.photos && product.photos.length > 0
                   ? product.photos.map((el, i) => (
                         <SliderItem slides={1} key={i}>
-                           <PhotoItem el={el} slug={product.slug}/>
+                           <PhotoItem
+                              el={el}
+                              slug={product.slug}
+                              onLoad={photo => onLoadPhoto(photo, i)}
+                              onClick={() => openPhoto(i)}
+                           />
                         </SliderItem >
                      ))
                   : <SliderItem>
@@ -94,7 +131,7 @@ const Review = (props) => {
             <div
                className={
                   classes.status_container + ` ${
-                     (product.status === 'nosizes' || product.status === 'unavailable')
+                     (product.status !== 'active')
                      && classes.unAvailable
                   }`
                }
@@ -115,8 +152,9 @@ const Review = (props) => {
                   <span>{product.price} ₴</span>
 
                   <FontAwesomeIcon
+                     aria-disabled={product.status !== 'active'}
                      icon={isWish ? faHeartCircleMinus : faHeartCirclePlus}
-                     onClick={() => wishListHandler()}
+                     onClick={() => wishClick()}
                   />
                </div>
 
@@ -151,23 +189,20 @@ const Review = (props) => {
                   <div className={classes.features_table}>
                      {
                         status === 'success' &&
-                        Object.keys(product.features).map((key, i) => {
-                           if (product.features[key])
-                              return (
-                                 <div
-                                    className={classes.table_row}
-                                    key={i}
-                                 >
-                                    <span className={classes.table_left}>
-                                       {product.features[key].title}:
-                                    </span>
+                        Object.keys(product.features).map((key, i) => (
+                           <div
+                              className={classes.table_row}
+                              key={i}
+                           >
+                              <span className={classes.table_left}>
+                                 {product.features[key].titleRus}:
+                              </span>
 
-                                    <span className={classes.table_right}>
-                                       {product.features[key].value}
-                                    </span>
-                                 </div>
-                              )
-                        })
+                              <span className={classes.table_right}>
+                                 {product.features[key].textRus}
+                              </span>
+                           </div>
+                        ))
                      }
                   </div>
                </div>

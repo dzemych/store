@@ -25,6 +25,7 @@
   justify-content: center
   align-items: center
   & img
+    cursor: pointer
     max-width: 100%
     max-height: 100%
     object-fit: contain
@@ -96,6 +97,9 @@
   & svg
     cursor: pointer
     color: colors.$pink
+  & svg[aria-disabled=true]
+    cursor: auto
+    color: #babcbf
 
 .bottomData_wrapper
   width: 100%
@@ -125,7 +129,7 @@
   opacity: .4
 
 .features_table
-  width: 80%
+  width: 95%
   padding-left: 2vw
   display: flex
   flex-direction: column
@@ -253,7 +257,7 @@
     justify-content: space-between
 
   .features_container
-    width: 48%
+    width: 57%
     margin-top: 0
     margin-bottom: 0
 
@@ -267,6 +271,7 @@
     font-size: 1em
 
   .features_table
+    width: 100%
     padding-left: 10px
     & li:not(:last-child)
       margin-bottom: .5em
@@ -275,7 +280,7 @@
     margin-bottom: 10px
 
   .description_container
-    width: 48%
+    width: 40%
     margin-top: 0
 
 @media (min-width: 1024px)

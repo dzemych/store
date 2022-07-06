@@ -12,6 +12,12 @@ const Input = (props) => {
          props.onSubmit()
    }
 
+   const blurHandler = () => {
+      if (props.type === 'number')
+         if (!props.value || props.value < 0)
+            props.onChange(0)
+   }
+
    return (
       <div className={classes.container}>
          <label htmlFor={`${props.title}_input`}>
@@ -19,8 +25,8 @@ const Input = (props) => {
          </label>
 
          <input
+            onBlur={blurHandler}
             type={show ? 'text' : props.type}
-            min={props.type === 'number' ? 0 : undefined}
             id={`${props.title}_input`}
             placeholder={props.placeholder}
             onKeyDown={e => onSubmit(e)}

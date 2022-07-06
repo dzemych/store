@@ -10,8 +10,8 @@ const useForms = (fields) => {
       const newError = {}
 
       if (fields.hasOwnProperty('title')) {
-         if (form.title.trimStart().trimEnd().length < 2)
-            newError.title = 'Minimum length 2 symbols'
+         if (form.title.trimStart().trimEnd().length < 5)
+            newError.title = 'Minimum length 5 symbols'
 
          if (!form.title.match(/^[а-яё\w\d\-&_() ]+$/i))
             newError.title = 'Only letters and &_()-'
@@ -54,7 +54,7 @@ const useForms = (fields) => {
    const changeHandler = (value, type) => {
       let newValue = value
 
-      if (type === 'price')
+      if (type === 'price' && newValue)
          newValue = +newValue
 
       setForm(prev => ({...prev, [type]: newValue}))

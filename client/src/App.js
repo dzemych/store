@@ -17,6 +17,7 @@ function App() {
 
    const dispatch = useDispatch()
 
+   // Load user from storage
    useEffect(() => {
       const token = localStorage.getItem('token')
 
@@ -27,10 +28,19 @@ function App() {
       }
    }, [dispatch])
 
+   // Load recently slider and your purchases
    useEffect(() => {
       dispatch(loadRecentlyFromStorage())
       dispatch(loadPurchasesFromLocal())
    }, [dispatch])
+
+   useEffect(() => {
+      const loading = document.getElementById('loading')
+
+      if (loading) {
+         loading.remove()
+      }
+   }, [])
 
    return (
       <div className={classes.container}>

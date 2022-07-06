@@ -7,8 +7,7 @@ const productSchema = new Schema({
       type: String,
       required: true,
       unique: true,
-      minlength: 5,
-      maxlength: 25
+      minlength: 5
    },
    slug: {
       type: String,
@@ -121,39 +120,7 @@ const productSchema = new Schema({
       default: 0,
       min: 0
    },
-   features: {
-      material: {
-         title: {
-            type: String,
-            default: 'Материал'
-         },
-         value: String
-      },
-      season: {
-         title: {
-            type: String,
-            default: 'Сезон'
-         },
-         value: String
-      },
-      style: {
-         title: {
-            type: String,
-            default: 'Стиль'
-         },
-         value: String
-      },
-      warrant: {
-         title: {
-            type: String,
-            default: 'Гаррантия'
-         },
-         value: {
-            type: String,
-            default: '14 дней'
-         }
-      }
-   }
+   features: Object
 })
 
 // Update numSizes property | method
@@ -207,22 +174,29 @@ productSchema.statics.updateSold = async function(purchasesArr, action) {
 productSchema.pre('save', async function(next) {
 
    // If sizes was updated
-   if (this.numSizes) {
-      const sum = Object.keys({...this.numSizes}._doc).reduce((acc, el) => {
-         acc += this.numSizes[el]
-         return acc
-      }, 0)
+   if (this.status !== 'unavailable') {
+      if (this.numSizes) {
+         const sum = Object.keys({...this.numSizes}._doc).reduce((acc, el) => {
+            acc += this.numSizes[el]
+            return acc
+         }, 0)
 
-      if (sum < 1) {
-         this.status = 'nosizes'
-      } else {
-         this.status = 'active'
+         if (sum < 1) {
+            this.status = 'nosizes'
+         } else {
+            this.status = 'active'
+         }
+
       }
-
    }
 
    next()
 })
+
+// productSchema.pre(/^find/, function(next) {
+//    this.find({ status: { $eq: 'active' } })
+//    next()
+// })
 
 
 module.exports = model('Product', productSchema)

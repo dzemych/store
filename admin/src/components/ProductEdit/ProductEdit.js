@@ -18,8 +18,6 @@ const CreateProduct = (props) => {
 
    const {requestJson, requestImg} = useHttp()
 
-   const [duplicateError, setDuplicate] = useState(null)
-
    const {form, formError, changeHandler, checkValidity} = useForms({
       title: props.title ? props.title : '',
       description: props.description ? props.description : '',
@@ -30,9 +28,17 @@ const CreateProduct = (props) => {
 
    const loadPhotoRef = useRef(null)
 
+   const [duplicateError, setDuplicate] = useState(null)
+
    const [status, setStatus] = useState('idle')
+
+   const [productStatus, setProductStatus] = useState(props.status)
+
    const [allCategories, setAllCategories] = useState([])
    const [photos, setPhotos] = useState([])
+
+   const [newFeature, setNewFeature] = useState('')
+   const [newFeatureError, setNewFeatureError] = useState(null)
 
    const [numSizes, setNumSizes] = useState(() => (
       props.numSizes ? props.numSizes
@@ -45,14 +51,25 @@ const CreateProduct = (props) => {
             xxl: 0
          }
    ))
-
    const [features, setFeatures] = useState(() => (
       props.features ? props.features
          : {
-            material: '',
-            season: '',
-            style: '',
-            warrant: ''
+            material: {
+               titleRus: 'Материал',
+               textRus: ''
+            },
+            season: {
+               titleRus: 'Сезон',
+               textRus: ''
+            },
+            style: {
+               titleRus: 'Стиль',
+               textRus: ''
+            },
+            warrant: {
+               titleRus: 'Гаррантия',
+               textRus: ''
+            }
          }
    ))
 
@@ -60,11 +77,17 @@ const CreateProduct = (props) => {
    const [featuresError, setFeaturesError] = useState('')
 
    const changeSize = (val, key) => {
-      setNumSizes(prev => ({...prev, [key]: +val}))
+      setNumSizes(prev => ({...prev, [key]: val ? +val : val}))
    }
 
-   const changeFeatures = (val, key) => {
-      setFeatures(prev => ({...prev, [key]: val}))
+   const changeFeatures = (val, featureKey, langKey) => {
+      setFeatures(prev => ({
+         ...prev,
+         [featureKey]: {
+            ...prev[featureKey],
+            [langKey]: val
+         }
+      }))
    }
 
    const loadPhotoHandler = e => {
@@ -126,13 +149,40 @@ const CreateProduct = (props) => {
    }
 
    const checkFeature = () => {
-      if (!features.material) {
-         setFeaturesError('You must specify at least product material')
+      if (!features.material.textRus || !features.material.titleRus) {
+         setFeaturesError('You must specify at least product material in Russian')
          return true
       }
 
       setFeaturesError('')
       return false
+   }
+
+   const addNewFeature = () => {
+      let error = null
+
+      if (newFeature.length < 4) {
+         error = 'Min feature key length - 4'
+      }
+
+      if (!newFeature.match(/^[A-Za-z]+$/)) {
+         error = 'Only English letters'
+      }
+
+      if (error) {
+         setNewFeatureError(error)
+      } else {
+         setFeatures(prev => ({
+            ...prev,
+            [slugify(newFeature)]: {
+               titleRus: '',
+               textRus: ''
+            }
+         }))
+
+         setNewFeature('')
+         setNewFeatureError(null)
+      }
    }
 
    const uploadProduct = async product => {
@@ -188,22 +238,26 @@ const CreateProduct = (props) => {
       const featuresError = checkFeature()
 
       if (!formError && !sizesError && !featuresError) {
+         // Create product object
          const product = {
             ...form,
             title: form.title.trimEnd().trimStart(),
             numSizes,
+            status: productStatus,
             mainPhoto: '',
             photos: [],
-            features: Object.keys(features).reduce((acc, el) => {
-               acc[el] = {value: features[el]}
+            features: Object.keys(features).reduce((acc, featureKey) => {
+               if (features[featureKey].titleRus && features[featureKey].textRus)
+                  acc[featureKey] = features[featureKey]
+
                return acc
             }, {})
          }
 
          const slug = slugify(form.title)
-         let photoFiles = []
 
          // If there are photos add them to product
+         let photoFiles = []
          if (photos.length > 0) {
             photoFiles = photos.map((el, i) => {
                const type = el.file.type.split('/')[1]
@@ -226,6 +280,8 @@ const CreateProduct = (props) => {
          }
 
          const productResponse = await uploadProduct(product)
+
+         // If request to db successful - load photos
          if (productResponse.status === 'success') {
             const photoResponse = await uploadPhotos(photoFiles, slug)
 
@@ -254,7 +310,7 @@ const CreateProduct = (props) => {
             setAllCategories(uniques)
          }
       })()
-   }, [])
+   }, [requestJson])
 
    useEffect(() => {
       if ((props.photos && props.photos.length > 0) && props.slug) {
@@ -280,7 +336,7 @@ const CreateProduct = (props) => {
             setPhotos(productPhotos)
          })()
       }
-   }, [props.photos, props.slug])
+   }, [props.photos, props.slug, requestImg])
 
    if (status === 'success') {
       return (
@@ -307,6 +363,20 @@ const CreateProduct = (props) => {
                <span className={classes.goBack} onClick={goBack}>
                   Go back
                </span>
+            }
+
+            {props.type === 'edit' &&
+               <div
+                  className={[
+                     classes.productStatus,
+                     productStatus === 'unavailable' ? classes.productStatus_unavailable : ''
+                  ].join(' ')}
+                  onClick={() => {
+                     setProductStatus(productStatus === 'unavailable' ? 'active' : 'unavailable')
+                  }}
+               >
+                  Unavailable
+               </div>
             }
 
             <div className={classes.input_container}>
@@ -414,12 +484,14 @@ const CreateProduct = (props) => {
                      name='category_input'
                      list="category_list"
                      role='combobox'
+                     aria-controls={'category_list'}
+                     aria-expanded={true}
                      value={form.category}
                      onChange={e => changeHandler(e.target.value, 'category')}
                      placeholder='Product category'
                   />
 
-                  <datalist id='category_list' role='listbox'>
+                  <datalist id='category_list'>
                      {allCategories.length > 0 &&
                         allCategories.map((selectEl, i) => (
                            <option value={selectEl} key={i}>
@@ -460,14 +532,23 @@ const CreateProduct = (props) => {
             </div>
 
             <div className={classes.features_container}>
-               {Object.keys(features).map((el, i) => (
-                  <Input
+               {Object.keys(features).map((featureKey, i) => (
+                  <div
                      key={i}
-                     type={'text'}
-                     value={features[el]}
-                     onChange={value => changeFeatures(value, el)}
-                     title={el.slice(0, 1).toUpperCase() + el.slice(1)}
-                  />
+                     className={classes.feature_item_wrapper}
+                  >
+                     <span className={classes.featureKey}>{featureKey}</span>
+
+                     {Object.keys(features[featureKey]).map((langKey, q) => (
+                        <Input
+                           key={q}
+                           type={'text'}
+                           value={features[featureKey][langKey]}
+                           onChange={value => changeFeatures(value, featureKey, langKey)}
+                           title={langKey}
+                        />
+                     ))}
+                  </div>
                ))}
 
                {featuresError &&
@@ -475,6 +556,22 @@ const CreateProduct = (props) => {
                   {featuresError}
                </span>
                }
+            </div>
+
+            <div className={classes.newFeature_container}>
+               <Input
+                  type={'text'}
+                  title={'Type new feature key (in English)'}
+                  value={newFeature}
+                  onChange={val => setNewFeature(val)}
+                  error={newFeatureError}
+               />
+
+               <button
+                  onClick={addNewFeature}
+               >
+                  Add feature
+               </button>
             </div>
 
             <div className={classes.photos_container}>

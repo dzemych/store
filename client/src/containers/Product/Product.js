@@ -53,11 +53,7 @@ const Product = (props) => {
             <div className={classes.product_topBar}>
                <div className={classes.product_title_container}>
                   <h1 className={classes.product_title}>
-                     {product.title}&nbsp;
-
-                     <span className={classes.product_sex}>
-                        ({product.sex.toUpperCase()})
-                     </span>
+                     {product.title} <span className={classes.product_sex}>({product.sex.toUpperCase()})</span>
                   </h1>
 
                   <div className={classes.all_reviews}>

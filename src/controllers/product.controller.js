@@ -4,6 +4,7 @@ const APIfeatures = require('../utils/APIfeatures')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/AppError')
 const multer = require('multer')
+const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
 const fsPromises = require('fs/promises')
@@ -17,7 +18,6 @@ const multerStorage = multer.diskStorage({
 
       // 2) If newly created product creat new directory
       if (!fs.existsSync(dir)) {
-         console.log(dir)
          fs.mkdirSync(dir)
       }
       cb(null, dir)
@@ -54,6 +54,52 @@ const getFullPath = (slug, fileName) =>
 
 exports.getTopProducts = handlerFactory.getAll(Product, {sort: '-sold,price'})
 exports.createOneProduct = handlerFactory.createOne(Product)
+
+exports.sharpMainImg = catchAsync(async (req, res, next) => {
+   const ext = req.files[0].mimetype.split('/')[1]
+   const mainName = `${req.params.slug}-main.${ext}`
+
+   let quality = 100
+   if (req.files[0].size > 5500) {
+      quality = Math.floor(8000 / req.files[0].size * 100)
+   }
+
+   if (ext === 'webp') {
+
+      await sharp(req.files[0].path)
+         .toFormat('webp')
+         .webp({quality})
+         .toFile(`public/img/product/${req.params.slug}/${req.params.slug}-main.webp`)
+
+   } else if (ext === 'png') {
+
+      await sharp(req.files[0].path)
+         .toFormat('png')
+         .png({quality})
+         .toFile(`public/img/product/${req.params.slug}/${req.params.slug}-main.png`)
+
+   } else {
+
+      await sharp(req.files[0].path)
+         .toFormat('jpeg')
+         .jpeg({quality})
+         .toFile(`public/img/product/${req.params.slug}/${req.params.slug}-main.jpeg`)
+
+   }
+
+   const product = await Product.findOneAndUpdate(
+      {slug: req.params.slug},
+      {mainPhoto: mainName},
+      {new: true}
+   )
+
+   res.json({
+      ok: true,
+      message: 'Photos have been successfully uploaded to db',
+      status: 'success',
+      product
+   })
+})
 
 exports.updateOneProduct = catchAsync(async (req, res, next) => {
    const slug = req.params.slug
@@ -108,6 +154,9 @@ exports.updateOneProduct = catchAsync(async (req, res, next) => {
 
 exports.getAllProducts = catchAsync(async (req, res, next) => {
    // 1) Create queryObj and query it throw filter obj
+   if (!req.query.status)
+      req.query.status = 'active'
+
    const features = new APIfeatures(Product, {...req.query})
 
    features
@@ -140,11 +189,14 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 exports.getProductsFromArr = catchAsync(async (req, res, next) => {
    const arr = req.body.products
 
+   const filter = req.query ? req.query : {status: {eq: 'active'}}
+
    if (!arr)
       return next(new AppError('Please provide products array', 400))
 
    const features = new APIfeatures(Product, {
-      _id: {in: arr}
+      filter,
+      _id: {in: arr},
    })
 
    features.filter()
@@ -176,6 +228,9 @@ exports.uploadPhotos = upload.array('photos', 12)
 
 exports.getAllCategories = catchAsync(async (req, res, next) => {
    const data = await Product.aggregate([
+      {
+         $match: {status: 'active'}
+      },
       {
          $group: {
             _id: "$sex",
