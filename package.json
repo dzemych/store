@@ -1,7 +1,7 @@
 {
   "name": "magazine",
   "version": "1.0.0",
-  "description": "TZ magazine",
+  "description": "TZ store",
   "main": "server",
   "scripts": {
     "db": "mongod",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dzemych/magazine.git"
+    "url": "git+https://github.com/dzemych/store.git"
   },
   "keywords": [
     "magazine",
@@ -29,9 +29,9 @@
   "author": "Dzemych Ivan",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dzemych/magazine/issues"
+    "url": "https://github.com/dzemych/store/issues"
   },
-  "homepage": "https://github.com/dzemych/magazine#readme",
+  "homepage": "https://github.com/dzemych/store#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",

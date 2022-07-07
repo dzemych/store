@@ -59,30 +59,29 @@ exports.sharpMainImg = catchAsync(async (req, res, next) => {
    const ext = req.files[0].mimetype.split('/')[1]
    const mainName = `${req.params.slug}-main.${ext}`
 
-   let quality = 100
-   if (req.files[0].size > 5500) {
-      quality = Math.floor(8000 / req.files[0].size * 100)
-   }
-
    if (ext === 'webp') {
 
       await sharp(req.files[0].path)
+         .resize({width: 200})
+         .trim()
          .toFormat('webp')
-         .webp({quality})
+         .webp({quality: 75})
          .toFile(`public/img/product/${req.params.slug}/${req.params.slug}-main.webp`)
 
    } else if (ext === 'png') {
 
       await sharp(req.files[0].path)
+         .resize({width: 200})
          .toFormat('png')
-         .png({quality})
+         .png({quality: 75})
          .toFile(`public/img/product/${req.params.slug}/${req.params.slug}-main.png`)
 
    } else {
 
       await sharp(req.files[0].path)
+         .resize({width: 200})
          .toFormat('jpeg')
-         .jpeg({quality})
+         .jpeg({quality: 75})
          .toFile(`public/img/product/${req.params.slug}/${req.params.slug}-main.jpeg`)
 
    }
