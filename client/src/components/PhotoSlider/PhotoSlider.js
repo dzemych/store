@@ -104,12 +104,28 @@ const PhotoSlider = (props) => {
          setOffset(props.page * windowWidth)
    }, [props.page, windowWidth])
 
+   // Set key listeners
+   useEffect(() => {
+      const keyPressHandler = async e => {
+         if (e.key === 'ArrowLeft')
+            changePageHandler(-1)
+
+         if (e.key === 'ArrowRight')
+            changePageHandler(1)
+
+         if (e.key === 'Escape')
+            props.onClose()
+      }
+
+      document.addEventListener('keydown', keyPressHandler)
+
+      return () => {
+         document.removeEventListener('keydown', keyPressHandler)
+      }
+   }, [windowWidth])
+
    const allItemsStyle = {
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'row',
       transitionDuration: transitionDuration,
-      transitionTimingFunction: 'ease-in',
       transform: `translateX(${-offset}px)`
    }
 
@@ -128,6 +144,7 @@ const PhotoSlider = (props) => {
                <div className={classes.slider_container}>
                   <div className={classes.window} ref={windowRef}>
                      <div
+                        className={classes.allPagesContainer}
                         style={allItemsStyle}
                         onTouchStart={touchStartHandler}
                         onTouchEnd={touchEndHandler}
@@ -136,8 +153,16 @@ const PhotoSlider = (props) => {
                      >
 
                         {Object.keys(props.photos).map((photosIndex, i) => (
-                           <div className={classes.slider_item} key={i}>
-                              <img src={props.photos[i]} alt=""/>
+                           <div
+                              className={classes.slider_item}
+                              key={i}
+                              onClick={props.onClose}
+                           >
+                              <img
+                                 src={props.photos[i]}
+                                 alt=""
+                                 onClick={e => {e.stopPropagation()}}
+                              />
                            </div>
                         ))}
 

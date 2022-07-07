@@ -11,7 +11,8 @@
 .container
   z-index: 1001
   position: fixed
-  overflow-x: scroll
+  overflow-x: hidden
+  cursor: pointer
   right: 0
   left: 0
   top: 20%
@@ -28,6 +29,13 @@
   height: 100%
   width: 100vw
 
+
+.allPagesContainer
+  height: 100%
+  display: flex
+  flex-direction: row
+  transition-timing-function: ease-in-out
+
 .slider_item
   min-width: 100%
   max-width: 100%
@@ -37,16 +45,17 @@
   justify-content: center
   align-items: center
   & img
+    cursor: auto
+    object-fit: contain
     max-height: 100%
     max-width: 100%
-    object-fit: contain
 
 .btn_prev, .btn_next
-  cursor: pointer
   position: absolute
+  cursor: pointer
   top: 30%
   bottom: 30%
-  margin: 0 7px
+  padding: 0 7px
   display: flex
   align-items: center
   justify-content: center
@@ -60,3 +69,25 @@
 
 .btn_next
   right: 0
+
+@media (min-width: 768px)
+  .container
+    top: 15%
+    bottom: 15%
+
+  .closeIcon
+    font-size: 30px
+
+  .btn_prev, .btn_next
+    padding: 0 11px
+    & img
+      height: 35px
+
+@media (min-width: 1024px)
+  .closeIcon
+    font-size: 35px
+
+  .btn_prev, .btn_next
+    padding: 0 15px
+    & img
+      height: 45px

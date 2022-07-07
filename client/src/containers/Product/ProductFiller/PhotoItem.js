@@ -30,7 +30,8 @@ const PhotoItem = ({el, slug, onLoad, onClick}) => {
    return (
       <div className={classes.photo_wrapper}>
          {loading ?
-            <Loading color={'gray'}/> : <img src={photo} alt="" onClick={onClick}/>
+            <Loading color={'gray'}/> :
+            <img src={photo} alt="" onClick={onClick}/>
          }
       </div>
    )
