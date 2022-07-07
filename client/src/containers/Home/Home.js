@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './Home.module.sass'
 import {NavLink} from "react-router-dom";
 import {ReactComponent as FashionAndStyle} from '../../img/fashionAndStyle.svg'
-import packs from '../../img/packs.png'
+import packs from '../../img/packs.jpg'
 import Button from "../../forms/Button/Button";
 import {toggleCatalog} from "../../redux/app/appReducer";
 import {useDispatch, useSelector} from "react-redux";
