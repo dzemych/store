@@ -73,8 +73,6 @@ const ProductsList = (props) => {
 
       navigate(
          '/admin/products?' +
-         'page=1&' +
-         'limit=10&' +
          'status[in]=active,nosizes,unavailable&' +
          'fields=-questions,-ratings,-features,-description' +
          `&sort=${sort}` + sexStr + categoryStr + titleStr

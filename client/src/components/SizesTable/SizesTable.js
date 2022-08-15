@@ -34,7 +34,6 @@ const SizesTable = (props) => {
    }
 
    const renderTables = () => {
-      console.log(tables)
       if (!tables.length)
          return ''
 
