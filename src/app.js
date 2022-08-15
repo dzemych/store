@@ -36,9 +36,9 @@ app.use('/api', Router)
 if (process.env.NODE_ENV === 'production') {
    app.use((req, res, next) => {
       res.set('Content-Security-Policy',
-         "default-src blob: https: 'unsafe-inline';" +
-         "img-src https: data: blob: 'unsafe-inline';" +
-         "script-src blob: https: data:")
+         "default-src http: blob: https: 'unsafe-inline';" +
+         "img-src http: https: data: blob: 'unsafe-inline';" +
+         "script-src http: blob: https: data:")
 
       next()
    })

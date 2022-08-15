@@ -9,9 +9,11 @@ const app = require('./src/app')
 let options = {}
 
 if (process.env.NODE_ENV === 'production'){
-   options = {
-      cert: fs.readFileSync(path.resolve('sslcert/fullchain.pem')),
-      key: fs.readFileSync(path.resolve('sslcert/privkey.pem'))
+   if (fs.existsSync(path.resolve('sslcert'))) {
+      options = {
+         cert: fs.readFileSync(path.resolve('sslcert/fullchain.pem')),
+         key: fs.readFileSync(path.resolve('sslcert/privkey.pem'))
+      }
    }
 }
 
@@ -27,7 +29,7 @@ const start = async () => {
       await mongoose.connect(DB)
       console.log("DB connection successful")
 
-      if (process.env.NODE_ENV === 'production') {
+      if (!!Object.keys(options).length) {
          const httpsServer = https.createServer(options, app).listen(port)
       } else {
          const server = app.listen(port)

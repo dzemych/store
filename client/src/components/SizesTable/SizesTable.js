@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import classes from './SizesTable.module.sass'
 import Backdrop from "../Backdrop/Backdrop";
 import {Tablet} from "../../functions/mediaCheck";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {toggleSizesTable} from "../../redux/app/appReducer";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
