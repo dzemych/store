@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e3ade883.css",
-    "main.js": "/static/js/main.c66b8587.js",
+    "main.css": "/static/css/main.4a707f91.css",
+    "main.js": "/static/js/main.abc85f8a.js",
     "static/js/483.1961621f.chunk.js": "/static/js/483.1961621f.chunk.js",
     "static/media/Pacifico-Regular.ttf": "/static/media/Pacifico-Regular.c0d735fc04154e03a691.ttf",
     "static/media/Caveat-Medium.ttf": "/static/media/Caveat-Medium.d6f39573695ef26eea71.ttf",
@@ -24,12 +24,12 @@
     "static/media/fashionAndStyle.svg": "/static/media/fashionAndStyle.870f98e2d8e6d734a97e27e33fd49e4e.svg",
     "index.html": "/index.html",
     "static/media/find.svg": "/static/media/find.5a5f874a3507c5f94a84.svg",
-    "main.e3ade883.css.map": "/static/css/main.e3ade883.css.map",
-    "main.c66b8587.js.map": "/static/js/main.c66b8587.js.map",
+    "main.4a707f91.css.map": "/static/css/main.4a707f91.css.map",
+    "main.abc85f8a.js.map": "/static/js/main.abc85f8a.js.map",
     "483.1961621f.chunk.js.map": "/static/js/483.1961621f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e3ade883.css",
-    "static/js/main.c66b8587.js"
+    "static/css/main.4a707f91.css",
+    "static/js/main.abc85f8a.js"
   ]
 }

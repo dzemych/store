@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import '../../containers/basicStyles.sass'
 import {useDispatch} from "react-redux";
-import {toggleCatalog, toggleSidebar} from "../../redux/app/appReducer";
+import {toggleCatalog} from "../../redux/app/appReducer";
 import {useHttp} from "../../functions/http.hook";
 import {useNavigate} from "react-router-dom";
 import useEsc from "../../functions/useEsc";
