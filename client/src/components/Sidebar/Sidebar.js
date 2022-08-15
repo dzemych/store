@@ -205,7 +205,7 @@ const Sidebar = (props) => {
                      <li
                         className={classes.info_item}
                         onClick={e => openPageHandler(e, 'about')}
-                     >Про нас
+                     >О нас
                      </li>
 
                      <li
