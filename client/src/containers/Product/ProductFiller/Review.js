@@ -10,7 +10,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../../forms/Button/Button";
 import MediaQuery from "react-responsive";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {toggleSizesTable} from "../../../redux/app/appReducer";
 import PhotoItem from "./PhotoItem";
 import useWishAndBasketList from "../../../functions/useWishAndBasketList.hook";
 import PhotoSlider from "../../../components/PhotoSlider/PhotoSlider";
@@ -18,6 +19,8 @@ import PhotoSlider from "../../../components/PhotoSlider/PhotoSlider";
 
 const Review = (props) => {
    const [curSize, setCurSize] = useState('s')
+
+   const dispatch = useDispatch()
 
    const product = useSelector(state => state.product.product)
    const status = useSelector(state => state.product.status)
@@ -40,6 +43,10 @@ const Review = (props) => {
          setCurSize(' ')
       }
    }, [product])
+
+   const sizesTableClick = () => {
+      dispatch(toggleSizesTable())
+   }
 
    const basketClick = () => {
       if (product.status === 'active')
@@ -128,23 +135,32 @@ const Review = (props) => {
                </div>
             </div>
 
-            <div
-               className={
-                  classes.status_container + ` ${
-                     (product.status !== 'active')
-                     && classes.unAvailable
-                  }`
-               }
-            >
-               <FontAwesomeIcon icon={faCircleCheck}/>
+            <div className={classes.status_container}>
+               <div
+                  className={
+                     classes.status_box + ` ${
+                        (product.status !== 'active')
+                        && classes.unAvailable
+                     }`
+                  }
+               >
+                  <FontAwesomeIcon icon={faCircleCheck}/>
 
-               <span>
+                  <span>
                   {product.status === 'active'
                      ? 'В наличии' :
                      product.status === 'nosizes' ?
                         'Нет размеров': 'Недоступен'
                   }
                </span>
+               </div>
+
+               <div
+                  className={classes.sizes_table_container}
+                  onClick={sizesTableClick}
+               >
+                  Таблица размеров
+               </div>
             </div>
 
             <div className={classes.action_container}>

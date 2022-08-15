@@ -7,6 +7,7 @@ const initialState = {
    error: false,
    catalog: false,
    auth: false,
+   sizesTable: false,
    staticData: staticData
 }
 
@@ -35,6 +36,13 @@ const reducer = createSlice({
             state.auth = !state.auth
          }
       },
+      toggleSizesTable: function (state, action) {
+         if (action.payload) {
+            state.sizesTable = action.payload
+         } else {
+            state.sizesTable = !state.sizesTable
+         }
+      },
       setStaticData(state, action) {
          state.staticData = action.payload
       }
@@ -42,5 +50,5 @@ const reducer = createSlice({
 })
 
 
-export const { toggleSidebar, toggleCatalog, toggleAuth, setStaticData } = reducer.actions
+export const { toggleSidebar, toggleCatalog, toggleAuth, setStaticData, toggleSizesTable } = reducer.actions
 export default reducer.reducer

@@ -35,9 +35,9 @@ const Auth = (props) => {
          >
             <div className={classes.wrapper}>
                <div className={classes.topBar}>
-               <span>
-                  {page === 'signin' ? 'Войти': 'Регистарция'}
-               </span>
+                  <span>
+                     {page === 'signin' ? 'Войти': 'Регистарция'}
+                  </span>
 
                   <FontAwesomeIcon
                      icon={faTimes}

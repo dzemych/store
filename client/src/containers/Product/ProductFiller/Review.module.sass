@@ -63,18 +63,29 @@
   color: #b5baba !important
 
 .status_container
-  margin: 0 auto 1vw 3.5vw
-  padding: 2vw 3vw
   display: flex
   justify-content: flex-start
   align-items: center
+  width: 100%
+
+.status_box
+  padding: 2vw 3vw
   border-radius: 4px
+  margin-right: 20px
   background: #F4FAF6
   color: #00A046
   font-size: 4.2vw
   font-family: RobotoRegular, sans-serif
   & svg
     margin-right: 3vw
+
+.sizes_table_container
+  cursor: pointer
+  background: #e9edee
+  color: #333
+  padding: 2vw 3vw
+  border-radius: 4px
+  font-size: 4.2vw
 
 .action_container
   width: 100%
@@ -215,7 +226,7 @@
     margin-bottom: 30px
     font-size: 23px
 
-  .status_container
+  .status_box, .sizes_table_container
     margin: 1.5em .5em 1em
     padding: .5em 1em
     font-size: 1.2em

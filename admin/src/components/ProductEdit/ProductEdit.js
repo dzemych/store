@@ -502,9 +502,9 @@ const CreateProduct = (props) => {
                   </datalist>
 
                   {formError.category &&
-                  <span className={classes.form_error}>
-                     {formError.category}
-                  </span>
+                     <span className={classes.form_error}>
+                        {formError.category}
+                     </span>
                   }
                </div>
             </div>

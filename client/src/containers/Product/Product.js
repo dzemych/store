@@ -74,8 +74,8 @@ const Product = (props) => {
                      }
 
                      <span className={classes.review_number}>
-                     {product.numRating} отзывов
-                  </span>
+                        {product.numRating} отзывов
+                     </span>
                   </div>
                </div>
 
@@ -92,8 +92,8 @@ const Product = (props) => {
                               }`}
                               onClick={() => setPage(el.value)}
                            >
-                           {el.key}
-                        </span>
+                              {el.key}
+                           </span>
                         ))
                      }
                   </div>

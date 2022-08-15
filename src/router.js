@@ -8,6 +8,7 @@ const purchaseRouter = require('./routes/purchase.router')
 const questionRouter = require('./routes/question.router')
 const contactRouter = require('./routes/contact.router')
 const imgRouter = require('./routes/img.router')
+const sizeTableRouter = require('./routes/sizeTable.router')
 
 
 const router = Router()
@@ -20,6 +21,7 @@ router.use('/purchase', purchaseRouter)
 router.use('/question', questionRouter)
 router.use('/contact', contactRouter)
 router.use('/img', imgRouter)
+router.use('/size-table', sizeTableRouter)
 
 router.use('*', (req, res, next) => {
    next(new AppError('This route is not yet defined', 404))

@@ -193,10 +193,5 @@ productSchema.pre('save', async function(next) {
    next()
 })
 
-// productSchema.pre(/^find/, function(next) {
-//    this.find({ status: { $eq: 'active' } })
-//    next()
-// })
-
 
 module.exports = model('Product', productSchema)
