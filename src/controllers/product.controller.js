@@ -89,6 +89,7 @@ exports.sharpMainImg = catchAsync(async (req, res, next) => {
       // Resize first photo to 200px width
       await sharp(req.files[0].buffer)
          .resize({width: 200})
+         .withMetadata()
          .toFormat('jpeg')
          .jpeg({quality: 80})
          .toFile(`public/img/product/${req.params.slug}/${req.params.slug}-main.jpeg`)
