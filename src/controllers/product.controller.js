@@ -60,6 +60,13 @@ exports.uploadPhotos = upload.array('photos', 12)
 exports.sharpMainImg = catchAsync(async (req, res, next) => {
    let mainName = ''
 
+   //0 If new product create directory
+   const dir = path.resolve
+   ('public/img', 'product', req.params.slug)
+
+   if (!fs.existsSync(dir))
+      fs.mkdirSync(dir)
+
    // 1) Resize photos if there are some
    if (req.files.length > 0) {
       mainName = `${req.params.slug}-main.jpeg`
