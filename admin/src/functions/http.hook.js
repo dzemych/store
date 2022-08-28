@@ -3,17 +3,13 @@ import {useCallback, useState} from "react";
 
 export const useHttp = () => {
    const [error, setError] = useState(null)
+   const [loading, setLoading] = useState(false)
 
-   let dbUrl
-
-   if (process.env.NODE_ENV === 'production') {
-      dbUrl = 'https://tandem.km.ua:443/api'
-   } else {
-      dbUrl = 'http://localhost:443/api'
-   }
+   let dbUrl = 'http://localhost:5000/api'
 
    const requestImg = useCallback
    (async (url,method = 'GET',body = null) => {
+      setLoading(true)
       try {
          const response = await fetch(
             `${dbUrl}${url}`,
@@ -37,11 +33,14 @@ export const useHttp = () => {
       } catch (e) {
          setError(e)
          throw e
+      } finally {
+         setLoading(false)
       }
    }, [dbUrl])
 
    const requestJson = useCallback
    (async (url, method = 'GET', body = null, headers = {}) => {
+      setLoading(true)
       try {
          const response = await fetch(
             `${dbUrl}${url}`,
@@ -57,8 +56,10 @@ export const useHttp = () => {
       } catch (e) {
          setError(e)
          throw e
+      } finally {
+         setLoading(false)
       }
    }, [dbUrl])
 
-   return {error, requestJson, requestImg, setError}
+   return {error, requestJson, requestImg, setError, loading}
 }

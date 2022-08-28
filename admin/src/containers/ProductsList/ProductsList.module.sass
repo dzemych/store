@@ -64,8 +64,32 @@
   & > div:not(:first-child)
     margin-top: 15px
 
+.showMore
+  margin: 25px 0
+  width: 100%
+  display: flex
+  justify-content: center
+  align-items: center
+  & button
+    width: 60%
+    border: none
+    outline: none
+    border-radius: 8px
+    padding: 19px 25px
+    background: #7da2cd
+    color: #f4faf6
+    font-family: RobotoMedium, sans-serif
+    font-size: 1.8em
+    cursor: pointer
+
 @media (max-width: 1024px)
   .filter_bar
     width: 70%
   .products_list
     width: 70%
+
+@media (max-width: 430px)
+  .filter_container
+    flex-direction: column
+    & > div
+      margin-top: 12px

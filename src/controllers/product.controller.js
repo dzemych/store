@@ -10,25 +10,25 @@ const fs = require('fs')
 const fsPromises = require('fs/promises')
 
 
-const multerStorage = multer.diskStorage({
-   destination: async (req, file, cb) => {
-      // 1) Create directory
-      const dir = path.resolve
-      ('public/img', 'product', req.params.slug)
-
-      // 2) If newly created product creat new directory
-      if (!fs.existsSync(dir)) {
-         fs.mkdirSync(dir)
-      }
-      cb(null, dir)
-   },
-   filename: (req, file, cb) => {
-      const ext = file.mimetype.split('/')[1]
-      const name = file.originalname
-
-      cb(null, name)
-   }
-})
+// const multerStorage = multer.diskStorage({
+//    destination: async (req, file, cb) => {
+//       // 1) Create directory
+//       const dir = path.resolve
+//       ('public/img', 'product', req.params.slug)
+//
+//       // 2) If newly created product creat new directory
+//       if (!fs.existsSync(dir)) {
+//          fs.mkdirSync(dir)
+//       }
+//       cb(null, dir)
+//    },
+//    filename: (req, file, cb) => {
+//       const ext = file.mimetype.split('/')[1]
+//       const name = file.originalname
+//
+//       cb(null, name)
+//    }
+// })
 
 const multerFilter = async (req, file, cb) => {
    //! Check if req has slug
@@ -45,7 +45,7 @@ const multerFilter = async (req, file, cb) => {
 }
 
 const upload = multer({
-   storage: multerStorage,
+   storage: multer.memoryStorage(),
    fileFilter: multerFilter
 })
 
@@ -55,37 +55,39 @@ const getFullPath = (slug, fileName) =>
 exports.getTopProducts = handlerFactory.getAll(Product, {sort: '-sold,price'})
 exports.createOneProduct = handlerFactory.createOne(Product)
 
+exports.uploadPhotos = upload.array('photos', 12)
+
 exports.sharpMainImg = catchAsync(async (req, res, next) => {
-   const ext = req.files[0].mimetype.split('/')[1]
-   const mainName = `${req.params.slug}-main.${ext}`
+   let mainName = ''
 
-   if (ext === 'webp') {
+   // 1) Resize photos if there are some
+   if (req.files.length > 0) {
+      mainName = `${req.params.slug}-main.jpeg`
 
-      await sharp(req.files[0].path)
-         .resize({width: 200})
-         .trim()
-         .toFormat('webp')
-         .webp({quality: 75})
-         .toFile(`public/img/product/${req.params.slug}/${req.params.slug}-main.webp`)
+      // Resize all photos to 1500px width
+      const writeFiles = async () => {
+         for (i in req.files) {
+            const name = req.files[i].originalname.split('.')[0]
 
-   } else if (ext === 'png') {
+            await sharp(req.files[i].buffer)
+               .resize({width: 1500})
+               .withMetadata()
+               .toFormat('jpeg')
+               .jpeg({quality: 80})
+               .toFile(`public/img/product/${req.params.slug}/${name}.jpeg`)
+         }
+      }
+      await writeFiles()
 
-      await sharp(req.files[0].path)
-         .resize({width: 200})
-         .toFormat('png')
-         .png({quality: 75})
-         .toFile(`public/img/product/${req.params.slug}/${req.params.slug}-main.png`)
-
-   } else {
-
-      await sharp(req.files[0].path)
+      // Resize first photo to 200px width
+      await sharp(req.files[0].buffer)
          .resize({width: 200})
          .toFormat('jpeg')
-         .jpeg({quality: 75})
+         .jpeg({quality: 80})
          .toFile(`public/img/product/${req.params.slug}/${req.params.slug}-main.jpeg`)
-
    }
 
+   // 2) Update product with resized photos
    const product = await Product.findOneAndUpdate(
       {slug: req.params.slug},
       {mainPhoto: mainName},
@@ -109,18 +111,28 @@ exports.updateOneProduct = catchAsync(async (req, res, next) => {
    //! If no product with that key return error
    if (!product) return next(new AppError('No such data found', 404))
 
+   //* Change all photos ext to jpeg (because they all later will be resized to jpeg)
+   req.body.photos = req.body.photos.map(name => (
+      name.split('.')[0] + '.jpeg'
+   ))
+
    // 2) Clear deleted photos and update it
    if (req.body.photos) {
       const deletePhotos = async () => {
-         for (i in product.photos) {
-            const fileName = product.photos[i]
 
-            //! If body to update does not include current photo - delete it
-            if (!req.body.photos.includes(fileName)) {
-               const fullPath = getFullPath(slug, fileName)
-               const isPhoto = await fsPromises.unlink(fullPath)
+         // Go throw all photos in folder
+         await fs.readdir(`public/img/product/${slug}`, async (err, files) => {
+            // Check all files in dir
+            for (i in files) {
+               const fileName = files[i]
+
+               //! If body to update does not include current photo - delete it
+               if (!req.body.photos.includes(fileName)) {
+                  const fullPath = getFullPath(slug, fileName)
+                  await fsPromises.unlink(fullPath)
+               }
             }
-         }
+         })
       }
 
       await deletePhotos()
@@ -222,8 +234,6 @@ exports.getOneProduct = catchAsync(async (req, res, next) => {
       product
    })
 })
-
-exports.uploadPhotos = upload.array('photos', 12)
 
 exports.getAllCategories = catchAsync(async (req, res, next) => {
    const data = await Product.aggregate([

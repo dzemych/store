@@ -5,11 +5,17 @@ import {useHttp} from "../../functions/http.hook";
 import ProductCard from "./ProductCard/ProductCard";
 
 
+// Limit products per one page
+const limit = 7
+
 const ProductsList = (props) => {
    const {requestJson} = useHttp()
 
    const location = useLocation()
    const navigate = useNavigate()
+
+   const [page, setPage] = useState(1)
+   const [showMore, setShowMore] = useState(true)
 
    const [allSex, setAllSex] = useState(['all'])
    const [allCategories, setAllCategories] = useState([])
@@ -20,6 +26,11 @@ const ProductsList = (props) => {
    const [sort, setSort] = useState('-avgRating')
 
    const [products, setProducts] = useState([])
+
+   const showMoreHandler = e => {
+      e.preventDefault()
+      setPage(prev => prev + 1)
+   }
 
    const sexChange = e => {
       const value = e.target.value
@@ -73,11 +84,13 @@ const ProductsList = (props) => {
 
       navigate(
          '/admin/products?' +
+         `page=${page}&` +
+         `limit=${limit}&`+
          'status[in]=active,nosizes,unavailable&' +
          'fields=-questions,-ratings,-features,-description' +
          `&sort=${sort}` + sexStr + categoryStr + titleStr
       )
-   }, [sort, sex, category, title])
+   }, [sort, sex, category, title, page])
 
    useEffect(() => {
       (async () => {
@@ -85,7 +98,11 @@ const ProductsList = (props) => {
             `/product${location.search}`
          )
 
-         setProducts(data.products)
+         if (data.results < limit)
+            setShowMore(false)
+
+         console.log(data)
+         setProducts(prev => prev.concat(data.products))
       })()
    }, [location.search])
 
@@ -193,6 +210,16 @@ const ProductsList = (props) => {
                   ))
                }
             </div>
+
+            {showMore &&
+               <div className={classes.showMore}>
+                  <button
+                     onClick={showMoreHandler}
+                  >
+                     Show more
+                  </button>
+               </div>
+            }
          </div>
       </div>
    )

@@ -6,16 +6,17 @@ import Edit from "./containers/Edit/Edit";
 import Questions from "./containers/Questions/Questions";
 import Purchases from "./containers/Purchases/Purchases";
 import SizesTable from "./containers/SizesTable/SizesTable";
+import {useMediaQuery} from "react-responsive";
 
 
 const AllRoutes = (props) => {
-
+   const isPhone = useMediaQuery({maxWidth: "430px"})
 
    return (
-      <div style={{
+      <div style={!isPhone ? {
          marginLeft: '170px',
          width: '100%'
-      }}>
+      } : null}>
          <Routes>
             <Route path={'/admin'} exact element={ <CreateProduct/> } />
             <Route path={'/admin/products'} exact element={ <ProductsList/> }/>

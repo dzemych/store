@@ -10,13 +10,13 @@ import {AuthContext} from "../../context/AuthContext";
 import {useNavigate} from "react-router-dom";
 
 
-const CreateProduct = (props) => {
+const ProductEdit = (props) => {
 
    const navigate = useNavigate()
 
    const auth = useContext(AuthContext)
 
-   const {requestJson, requestImg} = useHttp()
+   const {requestJson, requestImg, loading} = useHttp()
 
    const {form, formError, changeHandler, checkValidity} = useForms({
       title: props.title ? props.title : '',
@@ -207,14 +207,16 @@ const CreateProduct = (props) => {
       }
    }
 
-   const uploadPhotos = async (photoFiles, slug) => {
+   const uploadPhotos = async (photoFiles, slug, product) => {
       try {
          const oldSlug = props.slug ? props.slug : slug
 
          const form = new FormData()
+
          photoFiles.forEach(el => {
             form.append('photos', el)
          })
+         form.append('product', JSON.stringify(product))
 
          return await requestJson(
             '/product/uploadPhotos/' + oldSlug.toLowerCase(),
@@ -283,7 +285,7 @@ const CreateProduct = (props) => {
 
          // If request to db successful - load photos
          if (productResponse.status === 'success') {
-            const photoResponse = await uploadPhotos(photoFiles, slug)
+            const photoResponse = await uploadPhotos(photoFiles, slug, product)
 
             if (photoResponse.status === 'success') setStatus('success')
          }
@@ -629,6 +631,7 @@ const CreateProduct = (props) => {
 
             <div className={classes.submit_container}>
                <button
+                  disabled={loading}
                   onClick={onSubmit}
                >
                   Submit
@@ -639,4 +642,4 @@ const CreateProduct = (props) => {
    }
 }
 
-export default CreateProduct
+export default ProductEdit
