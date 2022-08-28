@@ -5,7 +5,7 @@ export const useHttp = () => {
    const [error, setError] = useState(null)
    const [loading, setLoading] = useState(false)
 
-   let dbUrl = 'http://localhost:5000/api'
+   let dbUrl = '/api'
 
    const requestImg = useCallback
    (async (url,method = 'GET',body = null) => {
